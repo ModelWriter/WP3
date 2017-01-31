@@ -25,11 +25,17 @@
 package eu.modelwriter.core.alloyinecore.structure;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.BodyContext;
+import eu.modelwriter.core.alloyinecore.visitor.AlloyInEcoreVisitor;
 import org.antlr.v4.runtime.misc.Interval;
 
 public final class Body extends Element<BodyContext> {
     public Body(BodyContext context) {
         super(context);
+    }
+
+    @Override
+    public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+        return visitor.visitBody(this);
     }
 
     @Override
@@ -44,6 +50,6 @@ public final class Body extends Element<BodyContext> {
             stop = getContext().stop.getStopIndex();
         }
 
-        return getContext().start.getInputStream().getText(new Interval(start, stop)).replaceAll("\\s+", " ").replaceAll("(\\w)(\\s)(<)","$1$3"); //.replace(" extends ", " -> ")
+        return getContext().start.getInputStream().getText(new Interval(start, stop)).replaceAll("\\s+", " ").replaceAll("(\\w)(\\s)(<)", "$1$3"); //.replace(" extends ", " -> ")
     }
 }

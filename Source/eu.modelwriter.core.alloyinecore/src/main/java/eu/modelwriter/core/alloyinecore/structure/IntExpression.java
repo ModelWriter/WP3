@@ -34,6 +34,7 @@ import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.MultiplyCo
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.DivideContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.ModuloContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.IntConstantContext;
+import eu.modelwriter.core.alloyinecore.visitor.AlloyInEcoreVisitor;
 
 public abstract class IntExpression<C extends IntExpressionContext> extends Element<C> {
 
@@ -49,64 +50,127 @@ public abstract class IntExpression<C extends IntExpressionContext> extends Elem
         } else if (ctx instanceof SumContext) {
             expression = new Sum((SumContext) ctx);
             expression.addOwnedElement(((SumContext) ctx).expression().element);
-        }else if (ctx instanceof CountContext) {
+        } else if (ctx instanceof CountContext) {
             expression = new Count((CountContext) ctx);
             expression.addOwnedElement(((CountContext) ctx).expression().element);
-        }else if (ctx instanceof PlusContext) {
+        } else if (ctx instanceof PlusContext) {
             expression = new Plus((PlusContext) ctx);
             expression.addOwnedElements(((PlusContext) ctx).ileft.element, ((PlusContext) ctx).iright.element);
-        }else if (ctx instanceof MinusContext) {
+        } else if (ctx instanceof MinusContext) {
             expression = new Minus((MinusContext) ctx);
             expression.addOwnedElements(((MinusContext) ctx).ileft.element, ((MinusContext) ctx).iright.element);
-        }else if (ctx instanceof MultiplyContext) {
+        } else if (ctx instanceof MultiplyContext) {
             expression = new Multiply((MultiplyContext) ctx);
             expression.addOwnedElements(((MultiplyContext) ctx).ileft.element, ((MultiplyContext) ctx).iright.element);
-        }else if (ctx instanceof DivideContext) {
+        } else if (ctx instanceof DivideContext) {
             expression = new Divide((DivideContext) ctx);
             expression.addOwnedElements(((DivideContext) ctx).ileft.element, ((DivideContext) ctx).iright.element);
-        }else if (ctx instanceof ModuloContext) {
+        } else if (ctx instanceof ModuloContext) {
             expression = new Modulo((ModuloContext) ctx);
             expression.addOwnedElements(((ModuloContext) ctx).ileft.element, ((ModuloContext) ctx).iright.element);
-        }else if (ctx instanceof IntConstantContext) {
+        } else if (ctx instanceof IntConstantContext) {
             expression = new IntConstant((IntConstantContext) ctx);
         }
 
         return expression;
     }
 
-    public static class IfIntExpression extends IntExpression<IfIntExpressionContext>{
-        public IfIntExpression(IfIntExpressionContext context) { super(context); }
+    public static class IfIntExpression extends IntExpression<IfIntExpressionContext> {
+        public IfIntExpression(IfIntExpressionContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitIfIntExpression(this);
+        }
     }
 
-    public static class Sum extends IntExpression<SumContext>{
-        public Sum(SumContext context) { super(context); }
+    public static class Sum extends IntExpression<SumContext> {
+        public Sum(SumContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitSum(this);
+        }
     }
 
-    public static class Count extends IntExpression<CountContext>{
-        public Count(CountContext context) { super(context); }
+    public static class Count extends IntExpression<CountContext> {
+        public Count(CountContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitCount(this);
+        }
     }
 
-    public static class Plus extends IntExpression<PlusContext>{
-        public Plus(PlusContext context) { super(context); }
+    public static class Plus extends IntExpression<PlusContext> {
+        public Plus(PlusContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitPlus(this);
+        }
     }
 
-    public static class Minus extends IntExpression<MinusContext>{
-        public Minus(MinusContext context) { super(context); }
+    public static class Minus extends IntExpression<MinusContext> {
+        public Minus(MinusContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitMinus(this);
+        }
     }
 
-    public static class Multiply extends IntExpression<MultiplyContext>{
-        public Multiply(MultiplyContext context) { super(context); }
+    public static class Multiply extends IntExpression<MultiplyContext> {
+        public Multiply(MultiplyContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitMultiply(this);
+        }
     }
 
-    public static class Divide extends IntExpression<DivideContext>{
-        public Divide(DivideContext context) { super(context); }
+    public static class Divide extends IntExpression<DivideContext> {
+        public Divide(DivideContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitDivide(this);
+        }
     }
 
-    public static class Modulo extends IntExpression<ModuloContext>{
-        public Modulo(ModuloContext context) { super(context); }
+    public static class Modulo extends IntExpression<ModuloContext> {
+        public Modulo(ModuloContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitModulo(this);
+        }
     }
 
-    public static class IntConstant extends IntExpression<IntConstantContext>{
-        public IntConstant(IntConstantContext context) { super(context); }
+    public static class IntConstant extends IntExpression<IntConstantContext> {
+        public IntConstant(IntConstantContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitIntConstant(this);
+        }
     }
 }

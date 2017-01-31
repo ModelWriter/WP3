@@ -25,6 +25,7 @@
 package eu.modelwriter.core.alloyinecore.structure;
 
 import eu.modelwriter.core.alloyinecore.Internal.Console;
+import eu.modelwriter.core.alloyinecore.visitor.VisitableElement;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
@@ -33,18 +34,26 @@ import java.lang.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Element<C extends ParserRuleContext>{
+public abstract class Element<C extends ParserRuleContext> implements VisitableElement {
     private C context;
     private Element owner;
     private final List<Element> ownedElements = new ArrayList<>();
 
-    public Element(C context) { this.context = context;}
+    public Element(C context) {
+        this.context = context;
+    }
 
-    public final C getContext() { return this.context; }
+    public final C getContext() {
+        return this.context;
+    }
 
-    public final List<Element> getOwnedElements() { return ownedElements; }
+    public final List<Element> getOwnedElements() {
+        return ownedElements;
+    }
 
-    public final boolean hasOwnedElements(){ return !ownedElements.isEmpty(); }
+    public final boolean hasOwnedElements() {
+        return !ownedElements.isEmpty();
+    }
 
     public <K extends Element> void addOwnedElement(K child) {
         if (child != null) {
@@ -71,14 +80,14 @@ public abstract class Element<C extends ParserRuleContext>{
         }
     }
 
-    String getName(){
+    String getName() {
         if (this.getOwner() != null)
             return "::" + this.getClass().getSimpleName() + "." + this.getOwner().getOwnedElements().indexOf(this);
         else
             return this.getClass().getSimpleName();
     }
 
-    public final String getUniqueName(){
+    public final String getUniqueName() {
         String name = this.getName();
         for (Element parent = this.getOwner(); parent != null; parent = parent.getOwner()) {
             name = parent.getName() + name;
@@ -86,14 +95,14 @@ public abstract class Element<C extends ParserRuleContext>{
         return name;
     }
 
-    private String getPath(){
+    private String getPath() {
         if (this.getOwner() != null)
             return "/" + this.getClass().getSimpleName() + "@" + this.getOwner().getOwnedElements().indexOf(this);
         else
             return "/";
     }
 
-    public final String getFullPath(){
+    public final String getFullPath() {
         String path = this.getPath();
         for (Element parent = this.getOwner(); parent != null; parent = parent.getOwner()) {
             path = parent.getPath() + path;
@@ -101,39 +110,47 @@ public abstract class Element<C extends ParserRuleContext>{
         return path;
     }
 
-    public Token getToken() { return this.context.start; }
+    public Token getToken() {
+        return this.context.start;
+    }
 
-    public final List<Element> getOwnedElements1(java.lang.Class c){
+    public final List<Element> getOwnedElements1(java.lang.Class c) {
         List<Element> elements = new ArrayList<>();
-        for(Element e : getOwnedElements())
+        for (Element e : getOwnedElements())
             if (c.isInstance(e)) elements.add(e);
         return elements;
     }
 
     //
-    public final <T extends Element> List<T> getOwnedElements(java.lang.Class<T> t){
+    public final <T extends Element> List<T> getOwnedElements(java.lang.Class<T> t) {
         List<T> elements = new ArrayList<>();
-        for(Element e : getOwnedElements())
-            if (t.isInstance(e)) elements.add((T)e);
+        for (Element e : getOwnedElements())
+            if (t.isInstance(e)) elements.add((T) e);
         return elements;
     }
 
-    public final Element getOwnedElement(java.lang.Class c){
+    public final Element getOwnedElement(java.lang.Class c) {
         return this.getOwnedElements().stream().filter(c::isInstance).findFirst().orElse(null);
     }
 
-    public final void setOwner(final Element owner) { this.owner = owner; }
+    public final void setOwner(final Element owner) {
+        this.owner = owner;
+    }
 
-    public final Element getOwner() { return owner; }
+    public final Element getOwner() {
+        return owner;
+    }
 
 
-    public String getSuffix(){ return ""; }
+    public String getSuffix() {
+        return "";
+    }
 
-    public String getLabel(){
+    public String getLabel() {
         return Element.getNormalizedText(getContext());
     }
 
-    public void printTree(){
+    public void printTree() {
         System.out.println(Console.BOLD + "[OUTLINE]" + Console.RESET);
         traverse(this, 0);
     }
@@ -159,7 +176,7 @@ public abstract class Element<C extends ParserRuleContext>{
 //        }
 //    }
 
-    private void traverse(Element<? extends ParserRuleContext> element, int tabCount){
+    private void traverse(Element<? extends ParserRuleContext> element, int tabCount) {
         for (int i = 0; i < tabCount; i++) {
             System.out.print("\t");
         }
@@ -168,25 +185,24 @@ public abstract class Element<C extends ParserRuleContext>{
             System.out.print(((IVisibility) element).getVisibility() + " ");
         else System.out.print("  ");
 
-        System.out.print("[" + (element instanceof Class && ((Class)element).isAbstract() ? Console.UNDERLINE : "") + element.getClass().getSimpleName() + Console.RESET + "] ");
+        System.out.print("[" + (element instanceof Class && ((Class) element).isAbstract() ? Console.UNDERLINE : "") + element.getClass().getSimpleName() + Console.RESET + "] ");
 
-        if (element instanceof PrimitiveType && ((Object)element).getEObject() != null) {
-            System.out.print(Console.BOLD + Console.RED  + element.getLabel() + Console.RESET + " ");
-        }else if ((element instanceof GenericElementType || element instanceof GenericTypeArgument ||
-                   element instanceof GenericException   || element instanceof  GenericSuperType ) && ((Object)element).getEObject() != null) {
-            System.out.print(Console.BOLD + Console.RED  + element.getLabel() + Console.RESET + " ");
-        }
-        else System.out.print(Console.RED + element.getLabel() + Console.RESET + " ");
+        if (element instanceof PrimitiveType && ((Object) element).getEObject() != null) {
+            System.out.print(Console.BOLD + Console.RED + element.getLabel() + Console.RESET + " ");
+        } else if ((element instanceof GenericElementType || element instanceof GenericTypeArgument ||
+                element instanceof GenericException || element instanceof GenericSuperType) && ((Object) element).getEObject() != null) {
+            System.out.print(Console.BOLD + Console.RED + element.getLabel() + Console.RESET + " ");
+        } else System.out.print(Console.RED + element.getLabel() + Console.RESET + " ");
 
         if (!element.getSuffix().equals("")) System.out.print(Console.PURPLE + element.getSuffix() + Console.RESET);
 //        System.out.print(" -- [" + Console.YELLOW + element.getFullPath() + Console.RESET +  "]");
 
         if (element instanceof Object && ((Object) element).getEObject() != null) {
             String name = ((Object) element).getEObject().getClass().getSimpleName();
-            System.out.print(" -- [" + Console.CYAN + name.substring(0 , name.lastIndexOf("Imp")) + Console.RESET + "]");
+            System.out.print(" -- [" + Console.CYAN + name.substring(0, name.lastIndexOf("Imp")) + Console.RESET + "]");
         }
         if (element instanceof NamedElement || element instanceof Import)
-            System.out.print(" -- [" + Console.GREEN + element.getUniqueName() + Console.RESET +  "]");
+            System.out.print(" -- [" + Console.GREEN + element.getUniqueName() + Console.RESET + "]");
 //        System.out.print( " -- (" + String.join(",", String.valueOf(element.getLine()), String.valueOf(element.getStart()), String.valueOf(element.getStop())) + ") ");
         if (element instanceof Object && ((Object) element).getEObject() != null) {
             System.out.print(" -- [" + Console.BLUE + ((Object) element).getURI().toString() + Console.RESET + "]");
@@ -194,25 +210,31 @@ public abstract class Element<C extends ParserRuleContext>{
 //        if (element instanceof Class) System.out.println("{" + element.getOwnedElements(Operation.class)+ "}");
         System.out.println();
         List<Element> elements = element.getOwnedElements();
-        for(Element e: elements) {
+        for (Element e : elements) {
             traverse(e, tabCount + 1);
         }
     }
 
-    public int getLine(){ return context.start.getLine(); }
-
-    public int getStart() { return context.start.getStartIndex();}
-
-    public int getStop(){ return context.start.getStopIndex(); }
-
-    static String getNormalizedText(ParserRuleContext ctx){
-        return ctx.start.getInputStream().getText(new Interval(ctx.start.getStartIndex(), ctx.stop.getStopIndex()))
-                .replaceAll("\\s+", " ").replaceAll("(\\w)(\\s)(<)","$1$3");
+    public int getLine() {
+        return context.start.getLine();
     }
 
-    static String getNormalizedText(final ParserRuleContext ctx, final int start, final int stop){
+    public int getStart() {
+        return context.start.getStartIndex();
+    }
+
+    public int getStop() {
+        return context.start.getStopIndex();
+    }
+
+    static String getNormalizedText(ParserRuleContext ctx) {
+        return ctx.start.getInputStream().getText(new Interval(ctx.start.getStartIndex(), ctx.stop.getStopIndex()))
+                .replaceAll("\\s+", " ").replaceAll("(\\w)(\\s)(<)", "$1$3");
+    }
+
+    static String getNormalizedText(final ParserRuleContext ctx, final int start, final int stop) {
         return ctx.start.getInputStream().getText(new Interval(start, stop))
-                .replaceAll("\\s+", " ").replaceAll("(\\w)(\\s)(<)","$1$3");
+                .replaceAll("\\s+", " ").replaceAll("(\\w)(\\s)(<)", "$1$3");
     }
 }
 
