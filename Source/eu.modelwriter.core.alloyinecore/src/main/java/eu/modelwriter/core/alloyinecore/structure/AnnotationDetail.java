@@ -25,26 +25,38 @@
 package eu.modelwriter.core.alloyinecore.structure;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EDetailContext;
+import eu.modelwriter.core.alloyinecore.visitor.AlloyInEcoreVisitor;
 
-public final class AnnotationDetail extends Element<EDetailContext>{
+public final class AnnotationDetail extends Element<EDetailContext> {
     public AnnotationDetail(EDetailContext context) {
         super(context);
     }
 
     @Override
     public String getLabel() {
-        String k,v;
+        String k, v;
         k = getContext().key != null ? getContext().key.getText().replace("'", "") : null;
         v = getContext().value != null ? getContext().value.getText().replace("'", "") : null;
         return k + " : " + v;
     }
 
     @Override
-    public int getLine(){ return getContext().start.getLine(); }
+    public int getLine() {
+        return getContext().start.getLine();
+    }
 
     @Override
-    public int getStart() { return getContext().start.getStartIndex();}
+    public int getStart() {
+        return getContext().start.getStartIndex();
+    }
 
     @Override
-    public int getStop(){ return getContext().stop.getStopIndex(); }
+    public int getStop() {
+        return getContext().stop.getStopIndex();
+    }
+
+    @Override
+    public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+        return visitor.visitAnnotationDetail(this);
+    }
 }

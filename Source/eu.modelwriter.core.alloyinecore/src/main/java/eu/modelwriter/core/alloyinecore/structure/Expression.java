@@ -42,59 +42,62 @@ import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.NoneContex
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.UnivContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.IntsContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.TypeRefContext;
+import eu.modelwriter.core.alloyinecore.visitor.AlloyInEcoreVisitor;
 
 public abstract class Expression<C extends ExpressionContext> extends Element<C> {
 
-    private Expression(C context) { super(context); }
+    private Expression(C context) {
+        super(context);
+    }
 
     public static <C extends ExpressionContext> Expression create(C ctx) {
         Expression expression = null;
         if (ctx instanceof TransposeContext) {
             expression = new Transpose((TransposeContext) ctx);
             expression.addOwnedElement(((TransposeContext) ctx).expression().element);
-        } else if (ctx instanceof ClosureContext){
+        } else if (ctx instanceof ClosureContext) {
             expression = new Closure((ClosureContext) ctx);
             expression.addOwnedElement(((ClosureContext) ctx).expression().element);
-        }else if (ctx instanceof ReflexiveContext){
+        } else if (ctx instanceof ReflexiveContext) {
             expression = new Reflexive((ReflexiveContext) ctx);
             expression.addOwnedElement(((ReflexiveContext) ctx).expression().element);
-        }else if (ctx instanceof UnionContext){
+        } else if (ctx instanceof UnionContext) {
             expression = new Union((UnionContext) ctx);
             expression.addOwnedElements(((UnionContext) ctx).left.element, ((UnionContext) ctx).right.element);
-        }else if (ctx instanceof IntersectionContext){
+        } else if (ctx instanceof IntersectionContext) {
             expression = new Intersection((IntersectionContext) ctx);
             expression.addOwnedElements(((IntersectionContext) ctx).left.element, ((IntersectionContext) ctx).right.element);
-        }else if (ctx instanceof DifferenceContext){
+        } else if (ctx instanceof DifferenceContext) {
             expression = new Difference((DifferenceContext) ctx);
             expression.addOwnedElements(((DifferenceContext) ctx).left.element, ((DifferenceContext) ctx).right.element);
-        }else if (ctx instanceof JoinContext){
+        } else if (ctx instanceof JoinContext) {
             expression = new Join((JoinContext) ctx);
             expression.addOwnedElements(((JoinContext) ctx).left.element, ((JoinContext) ctx).right.element);
-        }else if (ctx instanceof BoxJoinContext){
+        } else if (ctx instanceof BoxJoinContext) {
             expression = new BoxJoin((BoxJoinContext) ctx);
             expression.addOwnedElements(((BoxJoinContext) ctx).right.element, ((BoxJoinContext) ctx).left.element);
-        }else if (ctx instanceof ProductContext){
+        } else if (ctx instanceof ProductContext) {
             expression = new Product((ProductContext) ctx);
             expression.addOwnedElements(((ProductContext) ctx).left.element, ((ProductContext) ctx).right.element);
-        }else if (ctx instanceof OverrideContext){
+        } else if (ctx instanceof OverrideContext) {
             expression = new RelationalOverride((OverrideContext) ctx);
             expression.addOwnedElements(((OverrideContext) ctx).left.element, ((OverrideContext) ctx).right.element);
-        }else if (ctx instanceof ComprehensionContext){
+        } else if (ctx instanceof ComprehensionContext) {
             expression = new Comprehension((ComprehensionContext) ctx);
             expression.addOwnedElements(((ComprehensionContext) ctx).comprehensionDeclarations().elements);
             expression.addOwnedElements(((ComprehensionContext) ctx).formula().element);
-        }else if (ctx instanceof IfExpressionContext){
+        } else if (ctx instanceof IfExpressionContext) {
             expression = new IfExpression((IfExpressionContext) ctx);
             expression.addOwnedElements(((IfExpressionContext) ctx).condition.element, ((IfExpressionContext) ctx).thenExpr.element, ((IfExpressionContext) ctx).elseExpr.element);
-        }else if (ctx instanceof IdenContext){
+        } else if (ctx instanceof IdenContext) {
             expression = new Iden((IdenContext) ctx);
-        }else if (ctx instanceof NoneContext){
+        } else if (ctx instanceof NoneContext) {
             expression = new None((NoneContext) ctx);
-        }else if (ctx instanceof UnivContext){
+        } else if (ctx instanceof UnivContext) {
             expression = new Univ((UnivContext) ctx);
-        }else if (ctx instanceof IntsContext){
+        } else if (ctx instanceof IntsContext) {
             expression = new Ints((IntsContext) ctx);
-        }else if (ctx instanceof TypeRefContext){
+        } else if (ctx instanceof TypeRefContext) {
             expression = new Var((TypeRefContext) ctx);
         }
 
@@ -102,74 +105,200 @@ public abstract class Expression<C extends ExpressionContext> extends Element<C>
     }
 
     public static final class Transpose extends Expression<TransposeContext> {
-        public Transpose(TransposeContext context) { super(context); }
+        public Transpose(TransposeContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitTranspose(this);
+        }
     }
 
     public static final class Closure extends Expression<ClosureContext> {
-        public Closure(ClosureContext context) { super(context); }
+        public Closure(ClosureContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitClosure(this);
+        }
     }
 
     public static final class Reflexive extends Expression<ReflexiveContext> {
-        public Reflexive(ReflexiveContext context) { super(context); }
+        public Reflexive(ReflexiveContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitReflexive(this);
+        }
     }
 
     public static final class Union extends Expression<UnionContext> {
-        public Union(UnionContext context) { super(context); }
+        public Union(UnionContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitUnion(this);
+        }
     }
 
     public static final class Intersection extends Expression<IntersectionContext> {
-        public Intersection(IntersectionContext context) { super(context); }
+        public Intersection(IntersectionContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitIntersection(this);
+        }
     }
 
     public static final class Difference extends Expression<DifferenceContext> {
-        public Difference(DifferenceContext context) { super(context); }
+        public Difference(DifferenceContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitDifference(this);
+        }
     }
 
     public static final class Join extends Expression<JoinContext> {
-        public Join(JoinContext context) { super(context); }
+        public Join(JoinContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitJoin(this);
+        }
     }
 
     public static final class BoxJoin extends Expression<BoxJoinContext> {
-        public BoxJoin(BoxJoinContext context) { super(context); }
+        public BoxJoin(BoxJoinContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitBoxJoin(this);
+        }
     }
 
     public static final class Product extends Expression<ProductContext> {
-        public Product(ProductContext context) { super(context); }
+        public Product(ProductContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitProduct(this);
+        }
     }
 
     public static final class RelationalOverride extends Expression<OverrideContext> {
-        public RelationalOverride(OverrideContext context) { super(context); }
+        public RelationalOverride(OverrideContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitRelationalOverride(this);
+        }
     }
 
     public static final class Comprehension extends Expression<ComprehensionContext> {
-        public Comprehension(ComprehensionContext context) { super(context); }
+        public Comprehension(ComprehensionContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitComprehension(this);
+        }
     }
 
     public static final class IfExpression extends Expression<IfExpressionContext> {
-        public IfExpression(IfExpressionContext context) { super(context); }
+        public IfExpression(IfExpressionContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitIfExpression(this);
+        }
     }
 
     public static final class Iden extends Expression<IdenContext> {
-        public Iden(IdenContext context) { super(context); }
+        public Iden(IdenContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitIden(this);
+        }
     }
 
     public static final class None extends Expression<NoneContext> {
-        public None(NoneContext context) { super(context); }
+        public None(NoneContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitNone(this);
+        }
     }
 
     public static final class Univ extends Expression<UnivContext> {
-        public Univ(UnivContext context) { super(context); }
+        public Univ(UnivContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitUniv(this);
+        }
     }
 
     public static final class Ints extends Expression<IntsContext> {
-        public Ints(IntsContext context) { super(context); }
+        public Ints(IntsContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitInts(this);
+        }
     }
 
     public static final class Var extends Expression<TypeRefContext> {
-        public Var(TypeRefContext context) { super(context); }
+        public Var(TypeRefContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitVar(this);
+        }
     }
 
     public static final class Rel extends Expression<TypeRefContext> {
-        public Rel(TypeRefContext context) { super(context); }
+        public Rel(TypeRefContext context) {
+            super(context);
+        }
+
+        @Override
+        public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+            return visitor.visitRel(this);
+        }
     }
 }

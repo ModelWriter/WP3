@@ -25,6 +25,7 @@
 package eu.modelwriter.core.alloyinecore.structure;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.PreconditionContext;
+import eu.modelwriter.core.alloyinecore.visitor.AlloyInEcoreVisitor;
 import org.antlr.v4.runtime.misc.Interval;
 
 public final class PreCondition extends Constraint<PreconditionContext> {
@@ -44,6 +45,11 @@ public final class PreCondition extends Constraint<PreconditionContext> {
             stop = getContext().stop.getStopIndex();
         }
 
-        return  Element.getNormalizedText(getContext(), start, stop);
+        return Element.getNormalizedText(getContext(), start, stop);
+    }
+
+    @Override
+    public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+        return visitor.visitPreCondition(this);
     }
 }

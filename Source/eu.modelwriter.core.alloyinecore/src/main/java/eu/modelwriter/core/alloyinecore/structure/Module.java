@@ -25,20 +25,22 @@
 package eu.modelwriter.core.alloyinecore.structure;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.ModuleContext;
+import eu.modelwriter.core.alloyinecore.visitor.AlloyInEcoreVisitor;
 
 
 public final class Module extends Element<ModuleContext> {
 
-
     public Module(ModuleContext context) {
         super(context);
     }
-
-
 
     @Override
     public String getLabel() {
         return getContext().name != null ? "Module " + getContext().name.getText() : "Module";
     }
 
+    @Override
+    public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+        return visitor.visitModule(this);
+    }
 }

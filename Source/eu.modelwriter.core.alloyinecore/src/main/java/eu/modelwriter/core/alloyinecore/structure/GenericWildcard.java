@@ -26,6 +26,7 @@ package eu.modelwriter.core.alloyinecore.structure;
 
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EGenericWildcardContext;
+import eu.modelwriter.core.alloyinecore.visitor.AlloyInEcoreVisitor;
 import org.eclipse.emf.ecore.EGenericType;
 
 public class GenericWildcard extends Object<EGenericType, EGenericWildcardContext>  {
@@ -41,5 +42,10 @@ public class GenericWildcard extends Object<EGenericType, EGenericWildcardContex
     @Override
     public String getLabel() {
         return super.getLabel();
+    }
+
+    @Override
+    public <T> T accept(AlloyInEcoreVisitor<? extends T> visitor) {
+        return visitor.visitGenericWildcard(this);
     }
 }
