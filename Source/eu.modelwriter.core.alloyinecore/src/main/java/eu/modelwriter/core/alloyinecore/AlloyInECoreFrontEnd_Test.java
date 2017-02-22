@@ -106,7 +106,8 @@ public class AlloyInECoreFrontEnd_Test {
 //        }
         parser.saveResource(file.getName().substring(0, file.getName().indexOf(".")), "./src/test/resources/out/");
 
-        TypeChecker typeChecker = new TypeChecker();
+        String outDir = new File(".").getAbsolutePath() + File.separator + "target" + File.separator + "aie-typechecking";
+        TypeChecker typeChecker = new TypeChecker(outDir, true);
         typeChecker.check(parser.model);
 
 //    Utilities.showParseTree(parser, tree);

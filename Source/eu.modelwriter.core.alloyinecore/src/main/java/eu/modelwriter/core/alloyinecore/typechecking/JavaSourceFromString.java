@@ -2,6 +2,7 @@ package eu.modelwriter.core.alloyinecore.typechecking;
 
 import javax.tools.SimpleJavaFileObject;
 import java.net.URI;
+import java.util.Objects;
 
 public class JavaSourceFromString extends SimpleJavaFileObject {
     /**
@@ -30,5 +31,17 @@ public class JavaSourceFromString extends SimpleJavaFileObject {
     @Override
     public CharSequence getCharContent(boolean ignoreEncodingErrors) {
         return code;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(rawName + code);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.getClass().isInstance(obj) &&
+                ((JavaSourceFromString) obj).rawName.equals(this.rawName) &&
+                ((JavaSourceFromString) obj).code.equals(this.code);
     }
 }

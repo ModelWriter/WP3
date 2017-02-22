@@ -8,9 +8,9 @@ import eu.modelwriter.core.alloyinecore.visitor.BaseVisitorImpl;
 import org.antlr.v4.runtime.Token;
 
 import javax.tools.*;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -20,16 +20,18 @@ public class TypeChecker {
     private JavaInterfaceGenerator generator;
     private String outDir;
 
-    public TypeChecker() {
-        outDir = new File(".").getAbsolutePath() + File.separator + "target" + File.separator + "aie-typechecking";
+    public TypeChecker(String outDir, boolean saveJavaFiles) {
         try {
-            Files.createDirectories(Paths.get(outDir));
+            Path path = Paths.get(outDir);
+            if (!Files.exists(path))
+                Files.createDirectories(path);
+            this.outDir = outDir;
         } catch (IOException e) {
             outDir = "";
             e.printStackTrace();
         }
         errorListeners = new HashSet<>();
-        generator = new JavaInterfaceGenerator(outDir, true);
+        generator = new JavaInterfaceGenerator(outDir, saveJavaFiles);
     }
 
     public void addErrorListener(TypeErrorListener listener) {
@@ -48,7 +50,7 @@ public class TypeChecker {
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
         StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
-        List<String> options = Arrays.asList("-d", outDir); // -d: output dir
+        List<String> options = outDir.isEmpty() ? null : Arrays.asList("-d", outDir); // -d: output dir
         compiler.getTask(null, fileManager, diagnostics, options, null, generatedJavaFiles).call();
         for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics.getDiagnostics()) {
             Set<Token> elements = generator.findTokens(diagnostic);

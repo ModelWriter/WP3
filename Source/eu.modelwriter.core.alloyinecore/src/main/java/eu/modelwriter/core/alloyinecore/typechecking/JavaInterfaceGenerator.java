@@ -1,6 +1,7 @@
 package eu.modelwriter.core.alloyinecore.typechecking;
 
 import eu.modelwriter.core.alloyinecore.structure.base.Element;
+import eu.modelwriter.core.alloyinecore.structure.base.INavigable;
 import eu.modelwriter.core.alloyinecore.structure.base.ITarget;
 import eu.modelwriter.core.alloyinecore.structure.imports.ImportedClass;
 import eu.modelwriter.core.alloyinecore.structure.imports.ImportedDataType;
@@ -17,6 +18,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class JavaInterfaceGenerator {
@@ -30,6 +34,8 @@ public class JavaInterfaceGenerator {
     private int currentLineNumber = 0;
     private boolean save;
     private String currentPackageName;
+    private StringBuilder builder = new StringBuilder();
+    private List<ITarget> importedTargets;
 
     public JavaInterfaceGenerator(String outDir, boolean save) {
         this.outDir = outDir;
@@ -68,11 +74,12 @@ public class JavaInterfaceGenerator {
     }
 
     public JavaSourceFromString generate(Element<? extends ParserRuleContext> claz) {
+        builder.setLength(0);
         currentLineNumber = 0;
         currentFileName = getJavaPath(claz, "/", true);
         currentPackageName = getJavaPath(claz, ".", false);
-        StringBuilder builder = new StringBuilder();
-        classToJavaInterface(builder, claz);
+        collectImportedTargets(claz);
+        classToJavaInterface(claz);
         String code2 = builder.toString();
         JavaSourceFromString generated = new JavaSourceFromString(currentFileName, code2);
         generatedFiles.add(generated);
@@ -91,15 +98,33 @@ public class JavaInterfaceGenerator {
         }
     }
 
-    private void classToJavaInterface(StringBuilder builder, Element<? extends ParserRuleContext> element) {
-        appendPackage(builder, element);
-        builder.append(newLine());
-        appendImports(builder, element);
-        builder.append(newLine());
-        appendInterface(builder, element);
+    private void collectImportedTargets(Element<? extends ParserRuleContext> element) {
+        Model model = element.getOwner(Model.class);
+        assert model != null;
+        importedTargets = model.getAllOwnedElements(ImportedClass.class, true).stream()
+                .map(ITarget.class::cast)
+                .collect(Collectors.toList());
+        importedTargets.addAll(model.getAllOwnedElements(ImportedDataType.class, true).stream()
+                .map(ITarget.class::cast)
+                .collect(Collectors.toList()));
     }
 
-    private void appendPackage(StringBuilder builder, Element<? extends ParserRuleContext> element) {
+    private void classToJavaInterface(Element<? extends ParserRuleContext> element) {
+        appendPackage(element);
+        builder.append(newLine());
+        appendImports(element);
+        builder.append(newLine());
+        appendInterface(element);
+
+        System.out.print("INavigables: ");
+        for (INavigable iNavigable : element.getAllOwnedElements(INavigable.class, true)) {
+            String pathName = iNavigable.getPathName();
+            System.out.print(pathName + ", ");
+        }
+        System.out.println();
+    }
+
+    private void appendPackage(Element<? extends ParserRuleContext> element) {
         builder.append("package ");
         builder.append(getJavaPath(element, ".", false));
         builder.append(";");
@@ -108,222 +133,202 @@ public class JavaInterfaceGenerator {
         traces.add(packageTrace);
     }
 
-    private void appendImports(StringBuilder builder, Element<? extends ParserRuleContext> element) {
-        element.getAllOwnedElements(GenericSuperType.class, true)
-                .forEach(gst -> appendImport(builder, gst));
-        element.getAllOwnedElements(GenericType.class, true)
-                .forEach(gt -> appendImport(builder, gt));
-        element.getAllOwnedElements(GenericElementType.class, true)
-                .forEach(gt -> appendImport(builder, gt));
+    private static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
     }
 
-    private void appendImport(StringBuilder builder, Element<? extends ParserRuleContext> element) {
-        if (!element.getContext().getText().contains("::")) {
-            String text = element.getContext().start.getText();
-            // Skip primitives
-            if (isPrimitive(text)) {
-                return;
-            }
-            // Skip type parameters
-            List<TypeParameter> typeParameters = element.getOwner(Class.class).getOwnedElements(TypeParameter.class);
-            String finalText = text;
-            if (typeParameters.stream().anyMatch(tp -> tp.getContext().start.getText().equals(finalText))) {
-                return;
-            }
-            // Append element import
-            Package containerPackage = element.getOwner(Package.class);
-            if (containerPackage != null) text = containerPackage.getEObject().getName() + "." + text;
-            builder.append("import ");
-            appendWithToken(builder, text, element.getToken());
-            builder.append(";");
-            builder.append(newLine());
+    private void appendImports(Element<? extends ParserRuleContext> element) {
+        element.getAllOwnedElements(INavigable.class, true).stream()
+                .filter(distinctByKey(INavigable::getPathName))
+                .forEach(this::appendImport);
+    }
+
+    private String appendImport(INavigable navigable) {
+        String pathName = navigable.getPathName();
+        if (isPrimitive(pathName) || isTypeParameter(navigable, pathName) || pathName.equals("?") || pathName.isEmpty())
+            return "";
+
+        ITarget importedTarget = importedTargets.stream()
+                .filter(t -> t.getRelativeSegment().equals(pathName))
+                .findFirst()
+                .orElse(null);
+        String importText;
+        if (importedTarget != null) {
+            JavaSourceFromString generated = getImportGenerator().generate((Element<? extends ParserRuleContext>) importedTarget);
+            generatedFiles.add(generated);
+            traces.addAll(getImportGenerator().getTraces());
+            // And use its path for import
+            importText = generated.getRawName().replaceAll("/", ".");
         } else {
-            String importText = "";
-            Element<?> targetElement = findElementBySegment(element, element.getContext().getText());
-            // Check if its imported class
-            if (targetElement != null && targetElement instanceof ImportedClass || targetElement instanceof ImportedDataType) {
-                // If so generate Java file
-                JavaSourceFromString generated = getImportGenerator().generate(targetElement);
-                generatedFiles.add(generated);
-                traces.addAll(getImportGenerator().getTraces());
-                // And use its path for import
-                importText = generated.getRawName().replaceAll("/", ".");
-            } else if (targetElement != null) {
-                // Get its package info and append it
-                importText = getJavaPath(targetElement, ".", true);
-            }
-            // Else, assume this is a relative path
-            // importText = currentPackageName + "." + element.getContext().getText().replaceAll("::", ".").replaceAll(":", ".");
-            if (!importText.isEmpty()) {
-                builder.append("import ");
-                appendWithToken(builder, importText, element.getContext().stop);
-                builder.append(";");
-                builder.append(newLine());
-            }
+            importText = currentPackageName + "." + pathName.replaceAll("::", ".");
+        }
+        builder.append("import ");
+        appendWithToken(importText, ((Element) navigable).getToken());
+        builder.append(";");
+        builder.append(newLine());
+        return importText;
+    }
+
+    private boolean isTypeParameter(INavigable navigable, final String pathName) {
+        if (pathName.length() != 1 || pathName.equals("?")) return false;
+
+        Element<?> op = ((Element) navigable).getOwner(Operation.class);
+        if (op != null && op.getOwnedElements(TypeParameter.class).stream()
+                .anyMatch(tp -> tp.getContext().start.getText().equals(pathName))) {
+            return true;
+        } else {
+            Element<?> cls = ((Element) navigable).getOwner(Class.class);
+            return cls != null && cls.getOwnedElements(TypeParameter.class).stream()
+                    .anyMatch(tp -> tp.getContext().start.getText().equals(pathName));
         }
     }
 
-    private Element findElementBySegment(Element element, String segmentsToFind) {
-        Element result = null;
-        Element parent = element.getOwner();
-        while (result == null && parent != null) {
-            List<Element> ownedElements = parent.getOwnedElements(ITarget.class);
-            if (parent instanceof Package || parent instanceof ImportedPackage)
-                ownedElements = parent.getAllOwnedElements(ITarget.class, true);
-            if (parent instanceof Model) {
-                ownedElements = parent.getAllOwnedElements(ImportedClass.class, true);
-                ownedElements.addAll(parent.getAllOwnedElements(ImportedDataType.class, true));
-            }
-
-            result = ownedElements
-                    .stream()
-                    .filter(e -> ((ITarget) e).getRelativeSegment().equals(segmentsToFind))
-                    .findFirst()
-                    .orElse(null);
-            parent = parent.getOwner();
-        }
-        return result;
-    }
-
-    @Deprecated
-    private ImportedClass findImportedClass(Element<? extends ParserRuleContext> element) {
-        Element<? extends ParserRuleContext> model = element.getOwner(Model.class);
-        assert model != null;
-        List<ImportedClass> importedClasses = model.getAllOwnedElements(ImportedClass.class, true);
-        String text = element.getContext().getText();
-        String midPart = text.substring(0, text.lastIndexOf("::"));
-        String uniqueClassName = "Model::" + midPart + ":" + text.substring(text.lastIndexOf("::") + 2);
-        ImportedClass importedClass = null;
-        for (ImportedClass cls : importedClasses) {
-            String finalName = "";
-            String uniqueName = cls.getUniqueName();
-            String[] first = uniqueName.split("::");
-            String[] mid = first[2].split(":");
-            if (mid.length == 2) {
-                finalName = String.join("::", first[0], first[1]) + ":" + mid[1];
-            } else {
-                for (int i = 0; i < first.length; i++) {
-                    if (i == 2)
-                        continue;
-                    finalName += first[i];
-                    if (i != first.length - 1)
-                        finalName += "::";
-                }
-            }
-            if (finalName.equals(uniqueClassName)) {
-                importedClass = cls;
-                break;
-            }
-        }
-        return importedClass;
-    }
-
-    private void appendInterface(StringBuilder builder, Element<? extends ParserRuleContext> element) {
-        appendVisibility(builder, element);
+    private void appendInterface(Element<? extends ParserRuleContext> element) {
+        appendVisibility(element);
         builder.append("interface ");
         // Append Class label as interface name
-        appendInterfaceName(builder, element);
-        appendSuperTypes(builder, element);
+        appendInterfaceName(element);
+        appendSuperTypes(element);
 
         builder.append(newLine());
         builder.append("{");
         builder.append(newLine());
 
-        appendStructuralFeatures(builder, element);
-        appendOperations(builder, element);
+        appendStructuralFeatures(element);
+        appendOperations(element);
         builder.append("}");
     }
 
-    private void appendOperations(StringBuilder builder, Element<? extends ParserRuleContext> element) {
+    private void appendOperations(Element<? extends ParserRuleContext> element) {
         for (Operation op : element.getOwnedElements(Operation.class)) {
             builder.append("\t");
-            appendVisibility(builder, op);
+            appendVisibility(op);
             TypeParameter typeParameter = op.getOwnedElement(TypeParameter.class);
             if (typeParameter != null) {
-                appendTypeParameters(builder, Collections.singletonList(typeParameter));
+                appendTypeParameters(Collections.singletonList(typeParameter));
             }
             GenericElementType elementType = op.getOwnedElement(GenericElementType.class);
             if (elementType != null) {
-                appendGenericElementType(builder, elementType);
+                appendGenericElementType(elementType);
                 Multiplicity mul = op.getOwnedElement(Multiplicity.class);
                 if (mul != null && mul.isMany())
                     builder.append("[]");
 
             } else builder.append("void");
             builder.append(" ");
-            appendWithToken(builder, op.getToken().getText(), op.getToken());
+            appendWithToken(op.getToken().getText(), op.getToken());
             builder.append("(");
-            appendParameters(builder, op);
-            builder.append(");");
+            appendParameters(op);
+            builder.append(")");
+            // FIXME Operation: exception throw
+            // appendGenericException(op);
+            builder.append(";");
             builder.append(newLine());
         }
     }
 
-    private void appendTypeParameters(StringBuilder builder, List<TypeParameter> typeParameters) {
+    private void appendGenericException(Operation op) {
+        List<GenericException> exceptions = op.getOwnedElements(GenericException.class);
+        if (!exceptions.isEmpty()) {
+            builder.append(" throws ");
+            for (Iterator<GenericException> iterator = exceptions.iterator(); iterator.hasNext(); ) {
+                GenericException exception = iterator.next();
+                appendWithToken(exception.getPathName(), exception.getToken());
+                // appendGenericTypeArgument(exception);
+                if (iterator.hasNext()) builder.append(", ");
+            }
+        }
+    }
+
+    private void appendTypeParameters(List<TypeParameter> typeParameters) {
         builder.append("<");
         for (Iterator<TypeParameter> iterator = typeParameters.iterator(); iterator.hasNext(); ) {
             TypeParameter tp = iterator.next();
-            int baseIndex = builder.length() - 1;
-            String text = tp.getLabel();
-            builder.append(text);
-            addTrace(text, baseIndex, tp.getContext().start.getText(), tp.getToken());
-            tp.getOwnedElements(GenericType.class)
-                    .forEach(gt -> addTrace(text, baseIndex, gt.getToken().getText(), gt.getToken()));
+            appendWithToken(tp.getToken().getText(), tp.getContext().start);
+            List<GenericType> genericTypes = tp.getOwnedElements(GenericType.class);
+            if (!genericTypes.isEmpty()) {
+                builder.append(" extends ");
+                for (Iterator<GenericType> gtIterator = genericTypes.iterator(); gtIterator.hasNext(); ) {
+                    GenericType gt = gtIterator.next();
+                    String text = gt.getPathName();
+                    if (text.contains("::")) text = text.substring(text
+                            .lastIndexOf("::") + 2);
+                    appendWithToken(text, gt.getToken());
+                    appendGenericTypeArgument(gt);
+                    if (iterator.hasNext()) builder.append(" & ");
+                }
+            }
             if (iterator.hasNext()) builder.append(", ");
         }
         builder.append("> ");
     }
 
-    private void appendParameters(StringBuilder builder, Operation op) {
+    private void appendGenericTypeArgument(Element<? extends ParserRuleContext> element) {
+        List<GenericTypeArgument> genericTypeArguments = element.getOwnedElements(GenericTypeArgument.class);
+        if (!genericTypeArguments.isEmpty()) {
+            builder.append("<");
+            for (Iterator<GenericTypeArgument> iterator = genericTypeArguments.iterator(); iterator.hasNext(); ) {
+                GenericTypeArgument next = iterator.next();
+                String pathName = next.getPathName();
+                if (pathName.isEmpty()) {
+                    GenericWildcard wildcard = next.getOwnedElement(GenericWildcard.class);
+                    String wildcardPathName = wildcard.getPathName();
+                    if (wildcardPathName.equals("?"))
+                        builder.append("?");
+                    else {
+                        builder.append("? extends ");
+                        appendWithToken(wildcardPathName.contains("::") ?
+                                        wildcardPathName.substring(wildcardPathName.lastIndexOf("::") + 2) :
+                                        wildcardPathName,
+                                wildcard.getToken());
+                    }
+                    appendGenericTypeArgument(wildcard);
+                } else {
+                    appendWithToken(pathName, next.getToken());
+                }
+                if (iterator.hasNext()) builder.append(", ");
+            }
+            builder.append(">");
+        }
+    }
+
+    private void appendParameters(Operation op) {
         for (Iterator<Parameter> iterator = op.getOwnedElements(Parameter.class).iterator(); iterator.hasNext(); ) {
             Parameter param = iterator.next();
-            appendGenericElementType(builder, param.getOwnedElement(GenericElementType.class));
+            appendGenericElementType(param.getOwnedElement(GenericElementType.class));
             builder.append(" ");
-            appendWithToken(builder, param.getToken().getText(), param.getToken());
+            appendWithToken(param.getToken().getText(), param.getToken());
             if (iterator.hasNext()) builder.append(", ");
         }
     }
 
-    private void appendGenericElementType(StringBuilder builder, GenericElementType type) {
-        int baseIndex = builder.length() - 1;
-        String baseText = type.getLabel();
-        Token typeToken = type.getToken();
-        // Get last part of path
-        if (baseText.contains("::")) {
-            baseText = baseText.substring(baseText.lastIndexOf("::") + 2);
-            typeToken = type.getContext().stop;
-        }
-        builder.append(baseText);
-        addTrace(baseText, baseIndex, type.getToken().getText(), typeToken);
-        type.getAllOwnedElements(GenericWildcard.class, true)
-                .forEach(gw -> addTrace(type.getLabel(), baseIndex, gw.getLabel(),
-                        gw.getContext().ownedExtend != null ? gw.getContext().stop : gw.getToken()));
+    private void appendGenericElementType(INavigable type) {
+        String typeName = type.getPathName();
+        if (typeName.contains("::")) typeName = typeName.substring(typeName.lastIndexOf("::") + 2);
+        appendWithToken(typeName, ((Element) type).getToken());
+        appendGenericTypeArgument((Element<?>) type);
     }
 
-    private void appendStructuralFeatures(StringBuilder builder, Element<? extends ParserRuleContext> element) {
+    private void appendStructuralFeatures(Element<? extends ParserRuleContext> element) {
         List<StructuralFeature> sfs = new ArrayList<>();
         sfs.addAll(element.getOwnedElements(Attribute.class));
         sfs.addAll(element.getOwnedElements(Reference.class));
         for (StructuralFeature<?, ?> sf : sfs) {
             builder.append("\t");
-            appendVisibility(builder, sf);
-            GenericElementType elementType = sf.getOwnedElement(GenericElementType.class);
-            String typeName = elementType.getContext().getText();
-            // Get last part of path
-            if (typeName.contains("::"))
-                typeName = typeName.substring(typeName.lastIndexOf("::") + 2);
-            appendWithToken(builder, typeName, elementType.getToken());
+            appendVisibility(sf);
+            appendGenericElementType(sf.getOwnedElement(GenericElementType.class));
             Multiplicity mul = sf.getOwnedElement(Multiplicity.class);
             if (mul != null && mul.isMany())
                 builder.append("[]");
             builder.append(" ");
-            appendWithToken(builder, sf.getLabel(), sf.getToken());
+            appendWithToken(sf.getLabel(), sf.getToken());
             builder.append("();");
             builder.append(newLine());
         }
     }
 
-    private void appendInterfaceName(StringBuilder builder, Element<? extends ParserRuleContext> element) {
+    private void appendInterfaceName(Element<? extends ParserRuleContext> element) {
         int baseIndex = builder.length() - 1;
         String baseText = element.getLabel();
         builder.append(element.getLabel());
@@ -339,28 +344,32 @@ public class JavaInterfaceGenerator {
         });
     }
 
-    private void appendVisibility(StringBuilder builder, Element element) {
+    private void appendVisibility(Element element) {
         if (element instanceof IVisibility) {
             Visibility value = ((IVisibility) element).getVisibility();
-            if (value == Visibility.PUBLIC || value == Visibility.PROTECTED) {
-                appendWithToken(builder, value.name().toLowerCase(), element.getToken());
+            if (value == Visibility.PUBLIC || (value == Visibility.PROTECTED && !(element instanceof Class))) {
+                appendWithToken(value.name().toLowerCase(), element.getToken());
                 builder.append(" ");
             }
         }
     }
 
-    private void appendSuperTypes(StringBuilder builder, Element<? extends ParserRuleContext> element) {
+    private void appendSuperTypes(Element<? extends ParserRuleContext> element) {
         List<GenericSuperType> supers = element.getOwnedElements(GenericSuperType.class);
-        if (!supers.isEmpty())
+        if (!supers.isEmpty()) {
             builder.append(" extends ");
-        supers.forEach(sp -> {
-            appendWithToken(builder, sp.getContext().getText(), sp.getToken());
-            if (supers.indexOf(sp) != supers.size() - 1)
-                builder.append(", ");
-        });
+            for (Iterator<GenericSuperType> iterator = supers.iterator(); iterator.hasNext(); ) {
+                GenericSuperType superType = iterator.next();
+                String typeName = superType.getPathName();
+                if (typeName.contains("::")) typeName = typeName.substring(typeName.lastIndexOf("::") + 2);
+                appendWithToken(typeName, superType.getToken());
+                appendGenericTypeArgument(superType);
+                if (iterator.hasNext()) builder.append(", ");
+            }
+        }
     }
 
-    private void appendWithToken(StringBuilder builder, String text, Token token) {
+    private void appendWithToken(String text, Token token) {
         int start = builder.length() - 1;
         Trace trace = new Trace(currentFileName, currentLineNumber, start, start + text.length());
         trace.addToken(token);
