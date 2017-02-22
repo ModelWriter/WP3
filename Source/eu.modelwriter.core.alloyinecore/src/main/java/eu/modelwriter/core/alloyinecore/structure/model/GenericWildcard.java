@@ -27,11 +27,13 @@ package eu.modelwriter.core.alloyinecore.structure.model;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EGenericWildcardContext;
+import eu.modelwriter.core.alloyinecore.structure.base.INavigable;
 import eu.modelwriter.core.alloyinecore.structure.base.Object;
 import eu.modelwriter.core.alloyinecore.visitor.IVisitor;
+import org.antlr.v4.runtime.Token;
 import org.eclipse.emf.ecore.EGenericType;
 
-public class GenericWildcard extends Object<EGenericType, EGenericWildcardContext> {
+public class GenericWildcard extends Object<EGenericType, EGenericWildcardContext> implements INavigable {
 
     public GenericWildcard(EGenericType eObject, EGenericWildcardContext context) {
         super(eObject, context);
@@ -43,30 +45,43 @@ public class GenericWildcard extends Object<EGenericType, EGenericWildcardContex
 
     @Override
     public String getLabel() {
-        AlloyInEcoreParser.EGenericTypeContext ownedExtend= getContext().ownedExtend;
+        AlloyInEcoreParser.EGenericTypeContext ownedExtend = getContext().ownedExtend;
         return ownedExtend != null ? getNormalizedText(getContext(), ownedExtend.start.getStartIndex(), ownedExtend.stop.getStopIndex()) : "?";
     }
 
     @Override
-    public int getLine(){
-        AlloyInEcoreParser.EGenericTypeContext ownedExtend= getContext().ownedExtend;
+    public int getLine() {
+        AlloyInEcoreParser.EGenericTypeContext ownedExtend = getContext().ownedExtend;
         return ownedExtend != null ? ownedExtend.stop.getLine() : getContext().start.getLine();
     }
 
     @Override
     public int getStart() {
-        AlloyInEcoreParser.EGenericTypeContext ownedExtend= getContext().ownedExtend;
+        AlloyInEcoreParser.EGenericTypeContext ownedExtend = getContext().ownedExtend;
         return ownedExtend != null ? ownedExtend.stop.getStartIndex() : getContext().start.getStartIndex();
     }
 
     @Override
-    public int getStop(){
-        AlloyInEcoreParser.EGenericTypeContext ownedExtend= getContext().ownedExtend;
+    public int getStop() {
+        AlloyInEcoreParser.EGenericTypeContext ownedExtend = getContext().ownedExtend;
         return ownedExtend != null ? ownedExtend.stop.getStopIndex() : getContext().start.getStopIndex();
     }
 
     @Override
     public <T> T accept(IVisitor<? extends T> visitor) {
         return visitor.visitGenericWildcard(this);
+    }
+
+    @Override
+    public String getPathName() {
+        return this.getContext().ownedExtend != null ? this.getContext().ownedExtend.getText().replaceAll("<(.*)>", "") : "?";
+    }
+
+    @Override
+    public Token getToken() {
+        AlloyInEcoreParser.EGenericTypeContext ownedExtend = getContext().ownedExtend;
+        if (ownedExtend == null)
+            return super.getToken();
+        else return ownedExtend.pathName().stop.getText().equals(">") ? ownedExtend.start : ownedExtend.stop;
     }
 }

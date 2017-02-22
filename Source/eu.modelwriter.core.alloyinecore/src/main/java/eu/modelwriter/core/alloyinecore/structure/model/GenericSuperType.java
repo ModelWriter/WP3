@@ -25,11 +25,12 @@
 package eu.modelwriter.core.alloyinecore.structure.model;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EGenericSuperTypeContext;
+import eu.modelwriter.core.alloyinecore.structure.base.INavigable;
 import eu.modelwriter.core.alloyinecore.structure.base.Object;
 import eu.modelwriter.core.alloyinecore.visitor.IVisitor;
 import org.eclipse.emf.ecore.EGenericType;
 
-public final class GenericSuperType extends Object<EGenericType, EGenericSuperTypeContext> {
+public final class GenericSuperType extends Object<EGenericType, EGenericSuperTypeContext> implements INavigable {
     public GenericSuperType(EGenericType eObject, EGenericSuperTypeContext context) {
         super(eObject, context);
     }
@@ -43,4 +44,8 @@ public final class GenericSuperType extends Object<EGenericType, EGenericSuperTy
         return visitor.visitGenericSuperType(this);
     }
 
+    @Override
+    public String getPathName() {
+        return this.getContext().eGenericType.ownedPathName.getText();
+    }
 }

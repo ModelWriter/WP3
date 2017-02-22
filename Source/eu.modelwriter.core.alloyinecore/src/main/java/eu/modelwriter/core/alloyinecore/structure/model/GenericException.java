@@ -25,11 +25,12 @@
 package eu.modelwriter.core.alloyinecore.structure.model;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EGenericExceptionContext;
+import eu.modelwriter.core.alloyinecore.structure.base.INavigable;
 import eu.modelwriter.core.alloyinecore.structure.base.Object;
 import eu.modelwriter.core.alloyinecore.visitor.IVisitor;
 import org.eclipse.emf.ecore.EGenericType;
 
-public final class GenericException extends Object<EGenericType, EGenericExceptionContext> {
+public final class GenericException extends Object<EGenericType, EGenericExceptionContext> implements INavigable {
     public GenericException(EGenericType eObject, EGenericExceptionContext context) {
         super(eObject, context);
     }
@@ -41,5 +42,10 @@ public final class GenericException extends Object<EGenericType, EGenericExcepti
     @Override
     public <T> T accept(IVisitor<? extends T> visitor) {
         return visitor.visitGenericException(this);
+    }
+
+    @Override
+    public String getPathName() {
+        return this.getContext().eGenericType.pathName().getText();
     }
 }

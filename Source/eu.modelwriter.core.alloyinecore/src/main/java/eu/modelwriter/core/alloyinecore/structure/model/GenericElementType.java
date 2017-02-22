@@ -25,12 +25,14 @@
 package eu.modelwriter.core.alloyinecore.structure.model;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EGenericElementTypeContext;
+import eu.modelwriter.core.alloyinecore.structure.base.INavigable;
 import eu.modelwriter.core.alloyinecore.structure.base.Object;
 import eu.modelwriter.core.alloyinecore.visitor.IVisitor;
+import org.antlr.v4.runtime.Token;
 import org.eclipse.emf.ecore.EGenericType;
 
 //GenericElementType
-public final class GenericElementType extends Object<EGenericType, EGenericElementTypeContext> {
+public final class GenericElementType extends Object<EGenericType, EGenericElementTypeContext> implements INavigable {
     public GenericElementType(EGenericType eObject, EGenericElementTypeContext context) {
         super(eObject, context);
     }
@@ -42,5 +44,16 @@ public final class GenericElementType extends Object<EGenericType, EGenericEleme
     @Override
     public <T> T accept(IVisitor<? extends T> visitor) {
         return visitor.visitGenericElementType(this);
+    }
+
+    @Override
+    public String getPathName() {
+        return this.getContext().eGenericType() != null ? this.getContext().eGenericType().pathName().getText() : this.getContext().ePrimitiveType().getText();
+    }
+
+    @Override
+    public Token getToken() {
+        return this.getContext().ePrimitiveType != null ? super.getToken() :
+                getContext().eGenericType.ownedPathName.stop;
     }
 }
