@@ -809,33 +809,35 @@ public class CS2ASMapping extends AlloyInEcoreBaseVisitor<Object> {
     }
 
     eOperation.setOrdered(false);
-    if (ctx.eReturnType != null) {
-      if (ctx.qualifier != null) {
-        for (final String q : ctx.qualifier.stream().map(Token::getText).distinct()
-            .collect(Collectors.toList())) {
-          switch (AIEConstants.getValue(q)) {
-            case STATIC:
-              final EAnnotation staticAnnotation = createEAnnotation(AnnotationSources.STATIC);
-              // DEFAULT NULL
-              eOperation.getEAnnotations().add(staticAnnotation);
-              break;
-            case ORDERED:
-              int u = eOperation.getUpperBound();
+    if (ctx.qualifier != null) {
+      for (final String q : ctx.qualifier.stream().map(Token::getText).distinct()
+          .collect(Collectors.toList())) {
+        switch (AIEConstants.getValue(q)) {
+          case STATIC:
+            final EAnnotation staticAnnotation = createEAnnotation(AnnotationSources.STATIC);
+            // DEFAULT NULL
+            eOperation.getEAnnotations().add(staticAnnotation);
+            break;
+          case ORDERED:
+            if (ctx.eReturnType != null) {
+              final int u = eOperation.getUpperBound();
               if (u > 1 || u == -1) {
                 // DEFAULT FALSE
                 eOperation.setOrdered(true);
               }
-              break;
-            case NOT_UNIQUE:
-              u = eOperation.getUpperBound();
+            }
+            break;
+          case NOT_UNIQUE:
+            if (ctx.eReturnType != null) {
+              final int u = eOperation.getUpperBound();
               if (u > 1 || u == -1) {
                 // DEFAULT TRUE
                 eOperation.setUnique(false);
               }
-              break;
-            default:
-              break;
-          }
+            }
+            break;
+          default:
+            break;
         }
       }
     }
