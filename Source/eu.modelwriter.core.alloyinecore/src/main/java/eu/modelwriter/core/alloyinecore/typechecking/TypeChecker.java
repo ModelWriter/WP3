@@ -1,8 +1,8 @@
 package eu.modelwriter.core.alloyinecore.typechecking;
 
+import eu.modelwriter.core.alloyinecore.structure.model.*;
 import eu.modelwriter.core.alloyinecore.structure.model.Class;
-import eu.modelwriter.core.alloyinecore.structure.model.Interface;
-import eu.modelwriter.core.alloyinecore.structure.model.Model;
+import eu.modelwriter.core.alloyinecore.structure.model.Enum;
 import eu.modelwriter.core.alloyinecore.structure.model.Package;
 import eu.modelwriter.core.alloyinecore.visitor.BaseVisitorImpl;
 import org.antlr.v4.runtime.Token;
@@ -17,7 +17,7 @@ import java.util.*;
 public class TypeChecker {
 
     private Set<TypeErrorListener> errorListeners;
-    private JavaInterfaceGenerator generator;
+    private JavaSourceGenerator generator;
     private String outDir;
 
     public TypeChecker(String outDir, boolean saveJavaFiles) {
@@ -31,7 +31,7 @@ public class TypeChecker {
             e.printStackTrace();
         }
         errorListeners = new HashSet<>();
-        generator = new JavaInterfaceGenerator(outDir, saveJavaFiles);
+        generator = new JavaSourceGenerator(outDir, saveJavaFiles);
     }
 
     public void addErrorListener(TypeErrorListener listener) {
@@ -77,7 +77,7 @@ public class TypeChecker {
         @Override
         public Object visitClass(Class _class) {
             if (_class.getOwner() instanceof Package) {
-                JavaSourceFromString javaSource = generator.generate(_class);
+                JavaSourceFromString javaSource = generator.generateInterface(_class);
                 System.out.println(javaSource.code + "\n\n");
             }
             return null;
@@ -86,10 +86,28 @@ public class TypeChecker {
         @Override
         public Object visitInterface(Interface _interface) {
             if (_interface.getOwner() instanceof Package) {
-                JavaSourceFromString javaSource = generator.generate(_interface);
+                JavaSourceFromString javaSource = generator.generateInterface(_interface);
                 System.out.println(javaSource.code + "\n\n");
             }
             return null;
+        }
+
+        @Override
+        public Object visitEnum(Enum _enum) {
+            if (_enum.getOwner() instanceof Package) {
+                JavaSourceFromString javaSource = generator.generateEnum(_enum);
+                System.out.println(javaSource.code + "\n\n");
+            }
+            return null;
+        }
+
+        @Override
+        public Object visitDataType(DataType dataType) {
+            if (dataType.getOwner() instanceof Package) {
+                JavaSourceFromString javaSource = generator.generateDataType(dataType);
+                System.out.println(javaSource.code + "\n\n");
+            }
+            return super.visitDataType(dataType);
         }
     }
 }

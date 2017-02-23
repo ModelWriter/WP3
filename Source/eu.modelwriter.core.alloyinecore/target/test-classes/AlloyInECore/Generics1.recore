@@ -19,6 +19,7 @@ package generics : gns = 'eu.modelwriter.generics'
         operation next() : E[?] throws MyException<E>;
         operation hasNext() : Boolean;
     }
+    datatype Mapz<K,V> : 'java.util.Map' { !serializable };
     class ArrayList<V> extends List<V>, Cars;
     class Car;
     abstract class Person { attribute name: String  [1]; }
@@ -60,7 +61,7 @@ package generics : gns = 'eu.modelwriter.generics'
     {
         literal Mystery = 0;
         literal ScienceFiction = 1;
-        literal Biography = 2;
+        literal Biography;
     }
     package sub : s = 'subsubsub'
     {

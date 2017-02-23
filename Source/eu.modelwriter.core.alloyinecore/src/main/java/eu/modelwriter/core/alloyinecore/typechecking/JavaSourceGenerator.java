@@ -23,9 +23,9 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class JavaInterfaceGenerator {
+public class JavaSourceGenerator {
 
-    private JavaInterfaceGenerator importGenerator = null;
+    private JavaSourceGenerator importGenerator = null;
 
     private Set<JavaSourceFromString> generatedFiles = new HashSet<>();
     private Set<Trace> traces = new HashSet<>();
@@ -37,14 +37,14 @@ public class JavaInterfaceGenerator {
     private StringBuilder builder = new StringBuilder();
     private List<ITarget> importedTargets;
 
-    public JavaInterfaceGenerator(String outDir, boolean save) {
+    public JavaSourceGenerator(String outDir, boolean save) {
         this.outDir = outDir;
         this.save = save;
     }
 
-    public JavaInterfaceGenerator getImportGenerator() {
+    public JavaSourceGenerator getImportGenerator() {
         if (importGenerator == null)
-            importGenerator = new JavaInterfaceGenerator(outDir, save);
+            importGenerator = new JavaSourceGenerator(outDir, save);
         importGenerator.clearTraces();
         return importGenerator;
     }
@@ -73,18 +73,11 @@ public class JavaInterfaceGenerator {
         traces.clear();
     }
 
-    public JavaSourceFromString generate(Element<? extends ParserRuleContext> claz) {
+    private void setup(Element<? extends ParserRuleContext> element) {
         builder.setLength(0);
         currentLineNumber = 0;
-        currentFileName = getJavaPath(claz, "/", true);
-        currentPackageName = getJavaPath(claz, ".", false);
-        collectImportedTargets(claz);
-        classToJavaInterface(claz);
-        String code2 = builder.toString();
-        JavaSourceFromString generated = new JavaSourceFromString(currentFileName, code2);
-        generatedFiles.add(generated);
-        if (save) saveFile(generated);
-        return generated;
+        currentFileName = getJavaPath(element, "/", true);
+        currentPackageName = getJavaPath(element, ".", false);
     }
 
     private void saveFile(JavaSourceFromString generated) {
@@ -96,6 +89,122 @@ public class JavaInterfaceGenerator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private JavaSourceFromString finish() {
+        String code2 = builder.toString();
+        JavaSourceFromString generated = new JavaSourceFromString(currentFileName, code2);
+        generatedFiles.add(generated);
+        if (save) saveFile(generated);
+        return generated;
+    }
+
+    public JavaSourceFromString generateInterface(Element<? extends ParserRuleContext> claz) {
+        setup(claz);
+        collectImportedTargets(claz);
+        classToJavaInterface(claz);
+        return finish();
+    }
+
+    public JavaSourceFromString generateEnum(Element<? extends ParserRuleContext> _enum) {
+        setup(_enum);
+        collectImportedTargets(_enum);
+        enumToJavaEnum(_enum);
+        return finish();
+    }
+
+
+    public JavaSourceFromString generateDataType(Element<? extends ParserRuleContext> dataType) {
+        setup(dataType);
+        collectImportedTargets(dataType);
+        dataTypeToJavaDataType(dataType);
+        return finish();
+    }
+
+    private void enumToJavaEnum(Element<? extends ParserRuleContext> anEnum) {
+        appendPackage(anEnum);
+        builder.append(newLine());
+        appendImports(anEnum);
+        builder.append(newLine());
+        appendEnum(anEnum);
+    }
+
+    private void appendEnumLiterals(Element<? extends ParserRuleContext> anEnum) {
+        List<EnumLiteral> literals = anEnum.getOwnedElements(EnumLiteral.class);
+        boolean hasValue = false;
+        for (Iterator<EnumLiteral> iterator = literals.iterator(); iterator.hasNext(); ) {
+            EnumLiteral literal = iterator.next();
+            builder.append("\t");
+            appendWithToken(literal.getToken().getText(), literal.getToken());
+            builder.append("(");
+            if (literal.getContext().value != null) {
+                hasValue = true;
+                appendWithToken(literal.getContext().value.getText(), literal.getContext().value);
+            }
+            builder.append(")");
+            if (iterator.hasNext())
+                builder.append(",");
+            else
+                builder.append(";");
+            builder.append(newLine());
+        }
+        if (hasValue) {
+            builder.append(newLine());
+            builder.append("\tprivate int value;");
+            builder.append(newLine());
+            builder.append("\t");
+            builder.append(anEnum.getToken().getText());
+            builder.append("(int value) { this.value = value; }");
+            builder.append(newLine());
+            builder.append("\t");
+            builder.append(anEnum.getToken().getText());
+            builder.append("(){}");
+            builder.append(newLine());
+        }
+    }
+
+    private void appendEnum(Element<? extends ParserRuleContext> anEnum) {
+        appendVisibility(anEnum);
+        builder.append("enum ");
+        appendWithToken(anEnum.getToken().getText(), anEnum.getToken());
+
+        builder.append(newLine());
+        builder.append("{");
+        builder.append(newLine());
+
+        appendEnumLiterals(anEnum);
+        builder.append("}");
+    }
+
+    private void dataTypeToJavaDataType(Element<? extends ParserRuleContext> dataType) {
+        appendPackage(dataType);
+        builder.append(newLine());
+        appendImports(dataType);
+        builder.append(newLine());
+        appendDataType(dataType);
+    }
+
+    private void appendDataType(Element<? extends ParserRuleContext> dataType) {
+        appendVisibility(dataType);
+        builder.append("abstract class ");
+        appendWithToken(dataType.getToken().getText(), dataType.getToken());
+        appendTypeParameters(dataType.getOwnedElements(TypeParameter.class));
+        String className = ((DataType) dataType).getInstanceClassName();
+        if (className != null && !isJavaPrimitive(className) && className.startsWith("java.")) {
+            String eori = " extends ";
+            try {
+                java.lang.Class<?> aClass = java.lang.Class.forName(className);
+                eori = aClass != null && aClass.isInterface() ? " implements " : " extends ";
+            } catch (ClassNotFoundException ignored) {
+            }
+            builder.append(eori);
+            builder.append(className);
+            builder.append(dataType.getLabel().replace(dataType.getToken().getText(), ""));
+        }
+        builder.append(newLine());
+        builder.append("{");
+        builder.append(newLine());
+        builder.append("}");
     }
 
     private void collectImportedTargets(Element<? extends ParserRuleContext> element) {
@@ -144,6 +253,7 @@ public class JavaInterfaceGenerator {
                 .forEach(this::appendImport);
     }
 
+
     private String appendImport(INavigable navigable) {
         String pathName = navigable.getPathName();
         if (isPrimitive(pathName) || isTypeParameter(navigable, pathName) || pathName.equals("?") || pathName.isEmpty())
@@ -155,7 +265,7 @@ public class JavaInterfaceGenerator {
                 .orElse(null);
         String importText;
         if (importedTarget != null) {
-            JavaSourceFromString generated = getImportGenerator().generate((Element<? extends ParserRuleContext>) importedTarget);
+            JavaSourceFromString generated = getImportGenerator().generateInterface((Element<? extends ParserRuleContext>) importedTarget);
             generatedFiles.add(generated);
             traces.addAll(getImportGenerator().getTraces());
             // And use its path for import
@@ -242,6 +352,7 @@ public class JavaInterfaceGenerator {
     }
 
     private void appendTypeParameters(List<TypeParameter> typeParameters) {
+        if (typeParameters.isEmpty()) return;
         builder.append("<");
         for (Iterator<TypeParameter> iterator = typeParameters.iterator(); iterator.hasNext(); ) {
             TypeParameter tp = iterator.next();
@@ -273,7 +384,7 @@ public class JavaInterfaceGenerator {
                 String pathName = next.getPathName();
                 if (pathName.isEmpty()) {
                     GenericWildcard wildcard = next.getOwnedElement(GenericWildcard.class);
-                    String wildcardPathName = wildcard.getPathName();
+                    String wildcardPathName = wildcard != null ? wildcard.getPathName() : "?";
                     if (wildcardPathName.equals("?"))
                         builder.append("?");
                     else {
@@ -283,7 +394,7 @@ public class JavaInterfaceGenerator {
                                         wildcardPathName,
                                 wildcard.getToken());
                     }
-                    appendGenericTypeArgument(wildcard);
+                    if (wildcard != null) appendGenericTypeArgument(wildcard);
                 } else {
                     appendWithToken(pathName, next.getToken());
                 }
@@ -387,6 +498,17 @@ public class JavaInterfaceGenerator {
 
     public boolean isPrimitive(String text) {
         return text.equals("String") || text.equals("Boolean") || text.equals("Integer") || text.equals("Real") || text.equals("BigInteger");
+    }
+
+    private boolean isJavaPrimitive(String className) {
+        return "boolean".equals(className) ||
+                "byte".equals(className) ||
+                "char".equals(className) ||
+                "short".equals(className) ||
+                "int".equals(className) ||
+                "long".equals(className) ||
+                "float".equals(className) ||
+                "double".equals(className);
     }
 
     private String newLine() {

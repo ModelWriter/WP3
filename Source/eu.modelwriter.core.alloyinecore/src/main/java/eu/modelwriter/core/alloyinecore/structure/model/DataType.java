@@ -50,6 +50,10 @@ public class DataType extends Classifier<EDataType, EDataTypeContext> implements
         return visibility;
     }
 
+    public String getInstanceClassName() {
+        return getContext().instanceClassName != null ? getContext().instanceClassName.getText().replaceAll("'", "") : null;
+    }
+
     @Override
     public Token getToken() {
         if (getContext().name != null)
