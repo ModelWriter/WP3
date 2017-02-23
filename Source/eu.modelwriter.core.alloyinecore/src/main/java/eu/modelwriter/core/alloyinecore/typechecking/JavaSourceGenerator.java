@@ -36,6 +36,21 @@ public class JavaSourceGenerator {
     private String currentPackageName;
     private StringBuilder builder = new StringBuilder();
     private List<ITarget> importedTargets;
+    private List<String> javaKeywords = new ArrayList<>(Arrays.asList(new String[]{"abstract", "assert", "boolean", "break", "byte",
+            "case", "catch", "char", "class", "const",
+            "continue", "default", "do", "double", "else",
+            "enum", "extends", "final", "finally", "float",
+            "for", "goto", "if", "implements", "import",
+            "instanceof", "int", "interface", "long", "native",
+            "new", "package", "private", "protected", "public",
+            "return", "short", "static", "strictfp", "super",
+            "switch", "synchronized", "this",
+            "throw", "throws",
+            "transient",
+            "try",
+            "void",
+            "volatile",
+            "while"}));
 
     public JavaSourceGenerator(String outDir, boolean save) {
         this.outDir = outDir;
@@ -166,7 +181,7 @@ public class JavaSourceGenerator {
     private void appendEnum(Element<? extends ParserRuleContext> anEnum) {
         appendVisibility(anEnum);
         builder.append("enum ");
-        appendWithToken(anEnum.getToken().getText(), anEnum.getToken());
+        appendWithToken(checkName(anEnum.getToken().getText()), anEnum.getToken());
 
         builder.append(newLine());
         builder.append("{");
@@ -187,7 +202,8 @@ public class JavaSourceGenerator {
     private void appendDataType(Element<? extends ParserRuleContext> dataType) {
         appendVisibility(dataType);
         builder.append("abstract class ");
-        appendWithToken(dataType.getToken().getText(), dataType.getToken());
+        String className = checkName(dataType.getToken().getText());
+        appendWithToken(className, dataType.getToken());
         appendTypeParameters(dataType.getOwnedElements(TypeParameter.class));
         String className = ((DataType) dataType).getInstanceClassName();
         if (className != null && !isJavaPrimitive(className) && className.startsWith("java.")) {
@@ -327,7 +343,7 @@ public class JavaSourceGenerator {
 
             } else builder.append("void");
             builder.append(" ");
-            appendWithToken(op.getToken().getText(), op.getToken());
+            appendWithToken(checkName(op.getToken().getText()), op.getToken());
             builder.append("(");
             appendParameters(op);
             builder.append(")");
@@ -433,7 +449,7 @@ public class JavaSourceGenerator {
             if (mul != null && mul.isMany())
                 builder.append("[]");
             builder.append(" ");
-            appendWithToken(sf.getLabel(), sf.getToken());
+            appendWithToken(checkName(sf.getLabel()), sf.getToken());
             builder.append("();");
             builder.append(newLine());
         }
@@ -514,6 +530,10 @@ public class JavaSourceGenerator {
     private String newLine() {
         currentLineNumber++;
         return System.getProperty("line.separator");
+    }
+
+    private String checkName(String name) {
+        return javaKeywords.contains(name) ? "_aie_" + name : name;
     }
 
     private String getJavaPath(Element<? extends ParserRuleContext> element, String separator, boolean includeItself) {

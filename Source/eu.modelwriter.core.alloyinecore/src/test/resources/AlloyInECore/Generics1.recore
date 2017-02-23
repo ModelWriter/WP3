@@ -16,10 +16,10 @@ package generics : gns = 'eu.modelwriter.generics'
     interface Iterator<E>
     {
         invariant test2: (File + Dir) in Root.*contents;
-        operation next() : E[?] throws MyException<E>;
-        operation hasNext() : Boolean;
+        operation abstract() : E[?] throws MyException<E>;
+        operation interface() : Boolean;
     }
-    datatype Mapz<K,V> : 'java.util.Map' { !serializable };
+    datatype Mapz : 'java.util.Boolean' { !serializable };
     class ArrayList<V> extends List<V>, Cars;
     class Car;
     abstract class Person { attribute name: String  [1]; }
@@ -29,6 +29,7 @@ package generics : gns = 'eu.modelwriter.generics'
         property owner : V[1..*];
     }
     abstract class Shape;
+    class interface;
     class Canvas
     {
         operation draw(shapes : List<? extends My::pack::B>, x: Integer, y: Integer) : Boolean[?];
@@ -66,6 +67,7 @@ package generics : gns = 'eu.modelwriter.generics'
     package sub : s = 'subsubsub'
     {
         public class Hey;
+        attr : Hey;
         package subsub : s2 = 'wow such sub'{
             class CantTouchThis;
         }
