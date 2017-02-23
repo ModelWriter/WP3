@@ -1,0 +1,1409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ce663927-515b-4604-a36b-c3c9e2767ad5" name="Default" comment="Project configuration files added to the repository to synchronize ourselves.">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/HelloWorldAnonymousClasses.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/CollectionTest/CollectionWithHashSetAndLinkedHashSet.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/CollectionTest/SetTest.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/builder/AdultMealBuilder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/builder/KidsMealBuilder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/builder/Main.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/builder/Meal.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/builder/MealBuilder.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/builder/MealDirector.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/factory/Client.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/factory/Comment.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/factory/DirectedRelationship.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/factory/Element.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/factory/Factory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/factory/IFactory.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/factory/IVisibility.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/factory/Relationship.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/factory/TemplateSignature.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/factory/Visibility.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/prototype/Book.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/prototype/CD.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/prototype/Client.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/prototype/Item.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/prototype/ItemRegistry.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/state/MP3PlayerContext.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/state/PlayingState.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/state/StandbyState.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/state/State.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/strategy/Client.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/strategy/CompressionContext.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/strategy/CompressionStrategy.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/strategy/RarCompressionStrategy.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/strategy/ZipCompressionStrategy.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/streams/Winner.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/template/AndroidCompiler.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/template/Client.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/template/CrossCompiler.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/patterns/template/IPhoneCompiler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/eu.modelwriter.core.alloyinecore.jar" afterPath="$PROJECT_DIR$/out/artifacts/eu.modelwriter.core.alloyinecore.jar" />
+    </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/eu.modelwriter.core.alloyinecore$.coverage" NAME=" Coverage Results" MODIFIED="1484592164029" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="eu.modelwriter.core.alloyinecore" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="AlloyInEcore.g4" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="434">
+              <caret line="480" column="47" lean-forward="false" selection-start-line="480" selection-start-column="47" selection-end-line="480" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HelloWorldAnonymousClasses.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/HelloWorldAnonymousClasses.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="639">
+              <caret line="71" column="15" lean-forward="true" selection-start-line="71" selection-start-column="15" selection-end-line="71" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Singleton" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>document</find>
+      <find>$object</find>
+      <find>Bindin</find>
+      <find>pathName</find>
+      <find>eGenericType</find>
+      <find>Person</find>
+      <find>eGenericElementType</find>
+      <find>load</find>
+      <find>@Override     public List&lt;IName&gt; getNames() {         return null;     }</find>
+      <find>saveResource</find>
+      <find>AnnotationSources</find>
+      <find>`</find>
+      <find>ML_SINGLE_QUOTED_STRING</find>
+      <find>EX</find>
+      <find>NullLiteral</find>
+      <find>EscapeSequence</find>
+      <find>SignedInteger</find>
+      <find>Integer</find>
+      <find>Decimal</find>
+      <find>character</find>
+      <find>literal</find>
+      <find>signed</find>
+      <find>value</find>
+      <find>module</find>
+      <find>Super</find>
+      <find>formula</find>
+      <find>save</find>
+      <find>INT</find>
+      <find>Element</find>
+      <find>eClass</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Ferhat Erata &lt;ferhat@computer.org&gt;" />
+        <option value="l" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/test/java/factorypattern/JavaFactoryPatternExample.java" />
+        <option value="$PROJECT_DIR$/src/test/java/factorypattern/Factory.java" />
+        <option value="$PROJECT_DIR$/src/test/java/SetTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/factorypattern/CollectionTest/CollectionInterfaceTestWithHashSet.java" />
+        <option value="$PROJECT_DIR$/src/test/java/factorypattern/CollectionTest/CollectionInterfaceTestWithHashSetAndLinkedHashSet.java" />
+        <option value="$PROJECT_DIR$/src/test/java/factorypattern/Comment.java" />
+        <option value="$PROJECT_DIR$/src/test/java/factorypattern/CollectionTest/SetTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/factorypattern/CollectionTest/CollectionWithHashSetAndLinkedHashSet.java" />
+        <option value="$PROJECT_DIR$/src/test/java/builderpatter/MealBuilder.java" />
+        <option value="$PROJECT_DIR$/src/test/java/builderpatter/KidsMealBuilder.java" />
+        <option value="$PROJECT_DIR$/src/test/java/builderpatter/AdultMealBuilder.java" />
+        <option value="$PROJECT_DIR$/src/test/java/builderpatter/MealDirector.java" />
+        <option value="$PROJECT_DIR$/src/test/java/builderpatter/Main.java" />
+        <option value="$PROJECT_DIR$/src/test/java/builderpatter/Meal.java" />
+        <option value="$PROJECT_DIR$/src/test/java/builder/MealDirector.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/builder/MealDirector.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/prototype/Book.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/prototype/CD.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/prototype/ItemRegistry.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/prototype/Client.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/prototype/Item.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/state/State.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/state/MP3PlayerContext.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/state/StandbyState.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/state/PlayingState.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/state/MP3PlayerContext.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/template/CrossCompiler.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/template/IPhoneCompiler.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/template/AndroidCompiler.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/template/Client.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/strategy.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/strategy/CompressionContext.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/strategy/RarCompressionStrategy.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/strategy/ZipCompressionStrategy.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/strategy/CompressionStrategy.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/strategy/Client.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/Client.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/Visibility.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/Constraint.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/ElementImport.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/Expression.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/Namespace.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/NamedElement.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/TemplateSignature.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/streams/Winner.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/Element.java" />
+        <option value="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/structure/model/TypedElement.java" />
+        <option value="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/Factory.java" />
+        <option value="$PROJECT_DIR$/src/test/java/patterns/factory/IFactory.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <option name="alwaysShowArtifactId" value="true" />
+    <option name="showVersions" value="true" />
+    <treeState>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="alloyinecore" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Dependencies" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$DependenciesNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="alloyinecore" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Plugins" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$PluginsNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$RootNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="alloyinecore" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$ProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="Lifecycle" />
+          <option name="myItemType" value="org.jetbrains.idea.maven.navigator.MavenProjectsStructure$LifecycleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="24" />
+    <option name="width" value="1920" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>General</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>DefaultFileTemplate</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages ProjectPane="false" />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scratches" />
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="target" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="target" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="classes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="playground" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="instance" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="lib" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".idea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".idea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="eu.modelwriter.core.alloyinecore" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".idea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="artifacts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.25306374" />
+    <property name="Downloaded.Files.Path.Enabled" value="true" />
+    <property name="Repository.Attach.JavaDocs" value="true" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4::/auto-gen" value="false" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4::/output-dir" value="./src/main/java/" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4::/package" value="eu.modelwriter.core.alloyinecore.recognizer" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4::/language" value="Java" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4::/gen-listener" value="true" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4::/gen-visitor" value="true" />
+    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4&#10;gener&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Generics1.recore&#10;Insta&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/InstanceTestFolder/Instance.requirement&#10;Generic&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Generics1.recore&#10;IMP&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/Import.java&#10;Ge&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Generics1.recore&#10;imp&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/EcoreImport.java&#10;Gener&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Generics1.recore&#10;Allo&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4&#10;Gene&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Generics1.recore&#10;ecoreim&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/EcoreImport.java&#10;ene&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Generics1.recore&#10;recore&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/simple.recore&#10;rec&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Generics1.recore&#10;islan&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/packageimport/Island.g4&#10;Elemen&#9;PSI&#9;JAVA://eu.modelwriter.core.alloyinecore.structure.Element&#10;Elem&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/Element.java&#10;ge&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Generics1.recore&#10;Eleme&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/Element.java&#10;Exp&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/Expression.java&#10;ID&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/IDeclaration.java&#10;Dec&#9;PSI&#9;JAVA://eu.modelwriter.core.alloyinecore.structure.Declaration&#10;For&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/Formula.java&#10;Intex&#9;PSI&#9;JAVA://eu.modelwriter.core.alloyinecore.structure.IntExpression&#10;F&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/Formula.java&#10;fr&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/AlloyInECoreFrontEnd_Test.java&#10;Expre&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/Expression.java&#10;clas&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/Class.java&#10;front&#9;PSI&#9;JAVA://eu.modelwriter.core.alloyinecore.AlloyInECoreFrontEnd_Test&#10;all&#9;RUN_CONFIGURATION&#9;AlloyInECoreFrontEnd_Test&#10;my&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/My.recore&#10;gen&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Generics1.recore&#10;generic&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Generics1.recore&#10;generi&#9;PSI&#9;JAVA://eu.modelwriter.core.alloyinecore.structure.GenericType&#10;gene&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Generics1.recore&#10;par&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcoreParser.java&#10;temp&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Templates.recore&#10;Ec&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcoreParser.java&#10;eleme&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/Element.java&#10;Oper&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/structure/Operation.java&#10;template&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Templates.recore&#10;templ&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Templates.ecore&#10;te&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Templates.ecore&#10;tem&#9;FILE&#9;file:///home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/test/resources/AlloyInECore/Templates.recore" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/packageimport/Imports.g4::/auto-gen" value="false" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/packageimport/Imports.g4::/output-dir" value="./src/main/java/" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/packageimport/Imports.g4::/language" value="Java" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/packageimport/Imports.g4::/gen-listener" value="true" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/packageimport/Imports.g4::/gen-visitor" value="true" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/packageimport/Imports.g4::/package" value="eu.modelwriter.core.alloyinecore.packageimport" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/instance/Instance.g4::/auto-gen" value="false" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/instance/Instance.g4::/output-dir" value="./src/main/java/" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/instance/Instance.g4::/language" value="Java" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/instance/Instance.g4::/gen-listener" value="true" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/instance/Instance.g4::/gen-visitor" value="true" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/instance/Instance.g4::/package" value="eu.modelwriter.core.alloyinecore.instance" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/imports/Imports.g4::/auto-gen" value="false" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/imports/Imports.g4::/output-dir" value="./src/main/java/" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/imports/Imports.g4::/language" value="Java" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/imports/Imports.g4::/gen-listener" value="true" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/imports/Imports.g4::/gen-visitor" value="true" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/imports/Imports.g4::/package" value="eu.modelwriter.core.alloyinecore.imports" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/imports/Imports.g4::/auto-gen" value="false" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/imports/Imports.g4::/output-dir" value="./src/main/java/" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/imports/Imports.g4::/language" value="Java" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/imports/Imports.g4::/gen-listener" value="true" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/imports/Imports.g4::/gen-visitor" value="true" />
+    <property name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/imports/Imports.g4::/package" value="eu.modelwriter.core.alloyinecore.recognizer.imports" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore" />
+      <recent name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/interpreter" />
+      <recent name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/imports" />
+      <recent name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/imports/model" />
+      <recent name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/base" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/test/java/patterns/factory" />
+      <recent name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/structure/abstraction" />
+      <recent name="$PROJECT_DIR$/src/test/resources" />
+      <recent name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/instanceImport" />
+      <recent name="$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/translator" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="factorypattern" />
+      <recent name="eu.modelwriter.core.alloyinecore.structure.abstraction" />
+      <recent name="eu.modelwriter.core.alloyinecore.structure.instance" />
+      <recent name="eu.modelwriter.core.alloyinecore.structure.model" />
+      <recent name="eu.modelwriter.core.alloyinecore" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="patterns.factory.state" />
+      <recent name="eu.modelwriter.core.alloyinecore.structure.abstractions" />
+      <recent name="eu.modelwriter.core.alloyinecore.structure" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JAR Application.JAR AIE TEST">
+    <configuration default="false" name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="patterns.prototype.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="patterns.prototype.Client" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="eu.modelwriter.core.alloyinecore" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Client (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="patterns.template.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="patterns.template.Client" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="eu.modelwriter.core.alloyinecore" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="CollectionWithHashSetAndLinkedHashSet" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="patterns.CollectionTest.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="patterns.CollectionTest.CollectionWithHashSetAndLinkedHashSet" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="eu.modelwriter.core.alloyinecore" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="SetTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="patterns.CollectionTest.SetTest" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="eu.modelwriter.core.alloyinecore" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="Winner" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="patterns.streams.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="patterns.streams.Winner" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="eu.modelwriter.core.alloyinecore" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+      <method />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="BashConfigurationType" factoryName="Bash">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="INTERPRETER_PATH" value="/bin/bash" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+      <method />
+    </configuration>
+    <configuration default="true" type="JarApplication" factoryName="JAR Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Java Scratch" factoryName="Java Scratch">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SCRATCH_FILE_ID" value="0" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="eu.modelwriter.core.alloyinecore" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType" factoryName="Kotlin script">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="filePath" />
+      <option name="vmParameters" />
+      <option name="alternativeJrePath" />
+      <option name="programParameters" />
+      <option name="passParentEnvs" value="true" />
+      <option name="workingDirectory" />
+      <option name="isAlternativeJrePathEnabled" value="false" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list />
+            </option>
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+      <method />
+    </configuration>
+    <configuration default="true" type="ScalaTestRunConfiguration" factoryName="ScalaTest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <classRegexps />
+      <testRegexps />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="Specs2RunConfiguration" factoryName="Specs2">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <classRegexps />
+      <testRegexps />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="uTestRunConfiguration" factoryName="utest">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <setting name="path" value="" />
+      <setting name="package" value="" />
+      <setting name="vmparams" value="" />
+      <setting name="params" value="" />
+      <setting name="workingDirectory" value="" />
+      <setting name="searchForTest" value="Across module dependencies" />
+      <setting name="testName" value="" />
+      <setting name="testKind" value="Class" />
+      <setting name="showProgressMessages" value="true" />
+      <classRegexps />
+      <testRegexps />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="JAR AIE TEST" type="JarApplication" factoryName="JAR Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="JAR_PATH" value="$PROJECT_DIR$/out/artifacts/eu.modelwriter.core.alloyinecore.jar" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="1.8" />
+      <envs />
+      <module name="eu.modelwriter.core.alloyinecore" />
+      <method>
+        <option name="BuildArtifacts" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="false" name="AlloyInECoreFrontEnd_Test" type="Application" factoryName="Application" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="eu.modelwriter.core.alloyinecore.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="eu.modelwriter.core.alloyinecore.AlloyInECoreFrontEnd_Test" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="eu.modelwriter.core.alloyinecore" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="AlloyInECoreInstanceFrontEnd_Test" type="Application" factoryName="Application" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="eu.modelwriter.core.alloyinecore.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="eu.modelwriter.core.alloyinecore.AlloyInECoreInstanceFrontEnd_Test" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="eu.modelwriter.core.alloyinecore" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="8">
+      <item index="0" class="java.lang.String" itemvalue="JAR Application.JAR AIE TEST" />
+      <item index="1" class="java.lang.String" itemvalue="Application.AlloyInECoreFrontEnd_Test" />
+      <item index="2" class="java.lang.String" itemvalue="Application.AlloyInECoreInstanceFrontEnd_Test" />
+      <item index="3" class="java.lang.String" itemvalue="Application.Client" />
+      <item index="4" class="java.lang.String" itemvalue="Application.Client (1)" />
+      <item index="5" class="java.lang.String" itemvalue="Application.CollectionWithHashSetAndLinkedHashSet" />
+      <item index="6" class="java.lang.String" itemvalue="Application.SetTest" />
+      <item index="7" class="java.lang.String" itemvalue="Application.Winner" />
+    </list>
+    <recent_temporary>
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Application.Winner" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Client (1)" />
+        <item index="2" class="java.lang.String" itemvalue="Application.Client" />
+        <item index="3" class="java.lang.String" itemvalue="Application.CollectionWithHashSetAndLinkedHashSet" />
+        <item index="4" class="java.lang.String" itemvalue="Application.SetTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SbtLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="StructureViewFactory">
+    <option name="AUTOSCROLL_FROM_SOURCE" value="true" />
+    <option name="ACTIVE_ACTIONS" value=",SHOW_PROPERTIES,SHOW_INHERITED,SHOW_ANONYMOUS,SHOW_LAMBDA" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ce663927-515b-4604-a36b-c3c9e2767ad5" name="Default" comment="" />
+      <created>1484567232889</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1484567232889</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Lexer Rule has changed. Single Quoted Strings are omitted from Grammar.">
+      <created>1487835161731</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1487835161731</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Project configuration files added to the repository to synchronize ourselves.">
+      <created>1487835310985</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1487835310985</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="VisitorTest_testVisit - 2017.02.03 at 16h 15m 20s.xml">
+      <configuration name="VisitorTest.testVisit" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="VisitorTest_testVisit - 2017.02.03 at 16h 15m 51s.xml">
+      <configuration name="VisitorTest.testVisit" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="VisitorTest_testVisit - 2017.02.03 at 16h 16m 16s.xml">
+      <configuration name="VisitorTest.testVisit" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="VisitorTest_testVisit - 2017.02.03 at 16h 16m 46s.xml">
+      <configuration name="VisitorTest.testVisit" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="VisitorTest_testVisit - 2017.02.03 at 16h 17m 56s.xml">
+      <configuration name="VisitorTest.testVisit" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="VisitorTest_testVisit - 2017.02.03 at 19h 28m 08s.xml">
+      <configuration name="VisitorTest.testVisit" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="VisitorTest_testVisit - 2017.02.03 at 19h 28m 49s.xml">
+      <configuration name="VisitorTest.testVisit" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="24" width="1920" height="1056" extended-state="6" />
+    <editor active="false" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Tool Output" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32832617" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32832617" sideWeight="0.49786553" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.51502144" sideWeight="0.50213444" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32903227" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44623655" sideWeight="0.4967983" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32939914" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27748132" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Memory View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="ANTLR Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.51502144" sideWeight="0.49786553" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2710779" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2497332" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39914164" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Dynamic Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" x="103" y="224" width="1720" height="856" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977587" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32832617" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Lexer Rule has changed. Single Quoted Strings are omitted from Grammar." />
+    <MESSAGE value="Project configuration files added to the repository to synchronize ourselves." />
+    <option name="LAST_COMMIT_MESSAGE" value="Project configuration files added to the repository to synchronize ourselves." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/structure/model/Model.java</url>
+          <line>40</line>
+          <properties />
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/structure/base/INamespace.java</url>
+          <line>95</line>
+          <properties />
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/patterns/factory/Factory.java</url>
+          <line>37</line>
+          <properties />
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="45" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/prototype/Item.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/state/State.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/state/StandbyState.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/state/PlayingState.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/state/MP3PlayerContext.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/template/IPhoneCompiler.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/template/AndroidCompiler.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/template/Client.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/template/CrossCompiler.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/strategy.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/CollectionTest/SetTest.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/strategy/Client.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/strategy/CompressionStrategy.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/strategy/RarCompressionStrategy.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/strategy/ZipCompressionStrategy.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/strategy/CompressionContext.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/Client.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/PackageableElement.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/TypedElement.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/Type.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/Package.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/Visibility.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/Constraint.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/ElementImport.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/Expression.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/IVisibility.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/NamedElement.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/Namespace.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/DirectedRelationship.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/TemplateSignature.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/AlloyInECoreFrontEnd_Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="44" column="19" lean-forward="false" selection-start-line="44" selection-start-column="19" selection-end-line="44" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/AlloyInECoreInstanceFrontEnd_Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="82" column="23" lean-forward="false" selection-start-line="82" selection-start-column="23" selection-end-line="82" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/jdk1.8.0_121/src.zip!/java/util/function/Predicate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-475">
+          <caret line="48" column="12" lean-forward="false" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/streams/Winner.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/structure/uml/Comment.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/structure/uml/Element.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/structure/uml/NamedElement.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/Element.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/structure/base/Element.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="68" column="20" lean-forward="false" selection-start-line="68" selection-start-column="20" selection-end-line="68" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/Comment.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/structure/base/INamespace.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="35" column="1" lean-forward="false" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/structure/base/IName.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/structure/model/TypedElement.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="40" column="5" lean-forward="false" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/structure/model/EcoreImport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="50" column="8" lean-forward="false" selection-start-line="50" selection-start-column="8" selection-end-line="50" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/Factory.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/patterns/factory/IFactory.java" />
+    <entry file="file://$PROJECT_DIR$/.idea/artifacts/eu_modelwriter_core_alloyinecore_jar.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="17" column="12" lean-forward="false" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1566">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="434">
+          <caret line="480" column="47" lean-forward="false" selection-start-line="480" selection-start-column="47" selection-end-line="480" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/HelloWorldAnonymousClasses.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="639">
+          <caret line="71" column="15" lean-forward="true" selection-start-line="71" selection-start-column="15" selection-end-line="71" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>eu.modelwriter.core.alloyinecore:jar</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.25306374" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="Copyright.UI">
+        <settings>
+          <last-edited>Ferhat Erata - MIT</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>antlr-4.6-complete</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.25306374" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8 (1)</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.25306374" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>eu.modelwriter.core.alloyinecore</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.25306374" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: com.google.guava:guava:21.0</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.25306374" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+  <component name="mavenExecuteGoalHistory">
+    <option value="$PROJECT_DIR$" />
+    <option value="clean" />
+    <option value="clean, validate, compile" />
+  </component>
+</project>
