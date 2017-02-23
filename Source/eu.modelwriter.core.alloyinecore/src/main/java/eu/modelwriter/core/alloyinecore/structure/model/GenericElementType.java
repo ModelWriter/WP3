@@ -48,12 +48,20 @@ public final class GenericElementType extends Object<EGenericType, EGenericEleme
 
     @Override
     public String getPathName() {
-        return this.getContext().eGenericType() != null ? this.getContext().eGenericType().pathName().getText() : this.getContext().ePrimitiveType().getText();
+        if (this.getContext().eGenericType() != null && this.getContext().eGenericType().pathName() != null) {
+            return this.getContext().eGenericType().pathName().getText();
+        } else if (this.getContext().ePrimitiveType() != null){
+                return this.getContext().ePrimitiveType().getText();
+        } else
+            return "";
     }
 
     @Override
     public Token getToken() {
-        return this.getContext().ePrimitiveType != null ? super.getToken() :
-                getContext().eGenericType.ownedPathName.stop;
+        if (this.getContext().ePrimitiveType != null)
+            return super.getToken();
+        else if (getContext().eGenericType != null && getContext().eGenericType.ownedPathName != null)
+            return getContext().eGenericType.ownedPathName.stop;
+        else return null;
     }
 }

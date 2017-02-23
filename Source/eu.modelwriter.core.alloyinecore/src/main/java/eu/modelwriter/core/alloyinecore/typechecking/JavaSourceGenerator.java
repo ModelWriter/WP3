@@ -81,7 +81,10 @@ public class JavaSourceGenerator {
     }
 
     public String getTokensAsString(Diagnostic diagnostic) {
-        return findTokens(diagnostic).stream().map(tk -> tk.getText() + " at line " + tk.getLine()).collect(Collectors.joining(", "));
+        return findTokens(diagnostic).stream()
+                .filter(Objects::nonNull)
+                .map(token -> token.getText() + " at line " + token.getLine())
+                .collect(Collectors.joining(", "));
     }
 
     public void clearTraces() {

@@ -89,6 +89,7 @@ public abstract class Element<C extends ParserRuleContext> implements IVisitable
         }
     }
 
+    @SafeVarargs
     public final <K extends Element> void addOwnedElements(final K... child) {
         for (K aChild : child) {
             addOwnedElement(aChild);
@@ -262,8 +263,12 @@ public abstract class Element<C extends ParserRuleContext> implements IVisitable
     }
 
     protected static String getNormalizedText(ParserRuleContext ctx) {
-        return ctx.start.getInputStream().getText(new Interval(ctx.start.getStartIndex(), ctx.stop.getStopIndex()))
-                .replaceAll("\\s+", " ").replaceAll("(\\w)(\\s)(<)", "$1$3");
+        int start = ctx.start.getStartIndex();
+        int stop = ctx.stop.getStopIndex();
+        if(stop >= start) {
+            return ctx.start.getInputStream().getText(new Interval(start, stop))
+                    .replaceAll("\\s+", " ").replaceAll("(\\w)(\\s)(<)", "$1$3");
+        } else return "";
     }
 
     protected static String getNormalizedText(final ParserRuleContext ctx, final int start, final int stop) {
