@@ -1,5 +1,1 @@
-*.iml
-target/
 .project
-!/.idea/artifacts/eu_modelwriter_core_alloyinecore_jar.xml
-.idea
