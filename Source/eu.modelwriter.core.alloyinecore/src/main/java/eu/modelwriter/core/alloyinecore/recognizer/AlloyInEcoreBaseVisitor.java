@@ -1,4 +1,4 @@
-// Generated from /home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4 by ANTLR 4.6
+// Generated from /home/ferhat/git/WP3/Source/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4 by ANTLR 4.6
 package eu.modelwriter.core.alloyinecore.recognizer;
 
 
@@ -77,7 +77,6 @@ import eu.modelwriter.core.alloyinecore.structure.instance.RealValue;
 import eu.modelwriter.core.alloyinecore.structure.instance.BooleanValue;
 import eu.modelwriter.core.alloyinecore.structure.instance.StringValue;
 import eu.modelwriter.core.alloyinecore.structure.instance.NullValue;
-import eu.modelwriter.core.alloyinecore.structure.instance.CharValue;
 
 import eu.modelwriter.core.alloyinecore.structure.constraints.Formula;
 import eu.modelwriter.core.alloyinecore.structure.constraints.Expression;
@@ -244,13 +243,6 @@ public class AlloyInEcoreBaseVisitor<T> extends AbstractParseTreeVisitor<T> impl
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitStringValue(AlloyInEcoreParser.StringValueContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitCharValue(AlloyInEcoreParser.CharValueContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

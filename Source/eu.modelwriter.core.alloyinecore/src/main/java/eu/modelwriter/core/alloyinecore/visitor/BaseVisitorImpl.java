@@ -611,11 +611,6 @@ public abstract class BaseVisitorImpl<T> implements IVisitor<T> {
     }
 
     @Override
-    public T visitCharValue(CharValue charValue){
-        return visitChildren(charValue);
-    }
-
-    @Override
     public T visitEnumValue(EnumValue enumValue){
         return visitChildren(enumValue);
     }

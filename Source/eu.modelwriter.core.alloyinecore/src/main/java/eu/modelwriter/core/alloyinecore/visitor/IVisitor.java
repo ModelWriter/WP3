@@ -262,8 +262,6 @@ public interface IVisitor<T> {
 
     T visitBooleanValue(BooleanValue booleanValue);
 
-    T visitCharValue(CharValue charValue);
-
     T visitEnumValue(EnumValue enumValue);
 
     T visitIntegerValue(IntegerValue integerValue);

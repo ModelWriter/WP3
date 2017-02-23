@@ -1,4 +1,4 @@
-// Generated from /home/ferhat/IdeaProjects/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4 by ANTLR 4.6
+// Generated from /home/ferhat/git/WP3/Source/eu.modelwriter.core.alloyinecore/src/main/java/eu/modelwriter/core/alloyinecore/recognizer/AlloyInEcore.g4 by ANTLR 4.6
 package eu.modelwriter.core.alloyinecore.recognizer;
 
 
@@ -77,7 +77,6 @@ import eu.modelwriter.core.alloyinecore.structure.instance.RealValue;
 import eu.modelwriter.core.alloyinecore.structure.instance.BooleanValue;
 import eu.modelwriter.core.alloyinecore.structure.instance.StringValue;
 import eu.modelwriter.core.alloyinecore.structure.instance.NullValue;
-import eu.modelwriter.core.alloyinecore.structure.instance.CharValue;
 
 import eu.modelwriter.core.alloyinecore.structure.constraints.Formula;
 import eu.modelwriter.core.alloyinecore.structure.constraints.Expression;
@@ -302,16 +301,6 @@ public interface AlloyInEcoreListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStringValue(AlloyInEcoreParser.StringValueContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link AlloyInEcoreParser#charValue}.
-	 * @param ctx the parse tree
-	 */
-	void enterCharValue(AlloyInEcoreParser.CharValueContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AlloyInEcoreParser#charValue}.
-	 * @param ctx the parse tree
-	 */
-	void exitCharValue(AlloyInEcoreParser.CharValueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AlloyInEcoreParser#nullValue}.
 	 * @param ctx the parse tree

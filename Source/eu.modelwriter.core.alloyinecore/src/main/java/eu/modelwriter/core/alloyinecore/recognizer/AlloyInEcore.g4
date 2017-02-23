@@ -101,7 +101,6 @@ import eu.modelwriter.core.alloyinecore.structure.instance.RealValue;
 import eu.modelwriter.core.alloyinecore.structure.instance.BooleanValue;
 import eu.modelwriter.core.alloyinecore.structure.instance.StringValue;
 import eu.modelwriter.core.alloyinecore.structure.instance.NullValue;
-import eu.modelwriter.core.alloyinecore.structure.instance.CharValue;
 
 import eu.modelwriter.core.alloyinecore.structure.constraints.Formula;
 import eu.modelwriter.core.alloyinecore.structure.constraints.Expression;
@@ -141,16 +140,16 @@ private boolean resolveImports = true;
 Repository repository = new Repository();
 
 
-URI saveURI;
+URI uri;
 
-public AlloyInEcoreParser(TokenStream input, URI saveURI){
+public AlloyInEcoreParser(TokenStream input, URI uri){
     this(input);
-    this.saveURI = saveURI;
-    repository = new Repository(saveURI);
+    this.uri = uri;
+    repository = new Repository(uri);
 }
 
-public AlloyInEcoreParser(TokenStream input, URI saveURI, boolean resolveImports){
-    this(input, saveURI);
+public AlloyInEcoreParser(TokenStream input, URI uri, boolean resolveImports){
+    this(input, uri);
     this.resolveImports = resolveImports;
 }
 
@@ -192,8 +191,6 @@ private void createEAnnotation(EModelElement owner, final String source) {
     eAnnotation.setSource(source);
     owner.getEAnnotations().add(eAnnotation);
 }
-
-//private java.util.Stack<Element> owners = new java.util.Stack<>();
 
 }
 
@@ -299,7 +296,6 @@ literalValue[Element owner] locals[Element current]
     |   integerValue [$current]
     |   realValue    [$current]
     |   stringValue  [$current]
-    |   charValue    [$current]
     |   booleanValue [$current]
     |   nullValue    [$current]
     ;
@@ -320,14 +316,11 @@ integerValue[Element owner] locals[IntegerValue current]
 realValue[Element owner] locals[RealValue current]
 @init{$current= new RealValue($ctx); if (owner!=null) $owner.addOwnedElement($current);}
     :('+' | '-')? INT? '.' INT;
+    //EXP?; //1.35,1.35E-9,0.3,-4.5
 
 stringValue[Element owner] locals[StringValue current]
 @init{$current= new StringValue($ctx); if (owner!=null) $owner.addOwnedElement($current);}
     : DOUBLE_QUOTED_STRING;
-
-charValue[Element owner] locals[CharValue current]
-@init{$current= new CharValue($ctx); if (owner!=null) $owner.addOwnedElement($current);}
-    : SINGLE_CHARACTER;
 
 /*  NullValue is intended to be used to explicitly model the lack of a value */
 nullValue[Element owner] locals[NullValue current]
@@ -924,7 +917,7 @@ derivation[Element owner]  returns [EAnnotation element] locals[Derivation curre
 Package-private is default as in Java
 “+” public
 “-“ private
-“#”  protected
+“#” protected
 “~” package
 */
 visibilityKind returns [EAnnotation element]
@@ -938,8 +931,8 @@ So, for example, p => q => r is parsed as p => (q => r), and a.b.c is parsed as 
 */
 
 //Decls, Expression, Formula, IntExpression: kodkod.ast.Node
-formula returns [Formula element] locals[int var=0]
-@init {}
+formula returns [Formula element] locals[List<Variable> variables]
+@init {if($ctx.getParent() instanceof FormulaContext) $variables= $formula::variables ; else $variables= $variables = new ArrayList<>();}
 @after{}:
 
       'no'   expression  {$element = Formula.create($ctx);}                                                                                         #no             //Formula f = expr.no()   --Returns the formula 'no expr'.
@@ -971,7 +964,7 @@ formula returns [Formula element] locals[int var=0]
     //BinaryFormula (AND, IFF, IMPLIES, OR)
     | fleft=formula op=('&&' | 'and' ) fright=formula                         {$element = Formula.create($ctx);}                                    #and            //Formula f = left.and(right)     --Returns the conjunction of left and the specified formula.
     | fleft=formula op=('||' | 'or'  ) fright=formula                         {$element = Formula.create($ctx);}                                    #or             //Formula f = left.or(right)      --Returns the disjunction of left and the specified formula. x => y is true if (and only if) either y is true or x is false
-    | <assoc=right> fleft=formula op=('=>' | 'if' | 'implies') fright=formula {$element = Formula.create($ctx);}                                    #implies        //Formula f = left.implies(right) --Returns the implication of the specified formula by left.
+    | <assoc=right> fleft=formula op=('=>'  | 'implies') fright=formula       {$element = Formula.create($ctx);}                                    #implies        //Formula f = left.implies(right) --Returns the implication of the specified formula by left.
     | <assoc=right> fleft=formula op=('<=>' | 'iff') fright=formula           {$element = Formula.create($ctx);}                                    #iff            //Formula f = left.iff(right)     --Returns a formula that equates left and the specified formula.
 
     | ('all'  quantifierDeclarations  ('|' (formula | '{' formula* '}' ) | '{' formula* '}'))  {$element = Formula.create($ctx);}                   #forAll         //Formula f = formula.forAll(decls)  --Returns a formula that represents a universal quantification of this formula over the given declarations
@@ -1022,7 +1015,7 @@ expression returns [Expression element]
     //all d: decls.decls[int] | decl.variable.arity = 1 and decl.multiplicity = ONE
     | '{' comprehensionDeclarations '|' formula '}' {$element = Expression.create($ctx);}                                                           #comprehension  //Expression f = formula.comprehension(Decls decls) //Returns the comprehension expression constructed from this formula and the given declarations.
 
-    | op=('=>' | 'if') condition=formula 'then' thenExpr=expression 'else' elseExpr=expression  {$element = Expression.create($ctx);}               #ifExpression
+    | 'if' condition=formula 'then' thenExpr=expression 'else' elseExpr=expression  {$element = Expression.create($ctx);}                           #ifExpression
 
     //Constants
     | 'iden'  {$element = Expression.create($ctx);}                                                                                                 #iden           //Expression expr = Expression.IDEN --The identity relation: maps all atoms in a universe of discourse to themselves.
@@ -1036,7 +1029,7 @@ expression returns [Expression element]
     ;
 
 intExpression returns [IntExpression element]:
-      op=('=>' | 'if') condition=formula 'then' thenExpr=intExpression 'else' elseExpr=intExpression {$element = IntExpression.create($ctx);}       #ifIntExpression
+      'if' condition=formula 'then' thenExpr=intExpression 'else' elseExpr=intExpression {$element = IntExpression.create($ctx);}                   #ifIntExpression
     | 'sum' expression      {$element = IntExpression.create($ctx);}                                                                                #sum            //IntExpression iexpr = exp.sum();            --Returns the sum of the integer atoms in this expression.
     | '#'   expression      {$element = IntExpression.create($ctx);}                                                                                #count          //IntExpression iexpr = exp.count();          --Returns the cardinality(the number of elements in the set) of this expression
     | ileft=intExpression ('+' | 'plus')   iright=intExpression {$element = IntExpression.create($ctx);}                                            #plus           //IntExpression iexpr = this.plus(intExpr);   --Returns an IntExpression that represents the sum of this and the given int node
@@ -1080,7 +1073,13 @@ comprehensionDeclaration returns [ComprehensionDeclaration element]:
     {$element = new ComprehensionDeclaration($ctx); for(VariableContext ctx: $ctx.variable()) $element.addOwnedElements(ctx.element); $element.addOwnedElements($expression.element);};
 
 relationId: unrestrictedName;
-variable returns [Variable element]: unrestrictedName {$element = new Variable($ctx);};
+
+/*
+bound variables may shadow each other, and may shadow field names. Conventional lexical scoping
+applies, with the innermost binding taking precedence.
+*/
+variable returns [Variable element]
+@init{}: unrestrictedName {$element = new Variable($ctx);};
 
 /* Default multiplicity constraint is set*/
 mult: 'set' | 'one' | 'lone' | 'some';
@@ -1128,7 +1127,7 @@ unrestrictedName:
     |	'serializable'
     |	'annotation'
     |	'model'
-
+    |	'instance'
 ;
 
 identifier: IDENTIFIER;
@@ -1137,7 +1136,6 @@ lower: INT;
 
 INT :   DIGIT+ ;
 IDENTIFIER : (UNDERSCORE | LETTER) (LETTER | APOSTROPHE | DIGIT | UNDERSCORE | DOLLAR)* ;
-SINGLE_CHARACTER: '\'' ~['\\] '\'';
 DOUBLE_QUOTED_STRING: '"' ( ESCAPED_CHARACTER | ~('\\' | '"' ) )* '"'  ;
 SINGLE_QUOTED_STRING: '\'' ( ESCAPED_CHARACTER | ~('\'' | '\\') )* '\'' ;
 
@@ -1149,6 +1147,7 @@ fragment APOSTROPHE: '\'';
 fragment DOLLAR: '$';
 fragment EXCLAMINATION_MARK: '!';
 fragment MINUS: '-';
+fragment EXP: [Ee][+\-]? INT;
 ML_SINGLE_QUOTED_STRING : '\'' .*? '\'' -> skip;
 MULTILINE_COMMENT : '/*' .*? '*/' -> skip;
 SINGLELINE_COMMENT : ('--' | '//') .*? '\r'? '\n' -> skip;
