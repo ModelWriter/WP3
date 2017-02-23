@@ -5,19 +5,25 @@ import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.editors.text.TextEditor;
 
+import eu.modelwriter.core.alloyinecore.structure.base.Element;
 import eu.modelwriter.core.alloyinecore.ui.Activator;
 
 public class AIEHyperlink implements IHyperlink {
 
-  private Region region;
+  private final Element targetElement;
+  private final Element linkElement;
 
-  public AIEHyperlink(int start, int stop) {
-    region = new Region(start, stop - start + 1);
+  public AIEHyperlink(final Element targetElement, final Element linkElement) {
+    this.targetElement = targetElement;
+    this.linkElement = linkElement;
   }
 
   @Override
   public IRegion getHyperlinkRegion() {
-    return region;
+    if (linkElement != null) {
+      return new Region(linkElement.getStart(), linkElement.getStop() - linkElement.getStart() + 1);
+    }
+    return null;
   }
 
   @Override
@@ -32,10 +38,13 @@ public class AIEHyperlink implements IHyperlink {
 
   @Override
   public void open() {
-    TextEditor editor =
+    final TextEditor editor =
         (TextEditor) Activator.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-    editor.selectAndReveal(20, 2);
-    editor.setFocus();
+    if (targetElement != null) {
+      editor.selectAndReveal(targetElement.getStart(),
+          targetElement.getStop() - targetElement.getStart() + 1);
+      editor.setFocus();
+    }
   }
 
 }

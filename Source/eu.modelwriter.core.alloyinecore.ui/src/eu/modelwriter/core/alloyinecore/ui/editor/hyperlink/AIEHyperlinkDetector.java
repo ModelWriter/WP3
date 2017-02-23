@@ -3,113 +3,95 @@ package eu.modelwriter.core.alloyinecore.ui.editor.hyperlink;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
 import org.eclipse.jface.text.source.ISourceViewer;
 
-import eu.modelwriter.core.alloyinecore.structure.model.Class;
-import eu.modelwriter.core.alloyinecore.structure.model.GenericElementType;
-import eu.modelwriter.core.alloyinecore.structure.model.GenericSuperType;
-import eu.modelwriter.core.alloyinecore.structure.model.GenericType;
-import eu.modelwriter.core.alloyinecore.structure.model.GenericWildcard;
+import eu.modelwriter.core.alloyinecore.structure.base.Element;
+import eu.modelwriter.core.alloyinecore.structure.base.INavigable;
+import eu.modelwriter.core.alloyinecore.structure.base.ITarget;
+import eu.modelwriter.core.alloyinecore.structure.model.RootPackage;
 import eu.modelwriter.core.alloyinecore.ui.editor.AIEEditor;
-import eu.modelwriter.core.alloyinecore.visitor.BaseVisitorImpl;
+import eu.modelwriter.core.alloyinecore.ui.editor.util.EditorUtils;
+import eu.modelwriter.core.alloyinecore.visitor.ElementVisitorImpl;
 
 public class AIEHyperlinkDetector implements IHyperlinkDetector {
 
-  @SuppressWarnings("unused")
-  private ISourceViewer sourceViewer;
+  private final ISourceViewer sourceViewer;
   public AIEEditor editor;
-  private List<IHyperlink> hyperlinks = null;
 
-  public AIEHyperlinkDetector(ISourceViewer sourceViewer, AIEEditor fTextEditor) {
+  public AIEHyperlinkDetector(final ISourceViewer sourceViewer, final AIEEditor fTextEditor) {
     this.sourceViewer = sourceViewer;
     editor = fTextEditor;
   }
 
-  private void loadLinks() {
-    TypeVisitor typeVisitor = new TypeVisitor(editor);
-    typeVisitor.visit(editor.getRootElement());
-    hyperlinks = typeVisitor.getLinks();
-  }
-
   @Override
-  public IHyperlink[] detectHyperlinks(ITextViewer textViewer, IRegion region,
-      boolean canShowMultipleHyperlinks) {
-    if (hyperlinks == null)
-      loadLinks();
+  public IHyperlink[] detectHyperlinks(final ITextViewer textViewer, final IRegion region,
+      final boolean canShowMultipleHyperlinks) {
+    Element linkElement = null;
+    try {
+      linkElement = EditorUtils.findElement(editor.getRootElement(),
+          sourceViewer.getDocument().getLineOfOffset(region.getOffset()) + 1, region.getOffset());
+    } catch (BadLocationException | NullPointerException e) {
+      e.printStackTrace();
+    }
 
-    List<IHyperlink> result = new ArrayList<>();
-    for (IHyperlink iHyperlink : hyperlinks) {
-      if (overlaps(iHyperlink.getHyperlinkRegion(), region))
-        result.add(iHyperlink);
-      if (result.size() == 1 && !canShowMultipleHyperlinks)
-        break;
+    final List<IHyperlink> result = new ArrayList<>();
+    if (linkElement != null) {
+      final TargetVisitor targetVisitor =
+          new TargetVisitor(editor.getRootElement().getOwnedElement(RootPackage.class),
+              linkElement);
+      targetVisitor.visit(editor.getRootElement());
+      final Element targetElement = targetVisitor.getTarget();
+
+      if (targetElement != null && !targetElement.equals(linkElement)) {
+        final AIEHyperlink aieHyperlink = new AIEHyperlink(targetElement, linkElement);
+        result.add(aieHyperlink);
+      }
     }
     return result.toArray(new IHyperlink[0]);
   }
 
-  private boolean overlaps(IRegion r1, IRegion r2) {
-    int r1End = r1.getOffset() + r1.getLength();
-    int r2End = r2.getOffset() + r2.getLength();
-    return r2.getOffset() >= r1.getOffset() && r2End <= r1End;
-  }
+  private static class TargetVisitor extends ElementVisitorImpl<Object> {
 
-  private static class TypeVisitor extends BaseVisitorImpl<Object> {
+    @SuppressWarnings("rawtypes")
+    private Element target = null;
+    @SuppressWarnings("rawtypes")
+    private final Element rootElement;
+    @SuppressWarnings("rawtypes")
+    private final Element linkElement;
 
-    private List<IHyperlink> links = new ArrayList<>();
-    private AIEEditor editor;
-
-    public TypeVisitor(AIEEditor fTextEditor) {
-      editor = fTextEditor;
-    }
-
-    public List<IHyperlink> getLinks() {
-      return links;
-    }
-
-    @Override
-    public Object visitClass(Class _class) {
-      EObjectHyperlink oHyperlink =
-          new EObjectHyperlink(_class.getStart(), _class.getStop(), _class.getEObject(), editor);
-      links.add(oHyperlink);
-      return super.visitClass(_class);
-    }
-
-    @Override
-    public Object visitGenericElementType(GenericElementType genericElementType) {
-      addToLinks(genericElementType);
-      return super.visitGenericElementType(genericElementType);
-    }
-
-    @Override
-    public Object visitGenericSuperType(GenericSuperType genericSuperType) {
-      addToLinks(genericSuperType);
-      return super.visitGenericSuperType(genericSuperType);
-    }
-
-    @Override
-    public Object visitGenericWildcard(GenericWildcard genericWildcard) {
-      addToLinks(genericWildcard);
-      return super.visitGenericWildcard(genericWildcard);
-    }
-
-    @Override
-    public Object visitGenericType(GenericType genericType) {
-      addToLinks(genericType);
-      return super.visitGenericType(genericType);
+    @SuppressWarnings("rawtypes")
+    public TargetVisitor(final Element rootElement, final Element linkElement) {
+      this.rootElement = rootElement;
+      this.linkElement = linkElement;
     }
 
     @SuppressWarnings("rawtypes")
-    private void addToLinks(eu.modelwriter.core.alloyinecore.structure.base.Object element) {
-      AIEHyperlink aieHyperlink = new AIEHyperlink(element.getStart(), element.getStop());
-      EObjectHyperlink oHyperlink =
-          new EObjectHyperlink(element.getStart(), element.getStop(), element.getEObject(), editor);
-      links.add(aieHyperlink);
-      links.add(oHyperlink);
+    public Element getTarget() {
+      return target;
     }
-  }
 
+    @Override
+    public Object visitElement(final Element element) {
+      if (element instanceof ITarget) {
+        final String relativeSegment =
+            rootElement.getToken().getText() + "::" + ((ITarget) element).getRelativeSegment();
+        if (linkElement instanceof INavigable) {
+          String link = ((INavigable) linkElement).getPathName();
+          if (!link.startsWith(rootElement.getToken().getText() + "::")) {
+            link = rootElement.getToken().getText() + "::" + link;
+          }
+          if (relativeSegment.equals(link)) {
+            target = element;
+          }
+        }
+      }
+      return super.visitElement(element);
+    }
+
+  }
 }
