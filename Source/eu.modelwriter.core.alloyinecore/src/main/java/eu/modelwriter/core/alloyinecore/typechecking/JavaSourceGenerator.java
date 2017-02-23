@@ -205,20 +205,19 @@ public class JavaSourceGenerator {
         String className = checkName(dataType.getToken().getText());
         appendWithToken(className, dataType.getToken());
         appendTypeParameters(dataType.getOwnedElements(TypeParameter.class));
-        String className = ((DataType) dataType).getInstanceClassName();
-        if (className != null && !isJavaPrimitive(className) && className.startsWith("java.")) {
-            String eori = " extends ";
-            try {
-                java.lang.Class<?> aClass = java.lang.Class.forName(className);
-                eori = aClass != null && aClass.isInterface() ? " implements " : " extends ";
-            } catch (ClassNotFoundException ignored) {
-            }
-            builder.append(eori);
-            builder.append(className);
-            builder.append(dataType.getLabel().replace(dataType.getToken().getText(), ""));
-        }
         builder.append(newLine());
         builder.append("{");
+        String instanceClsName = ((DataType) dataType).getInstanceClassName();
+        if (instanceClsName != null && !isJavaPrimitive(instanceClsName) && instanceClsName.startsWith("java.")) {
+            builder.append("\t");
+            builder.append(newLine());
+            builder.append(className);
+            builder.append("(");
+            String typeParams = dataType.getLabel().replace(dataType.getToken().getText(), "");
+            appendWithToken(instanceClsName + typeParams, ((DataType) dataType).getContext().instanceClassName);
+            builder.append(" arg");
+            builder.append("){}");
+        }
         builder.append(newLine());
         builder.append("}");
     }
