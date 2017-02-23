@@ -201,16 +201,16 @@ public class JavaSourceGenerator {
 
     private void appendDataType(Element<? extends ParserRuleContext> dataType) {
         appendVisibility(dataType);
-        builder.append("abstract class ");
+        builder.append("class ");
         String className = checkName(dataType.getToken().getText());
         appendWithToken(className, dataType.getToken());
         appendTypeParameters(dataType.getOwnedElements(TypeParameter.class));
         builder.append(newLine());
         builder.append("{");
         String instanceClsName = ((DataType) dataType).getInstanceClassName();
-        if (instanceClsName != null && !isJavaPrimitive(instanceClsName) && instanceClsName.startsWith("java.")) {
-            builder.append("\t");
+        if (instanceClsName != null && (instanceClsName.startsWith("java.") || !instanceClsName.contains("."))) {
             builder.append(newLine());
+            builder.append("\t");
             builder.append(className);
             builder.append("(");
             String typeParams = dataType.getLabel().replace(dataType.getToken().getText(), "");
