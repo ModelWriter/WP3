@@ -20,10 +20,11 @@ import eu.modelwriter.core.alloyinecore.structure.base.Element;
 import eu.modelwriter.core.alloyinecore.structure.model.Multiplicity;
 import eu.modelwriter.core.alloyinecore.ui.ASTChangeListener;
 import eu.modelwriter.core.alloyinecore.ui.ASTManager;
+import eu.modelwriter.core.alloyinecore.ui.editor.AIEEditor;
 
 public class AIEContentOutlinePage extends ContentOutlinePage implements ASTChangeListener {
 
-  private final TextEditor aieEditor;
+  private final AIEEditor aieEditor;
   private TreeViewer viewer;
   private StructuredSelection selection;
   private int selectionOffset;
@@ -31,7 +32,7 @@ public class AIEContentOutlinePage extends ContentOutlinePage implements ASTChan
 
   public AIEContentOutlinePage(final IDocumentProvider documentProvider,
       final TextEditor alloyInEcoreEditor, ASTManager manager) {
-    aieEditor = alloyInEcoreEditor;
+    aieEditor = (AIEEditor) alloyInEcoreEditor;
     manager.addChangeListener(this);
   }
 
@@ -108,8 +109,9 @@ public class AIEContentOutlinePage extends ContentOutlinePage implements ASTChan
 
       @Override
       public void run() {
-        if (viewer != null) {
+        if (viewer != null && !viewer.getControl().isDisposed()) {
           viewer.refresh(true);
+          aieEditor.handleCursor();
         }
       }
     });

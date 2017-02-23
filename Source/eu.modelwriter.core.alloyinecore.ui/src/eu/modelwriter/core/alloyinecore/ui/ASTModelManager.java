@@ -1,8 +1,10 @@
 package eu.modelwriter.core.alloyinecore.ui;
 
+import java.io.File;
 import java.util.Set;
 
 import org.antlr.v4.runtime.Token;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.URI;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser;
@@ -22,7 +24,9 @@ public class ASTModelManager extends ASTManager {
     parser.model();
     changeListeners.forEach(l -> l.onASTChange(parser.model));
     if (!hasSyntaxError) {
-      TypeChecker checker = new TypeChecker();
+      String outDir = ResourcesPlugin.getWorkspace().getRoot().getLocation().toOSString()
+          + File.separator + ".modelwriter" + File.separator + "java";
+      TypeChecker checker = new TypeChecker(outDir, true);
       checker.addErrorListener(new TypeErrorListener() {
 
         @Override

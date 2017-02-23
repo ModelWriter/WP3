@@ -2,8 +2,7 @@ package eu.modelwriter.core.alloyinecore.ui.editor.instance;
 
 import java.util.Set;
 
-import eu.modelwriter.core.alloyinecore.ui.ASTManager;
-import eu.modelwriter.core.alloyinecore.ui.Activator;
+import eu.modelwriter.core.alloyinecore.ui.ASTInstanceManager;
 import eu.modelwriter.core.alloyinecore.ui.editor.AIEEditor;
 import eu.modelwriter.core.alloyinecore.ui.editor.instance.document.AIEInstanceDocumentProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.instance.scanner.AIEInstanceCodeScanner;
@@ -33,10 +32,7 @@ public class AIEInstanceEditor extends AIEEditor {
       }
     });
     setDocumentProvider(provider);
+    astManager = new ASTInstanceManager();
   }
 
-  @Override
-  protected ASTManager getManagerForEditor() {
-    return Activator.getDefault().getInstanceManager();
-  }
 }

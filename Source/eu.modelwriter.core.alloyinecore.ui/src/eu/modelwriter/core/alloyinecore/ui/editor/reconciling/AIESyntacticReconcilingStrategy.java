@@ -23,9 +23,7 @@ import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import eu.modelwriter.core.alloyinecore.structure.base.Element;
 import eu.modelwriter.core.alloyinecore.ui.ASTErrorListener;
-import eu.modelwriter.core.alloyinecore.ui.Activator;
 import eu.modelwriter.core.alloyinecore.ui.editor.AIEEditor;
 
 public class AIESyntacticReconcilingStrategy
@@ -48,7 +46,7 @@ public class AIESyntacticReconcilingStrategy
   }
 
   protected void attachErrorListener() {
-    Activator.getDefault().getModelManager().addErrorListener(this);
+    ((AIEEditor) editor).getASTManager().addErrorListener(this);
   }
 
   protected IAnnotationModel getAnnotationModel() {
@@ -110,7 +108,7 @@ public class AIESyntacticReconcilingStrategy
     try {
       URI uri = URI.createPlatformResourceURI(iFile.getFullPath().toString(), true);
       removeOldAnnotations();
-      Activator.getDefault().getModelManager().parseDocument(document, uri);
+      ((AIEEditor) editor).getASTManager().parseDocument(document, uri);
     } catch (final Exception e1) {
       e1.printStackTrace();
     }
@@ -135,7 +133,7 @@ public class AIESyntacticReconcilingStrategy
 
   @Override
   public void onSyntaxError(Token offendingSymbol, String msg) {
-    createAnnotation((Token) offendingSymbol, msg, AIEEditor.PARSER_ERROR_ANNOTATION);
+    createAnnotation(offendingSymbol, msg, AIEEditor.PARSER_ERROR_ANNOTATION);
   }
 
   @Override

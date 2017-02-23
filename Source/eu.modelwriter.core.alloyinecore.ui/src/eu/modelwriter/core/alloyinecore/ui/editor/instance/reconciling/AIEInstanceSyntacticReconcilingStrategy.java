@@ -16,11 +16,6 @@ public class AIEInstanceSyntacticReconcilingStrategy extends AIESyntacticReconci
   }
 
   @Override
-  protected void attachErrorListener() {
-    Activator.getDefault().getInstanceManager().addErrorListener(this);
-  }
-
-  @Override
   public void reconcile(final IRegion partition) {
     try {
       URI uri = URI.createPlatformResourceURI(iFile.getFullPath().toString(), true);

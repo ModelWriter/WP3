@@ -28,7 +28,7 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 import eu.modelwriter.core.alloyinecore.structure.base.Element;
 import eu.modelwriter.core.alloyinecore.ui.ASTChangeListener;
 import eu.modelwriter.core.alloyinecore.ui.ASTManager;
-import eu.modelwriter.core.alloyinecore.ui.Activator;
+import eu.modelwriter.core.alloyinecore.ui.ASTModelManager;
 import eu.modelwriter.core.alloyinecore.ui.editor.color.AIEColorManager;
 import eu.modelwriter.core.alloyinecore.ui.editor.document.AIEDocument;
 import eu.modelwriter.core.alloyinecore.ui.editor.document.AIEDocumentProvider;
@@ -52,6 +52,7 @@ public class AIEEditor extends TextEditor implements ASTChangeListener {
 
   @SuppressWarnings("rawtypes")
   protected Element rootElement;
+  protected ASTManager astManager;
   protected AIEColorManager aIEColorManager;
   private AIEContentOutlinePage outlinePage;
   private ProjectionAnnotationModel annotationModel;
@@ -64,19 +65,24 @@ public class AIEEditor extends TextEditor implements ASTChangeListener {
 
   public AIEEditor() {
     aIEColorManager = new AIEColorManager();
-    getManagerForEditor().addChangeListener(this);
     initEditor();
+    getASTManager().addChangeListener(this);
   }
 
   protected void initEditor() {
     setSourceViewerConfiguration(
         new AIESourceViewerConfiguration(aIEColorManager, this, IAIEPartitions.AIE_PARTITIONING));
     setDocumentProvider(new AIEDocumentProvider());
+    astManager = new ASTModelManager();
   }
 
   @SuppressWarnings("rawtypes")
   public Element getRootElement() {
     return rootElement;
+  }
+
+  public ASTManager getASTManager() {
+    return astManager;
   }
 
   @Override
@@ -116,11 +122,16 @@ public class AIEEditor extends TextEditor implements ASTChangeListener {
       if (outlinePage != null && offset != outlinePage.getSelectionOffset()) {
         outlinePage.selectElement(findElement(line + 1, offset));
       }
-    } catch (final NumberFormatException | ArrayIndexOutOfBoundsException e) {
-      e.printStackTrace();
+    } catch (final NumberFormatException | ArrayIndexOutOfBoundsException
+        | NullPointerException e) {
+      // e.printStackTrace();
     } catch (final BadLocationException e) {
       e.printStackTrace();
     }
+  }
+
+  public void handleCursor() {
+    handleCursorPositionChanged();
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})
@@ -184,7 +195,7 @@ public class AIEEditor extends TextEditor implements ASTChangeListener {
   public <T> T getAdapter(final Class<T> adapter) {
     if (IContentOutlinePage.class.equals(adapter)) {
       if (outlinePage == null) {
-        outlinePage = new AIEContentOutlinePage(getDocumentProvider(), this, getManagerForEditor());
+        outlinePage = new AIEContentOutlinePage(getDocumentProvider(), this, getASTManager());
         if (rootElement != null) {
           outlinePage.refresh(rootElement);
         }
@@ -194,9 +205,6 @@ public class AIEEditor extends TextEditor implements ASTChangeListener {
     return super.getAdapter(adapter);
   }
 
-  protected ASTManager getManagerForEditor() {
-    return Activator.getDefault().getModelManager();
-  }
 
   @SuppressWarnings({"rawtypes"})
   public Element findElement(final int line, final int offset) {
@@ -233,13 +241,14 @@ public class AIEEditor extends TextEditor implements ASTChangeListener {
   @SuppressWarnings("rawtypes")
   @Override
   public void onASTChange(Element model) {
-    this.rootElement = model;
+    rootElement = model;
     Display.getDefault().asyncExec(new Runnable() {
 
       @Override
       public void run() {
         // Update folding positions
         projectionAnnotations.clear();
+        // handleCursorPositionChanged();
       }
     });
   }
