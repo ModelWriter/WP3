@@ -4,6 +4,12 @@ import Ecore : 'http://www.eclipse.org/emf/2002/Ecore';
 
 package tutorial : tut = 'http://www.eclipse.org/mdt/ocl/oclinecore/tutorial'
 {
+    annotation 'http://www.eclipse.org/emf/2002/Ecore'
+    (
+        'invocationDelegates' = 'http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot',
+        'settingDelegates' = 'http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot',
+        'validationDelegates' = 'http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot'
+    );
     public class Library
     {
         attribute name : String
@@ -19,26 +25,26 @@ package tutorial : tut = 'http://www.eclipse.org/mdt/ocl/oclinecore/tutorial'
     }
     class Book
     {
-        attribute name : String;
-        attribute copies : UnlimitedNatural;
+        invariant importantConstraint ("multi
+                                        lined
+                                        message");
         operation isAvailable(param1 : Boolean[?], param2 : Book[?]) : Boolean[?]
         {
             body; 
             ensures sup ("this is a precondition");
         }
+        attribute name : String;
+        attribute copies : UnlimitedNatural;
         property library#books : Library[?];
         volatile property loans : Loan[*] { derived }
         {
             derivation : library.loans->select;
         }
-        invariant importantConstraint ("multi
-                                        lined
-                                        message");
     }
     class Member
     {
-        attribute name : String;
         operation tespOP();
+        attribute name : String;
         property library#members : Library[?];
         volatile property loans : Loan[*] { derived }
         {
@@ -51,16 +57,23 @@ package tutorial : tut = 'http://www.eclipse.org/mdt/ocl/oclinecore/tutorial'
     }
     class Loan
     {
-        attribute date : Ecore::EDate[?];
-        property book : tutorial::Organization::SubOrg1::sb1C;
-        property member : Member;
         annotation
         {
             reference tutorial::Organization::Librarian::orgOpp;
         }
+        attribute date : Ecore::EDate[?];
+        property book : tutorial::Organization::SubOrg1::sb1C;
+        property member : Member;
     }
     package Organization : org = 'http://www.eclipse.org/mdt/ocl/oclinecore/tutorial/organization'
     {
+        annotation 'extAnno'
+        {
+            reference extlibrary::Item;
+            reference FordOtosan::Container::vehicle;
+            reference extlibrary::Item::publicationDate;
+            reference FordOtosan::Vehicle::ElectricalPowerSupplySystem::ElectricalPowerSupplySystem::electricalPowerSupplySystemPart;
+        }
         enum Type { !serializable }
         {
             literal asd = 0;
@@ -83,18 +96,5 @@ package tutorial : tut = 'http://www.eclipse.org/mdt/ocl/oclinecore/tutorial'
         {
             class sb2C;
         }
-        annotation 'extAnno'
-        {
-            reference extlibrary::Item;
-            reference extlibrary::Item::publicationDate;
-            reference FordOtosan::Container::vehicle;
-            reference FordOtosan::Vehicle::ElectricalPowerSupplySystem::ElectricalPowerSupplySystem::electricalPowerSupplySystemPart;
-        }
     }
-    annotation 'http://www.eclipse.org/emf/2002/Ecore'
-    (
-        'invocationDelegates' = 'http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot',
-        'settingDelegates' = 'http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot',
-        'validationDelegates' = 'http://www.eclipse.org/emf/2002/Ecore/OCL/Pivot'
-    );
 }

@@ -2,26 +2,40 @@ import Ecore : 'http://www.eclipse.org/emf/2002/Ecore';
 
 package TestPackage : tp = 'www.testpackage.org'
 {
+    annotation 'www.annotation.test'
+    (
+        'testKey2' = 'testValue2',
+        'testKey' = 'testValue'
+    )
+    {
+        annotation 'www.sub.annotation.test'
+        (
+            'testKey' = 'testValue'
+        )
+        {
+            reference TestPackage::SubPackage::SubTestClass;
+        }
+    }
     class TestClass : 'TCname'
     {
-        attribute testAttr : Boolean[?] = 'false'
-        {
-            annotation 'www.annotation.test';
-        }
-        operation testOp()
-        {
-            annotation 'www.annotation.test';
-        }
-        property testRef : TestPackage::SubPackage::SubTestClass[?]
-        {
-            annotation 'www.annotation.test';
-        }
         annotation 'www.annotation.test'
         {
             annotation 'www.sub.annotation.test'
             {
                 reference TestPackage::TestDataType;
             }
+        }
+        operation testOp()
+        {
+            annotation 'www.annotation.test';
+        }
+        attribute testAttr : Boolean[?] = 'false'
+        {
+            annotation 'www.annotation.test';
+        }
+        property testRef : TestPackage::SubPackage::SubTestClass[?]
+        {
+            annotation 'www.annotation.test';
         }
     }
     enum TestEnum : 'TEname' { !serializable }
@@ -34,6 +48,7 @@ package TestPackage : tp = 'www.testpackage.org'
     }
     package SubPackage : sp = 'www.sub.testpackage.org'
     {
+        annotation 'www.annotation.test';
         class SubTestClass
         {
             annotation 'www.annotation.test';
@@ -52,21 +67,6 @@ package TestPackage : tp = 'www.testpackage.org'
             {
                 annotation 'www.sub.annotation.test';
             }
-        }
-        annotation 'www.annotation.test';
-    }
-    annotation 'www.annotation.test'
-    (
-        'testKey' = 'testValue',
-        'testKey2' = 'testValue2'
-    )
-    {
-        annotation 'www.sub.annotation.test'
-        (
-            'testKey' = 'testValue'
-        )
-        {
-            reference TestPackage::SubPackage::SubTestClass;
         }
     }
 }
