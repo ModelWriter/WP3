@@ -11,7 +11,7 @@ import org.eclipse.ui.editors.text.FileDocumentProvider;
 import org.eclipse.ui.part.FileEditorInput;
 
 import eu.modelwriter.configuration.internal.EcoreUtilities;
-import eu.modelwriter.core.alloyinecore.ui.mapping.as2cs.EcoreTranslator;
+import eu.modelwriter.core.alloyinecore.translator.EcoreTranslator;
 
 public class AIEDocumentProvider extends FileDocumentProvider {
   private final EcoreTranslator translator;

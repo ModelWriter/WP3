@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import eu.modelwriter.core.alloyinecore.internal.AnnotationSources;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreBaseVisitor;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreLexer;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser;
@@ -78,7 +79,6 @@ import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.Postcondit
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.PreconditionContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.TemplateSignatureContext;
 import eu.modelwriter.core.alloyinecore.ui.mapping.AIEConstants;
-import eu.modelwriter.core.alloyinecore.ui.mapping.AnnotationSources;
 
 public class CS2ASMapping extends AlloyInEcoreBaseVisitor<Object> {
 

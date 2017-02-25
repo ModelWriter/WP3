@@ -8,8 +8,7 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.junit,
  eu.modelwriter.configuration,
  org.eclipse.emf.ecore.xmi;bundle-version="2.12.0"
-Export-Package: eu.modelwriter.core.alloyinecore.ui.mapping.as2cs,
- eu.modelwriter.core.alloyinecore.ui.mapping.cs2as
+Export-Package: eu.modelwriter.core.alloyinecore.ui.mapping.cs2as
 Bundle-ClassPath: .,
  lib/antlr-4.6-complete.jar,
  lib/eu.modelwriter.core.alloyinecore.jar,
