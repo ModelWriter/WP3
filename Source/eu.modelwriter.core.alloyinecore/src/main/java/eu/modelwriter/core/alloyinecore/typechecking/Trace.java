@@ -28,13 +28,13 @@ public class Trace {
     }
 
     public boolean overlaps(Diagnostic diagnostic) {
+        int start = (int) (diagnostic.getStartPosition() - 1);
+        int stop = (int) (diagnostic.getEndPosition() - 1);
         return ((JavaSourceFromString) diagnostic.getSource()).getRawName().equals(fileName) &&
-                startOffset <= diagnostic.getStartPosition() - 1
-                && diagnostic.getEndPosition() - 1 <= endOffset
-                && diagnostic.getLineNumber() - 1 == lineNumber;
+                offsetOverlaps(start, stop) && diagnostic.getLineNumber() - 1 == lineNumber;
     }
 
-    public boolean overlaps(int start, int end) {
-        return startOffset <= start && end <= endOffset;
+    public boolean offsetOverlaps(int start, int stop) {
+        return (start >= startOffset && stop <= endOffset);
     }
 }

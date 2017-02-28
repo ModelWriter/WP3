@@ -183,8 +183,7 @@ public class JavaSourceGenerator {
 
     private void appendEnum(Element<? extends ParserRuleContext> anEnum) {
         appendVisibility(anEnum);
-        builder.append("enum ");
-        appendWithToken(checkName(anEnum.getToken().getText()), anEnum.getToken());
+        appendWithToken("enum " + checkName(anEnum.getToken().getText()), anEnum.getToken());
 
         builder.append(newLine());
         builder.append("{");
@@ -204,9 +203,8 @@ public class JavaSourceGenerator {
 
     private void appendDataType(Element<? extends ParserRuleContext> dataType) {
         appendVisibility(dataType);
-        builder.append("class ");
         String className = checkName(dataType.getToken().getText());
-        appendWithToken(className, dataType.getToken());
+        appendWithToken("class " + className, dataType.getToken());
         appendTypeParameters(dataType.getOwnedElements(TypeParameter.class));
         builder.append(newLine());
         builder.append("{");
@@ -271,25 +269,29 @@ public class JavaSourceGenerator {
                 .forEach(this::appendImport);
     }
 
-
     private String appendImport(INavigable navigable) {
         String pathName = navigable.getPathName();
+        String importText;
         if (isPrimitive(pathName) || isTypeParameter(navigable, pathName) || pathName.equals("?") || pathName.isEmpty())
             return "";
-
-        ITarget importedTarget = importedTargets.stream()
-                .filter(t -> t.getRelativeSegment().equals(pathName))
-                .findFirst()
-                .orElse(null);
-        String importText;
-        if (importedTarget != null) {
-            JavaSourceFromString generated = getImportGenerator().generateInterface((Element<? extends ParserRuleContext>) importedTarget);
-            generatedFiles.add(generated);
-            traces.addAll(getImportGenerator().getTraces());
-            // And use its path for import
-            importText = generated.getRawName().replaceAll("/", ".");
+        Element root = ((Element) navigable).getOwner(RootPackage.class);
+        if (root != null && pathName.startsWith(root.getToken().getText())) {
+            importText = pathName.replaceAll("::", ".");
         } else {
-            importText = currentPackageName + "." + pathName.replaceAll("::", ".");
+            ITarget importedTarget = importedTargets.stream()
+                    .filter(t -> t.getRelativeSegment().equals(pathName))
+                    .findFirst()
+                    .orElse(null);
+            if (importedTarget != null) {
+                JavaSourceFromString generated = getImportGenerator().generateInterface((Element<? extends ParserRuleContext>) importedTarget);
+                generatedFiles.add(generated);
+                traces.addAll(getImportGenerator().getTraces());
+                // And use its path for import
+                importText = generated.getRawName().replaceAll("/", ".");
+            } else {
+                importText = pathName.startsWith(currentPackageName) ? pathName.replaceAll("::", ".") :
+                        currentPackageName + "." + pathName.replaceAll("::", ".");
+            }
         }
         builder.append("import ");
         appendWithToken(importText, ((Element) navigable).getToken());
@@ -314,7 +316,6 @@ public class JavaSourceGenerator {
 
     private void appendInterface(Element<? extends ParserRuleContext> element) {
         appendVisibility(element);
-        builder.append("interface ");
         // Append Class label as interface name
         appendInterfaceName(element);
         appendSuperTypes(element);
@@ -435,8 +436,20 @@ public class JavaSourceGenerator {
     private void appendGenericElementType(INavigable type) {
         String typeName = type.getPathName();
         if (typeName.contains("::")) typeName = typeName.substring(typeName.lastIndexOf("::") + 2);
-        appendWithToken(typeName, ((Element) type).getToken());
+        appendWithToken(handlePrimitives(typeName), ((Element) type).getToken());
         appendGenericTypeArgument((Element<?>) type);
+    }
+
+    private String handlePrimitives(String typeName) {
+        if (typeName.equals("Real"))
+            return "double";
+        if (typeName.equals("UnlimitedNatural"))
+            return "int";
+        if (typeName.equals("Integer"))
+            return "int";
+        if (typeName.equals("Boolean"))
+            return "boolean";
+        return typeName;
     }
 
     private void appendStructuralFeatures(Element<? extends ParserRuleContext> element) {
@@ -459,8 +472,8 @@ public class JavaSourceGenerator {
 
     private void appendInterfaceName(Element<? extends ParserRuleContext> element) {
         int baseIndex = builder.length() - 1;
-        String baseText = element.getLabel();
-        builder.append(element.getLabel());
+        String baseText = "interface " + element.getLabel();
+        builder.append(baseText);
         // Trace of Class name
         addTrace(baseText, baseIndex, element.getToken().getText(), element.getToken());
         element.getOwnedElements(TypeParameter.class).forEach(tp -> {
