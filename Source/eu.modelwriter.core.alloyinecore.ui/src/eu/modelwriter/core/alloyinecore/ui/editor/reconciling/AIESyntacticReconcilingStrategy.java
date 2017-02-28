@@ -24,6 +24,7 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 import eu.modelwriter.core.alloyinecore.ui.ASTErrorListener;
+import eu.modelwriter.core.alloyinecore.ui.ASTManager;
 import eu.modelwriter.core.alloyinecore.ui.editor.AIEEditor;
 
 public class AIESyntacticReconcilingStrategy
@@ -35,18 +36,15 @@ public class AIESyntacticReconcilingStrategy
   protected IDocument document;
   protected final IFile iFile;
   protected boolean noErrors;
-
+  protected ASTManager astManager;
 
   public AIESyntacticReconcilingStrategy(final ISourceViewer sourceViewer,
       final ITextEditor editor) {
     this.sourceViewer = sourceViewer;
     this.editor = editor;
     iFile = editor.getEditorInput().getAdapter(IFile.class);
-    attachErrorListener();
-  }
-
-  protected void attachErrorListener() {
-    ((AIEEditor) editor).getASTManager().addErrorListener(this);
+    astManager = ((AIEEditor) editor).getASTManager();
+    astManager.addErrorListener(this);
   }
 
   protected IAnnotationModel getAnnotationModel() {
@@ -108,7 +106,7 @@ public class AIESyntacticReconcilingStrategy
     try {
       URI uri = URI.createPlatformResourceURI(iFile.getFullPath().toString(), true);
       removeOldAnnotations();
-      ((AIEEditor) editor).getASTManager().parseDocument(document, uri);
+      astManager.parseDocument(document, uri);
     } catch (final Exception e1) {
       e1.printStackTrace();
     }
@@ -138,14 +136,12 @@ public class AIESyntacticReconcilingStrategy
 
   @Override
   public void onTypeError(String message, Set<Token> relatedElements) {
-    relatedElements
-        .forEach(e -> createAnnotation(e, message, AIEEditor.TYPE_ERROR_ANNOTATION));
+    relatedElements.forEach(e -> createAnnotation(e, message, AIEEditor.TYPE_ERROR_ANNOTATION));
   }
 
   @Override
   public void onTypeWarning(String message, Set<Token> relatedElements) {
-    relatedElements
-        .forEach(e -> createAnnotation(e, message, AIEEditor.TYPE_WARNING_ANNOTATION));
+    relatedElements.forEach(e -> createAnnotation(e, message, AIEEditor.TYPE_WARNING_ANNOTATION));
   }
 
 }

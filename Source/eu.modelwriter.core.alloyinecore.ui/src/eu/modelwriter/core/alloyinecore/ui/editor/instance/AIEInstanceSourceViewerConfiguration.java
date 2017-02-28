@@ -8,9 +8,9 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 import eu.modelwriter.core.alloyinecore.ui.editor.AIESourceViewerConfiguration;
 import eu.modelwriter.core.alloyinecore.ui.editor.color.IColorManager;
-import eu.modelwriter.core.alloyinecore.ui.editor.instance.reconciling.AIEInstanceSyntacticReconcilingStrategy;
 import eu.modelwriter.core.alloyinecore.ui.editor.instance.scanner.AIEInstanceCodeScanner;
 import eu.modelwriter.core.alloyinecore.ui.editor.partition.IAIEPartitions;
+import eu.modelwriter.core.alloyinecore.ui.editor.reconciling.AIESyntacticReconcilingStrategy;
 import eu.modelwriter.core.alloyinecore.ui.editor.scanner.AIECodeScanner;
 
 public class AIEInstanceSourceViewerConfiguration extends AIESourceViewerConfiguration {
@@ -52,8 +52,8 @@ public class AIEInstanceSourceViewerConfiguration extends AIESourceViewerConfigu
     final ITextEditor editor = getEditor();
     if (editor != null && editor.isEditable()) {
       final Reconciler reconciler = new Reconciler();
-      final AIEInstanceSyntacticReconcilingStrategy strategy =
-          new AIEInstanceSyntacticReconcilingStrategy(sourceViewer, editor);
+      final AIESyntacticReconcilingStrategy strategy =
+          new AIESyntacticReconcilingStrategy(sourceViewer, editor);
       for (final String partition : IAIEPartitions.ALL_PARTITIONS) {
         reconciler.setReconcilingStrategy(strategy, partition);
       }
