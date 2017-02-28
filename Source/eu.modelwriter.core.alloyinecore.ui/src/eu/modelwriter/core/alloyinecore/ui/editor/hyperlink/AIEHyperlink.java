@@ -6,6 +6,7 @@ import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.editors.text.TextEditor;
 
 import eu.modelwriter.core.alloyinecore.structure.base.Element;
+import eu.modelwriter.core.alloyinecore.structure.imports.ImportedClass;
 import eu.modelwriter.core.alloyinecore.ui.Activator;
 
 public class AIEHyperlink implements IHyperlink {
@@ -21,6 +22,10 @@ public class AIEHyperlink implements IHyperlink {
   @Override
   public IRegion getHyperlinkRegion() {
     if (linkElement != null) {
+      if (linkElement.getContext().getText().contains("::"))
+        return new Region(linkElement.getContext().stop.getStartIndex(),
+            linkElement.getContext().stop.getStopIndex()
+                - linkElement.getContext().stop.getStartIndex() + 1);
       return new Region(linkElement.getStart(), linkElement.getStop() - linkElement.getStart() + 1);
     }
     return null;
@@ -38,12 +43,16 @@ public class AIEHyperlink implements IHyperlink {
 
   @Override
   public void open() {
-    final TextEditor editor =
-        (TextEditor) Activator.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-    if (targetElement != null) {
-      editor.selectAndReveal(targetElement.getStart(),
-          targetElement.getStop() - targetElement.getStart() + 1);
-      editor.setFocus();
+    if (targetElement instanceof ImportedClass || targetElement instanceof ImportedClass) {
+      // Not implemented
+    } else {
+      final TextEditor editor =
+          (TextEditor) Activator.getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+      if (targetElement != null) {
+        editor.selectAndReveal(targetElement.getStart(),
+            targetElement.getStop() - targetElement.getStart() + 1);
+        editor.setFocus();
+      }
     }
   }
 
