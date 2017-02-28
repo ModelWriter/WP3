@@ -528,18 +528,7 @@ public class JavaSourceGenerator {
     }
 
     public boolean isPrimitive(String text) {
-        return text.equals("String") || text.equals("Boolean") || text.equals("Integer") || text.equals("Real") || text.equals("BigInteger");
-    }
-
-    private boolean isJavaPrimitive(String className) {
-        return "boolean".equals(className) ||
-                "byte".equals(className) ||
-                "char".equals(className) ||
-                "short".equals(className) ||
-                "int".equals(className) ||
-                "long".equals(className) ||
-                "float".equals(className) ||
-                "double".equals(className);
+        return text.equals("String") || text.equals("Boolean") || text.equals("Integer") || text.equals("Real") || text.equals("UnlimitedNatural");
     }
 
     private String newLine() {
