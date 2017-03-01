@@ -26,7 +26,7 @@ public class EObjectHyperlink implements IHyperlink {
 
   @Override
   public String getTypeLabel() {
-    return "EObjectHyperlink";
+    return "EObject Hyperlink";
   }
 
   @Override

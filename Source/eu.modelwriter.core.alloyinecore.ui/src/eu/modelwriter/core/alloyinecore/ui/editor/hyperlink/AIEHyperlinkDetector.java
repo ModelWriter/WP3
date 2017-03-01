@@ -10,40 +10,43 @@ import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.jface.text.hyperlink.IHyperlinkDetector;
 import org.eclipse.jface.text.source.ISourceViewer;
 
-import eu.modelwriter.core.alloyinecore.structure.model.RootPackage;
+import eu.modelwriter.core.alloyinecore.structure.base.Element;
+import eu.modelwriter.core.alloyinecore.structure.base.INavigable;
+import eu.modelwriter.core.alloyinecore.structure.base.ITarget;
+import eu.modelwriter.core.alloyinecore.structure.model.Import;
 import eu.modelwriter.core.alloyinecore.ui.editor.AIEEditor;
 
 public class AIEHyperlinkDetector implements IHyperlinkDetector {
 
   private final ISourceViewer sourceViewer;
   public AIEEditor editor;
-  private final AIEHyperlinkUtil hyperlinkUtil;
 
-  public AIEHyperlinkDetector(final ISourceViewer sourceViewer, final AIEEditor fTextEditor) {
+  public AIEHyperlinkDetector(final ISourceViewer sourceViewer, final AIEEditor editor) {
     this.sourceViewer = sourceViewer;
-    editor = fTextEditor;
-    hyperlinkUtil = new AIEHyperlinkUtil();
+    this.editor = editor;
   }
 
-  @SuppressWarnings({"unchecked"})
   @Override
   public IHyperlink[] detectHyperlinks(final ITextViewer textViewer, final IRegion region,
       final boolean canShowMultipleHyperlinks) {
-    AIEHyperlink hyperlink = null;
+    final List<IHyperlink> result = new ArrayList<>();
     try {
-      hyperlink = hyperlinkUtil.getHyperlink(
-          editor.getRootElement().getOwnedElement(RootPackage.class),
+      Element<?> selectedElement = editor.findElement(
           sourceViewer.getDocument().getLineOfOffset(region.getOffset()) + 1, region.getOffset());
-    } catch (final BadLocationException e) {
-      e.printStackTrace();
+      if (selectedElement != null && selectedElement instanceof INavigable) {
+        if (selectedElement instanceof Import) {
+          // TODO implement opening of imports
+          // result.add(new AIEImportHyperlink((Import) selectedElement));
+        } else {
+          ITarget target = ((INavigable) selectedElement).getTarget();
+          if (target != null && !target.equals(selectedElement)) {
+            result.add(new AIEHyperlink((Element<?>) target, selectedElement));
+          }
+        }
+      }
+    } catch (BadLocationException e) {
+      System.out.println("BadLocationException at detectHyperlinks: " + e.getMessage());
     }
-
-    if (hyperlink != null) {
-      final List<IHyperlink> result = new ArrayList<>();
-      result.add(hyperlink);
-      return result.toArray(new IHyperlink[0]);
-    }
-    return null;
+    return result.isEmpty() ? null : result.toArray(new IHyperlink[0]);
   }
-
 }

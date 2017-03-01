@@ -21,7 +21,13 @@ public class AIELabelProvider extends LabelProvider implements IFontProvider, IS
   @SuppressWarnings("rawtypes")
   @Override
   public String getText(final Object element) {
-    return ((Element) element).getLabel();
+    String result = "";
+    try {
+      result = ((Element) element).getLabel();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return result;
   }
 
   @Override
