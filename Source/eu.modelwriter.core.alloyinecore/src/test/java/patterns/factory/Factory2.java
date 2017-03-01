@@ -32,9 +32,9 @@ import java.util.stream.Collectors;
 /**
  *
  */
-public class Factory {
+public class Factory2 {
 
-    public static <T extends Element> T create(java.lang.Class<T> type) {
+    public static <T extends Element> T create(Class<T> type) {
         if (type.isAssignableFrom(CommentImp.class))
             return type.cast(new CommentImp());
 
@@ -44,6 +44,15 @@ public class Factory {
 
     public static Comment createComment(){
         return new CommentImp();
+    }
+
+    interface Link{
+
+    }
+
+    private class A_ownedElement_owner implements Link{
+        public Element ownedElement;
+        public Element owner;
     }
 
     private static class ElementImp implements Element{
@@ -64,22 +73,21 @@ public class Factory {
     private static class CommentImp implements Comment {
 
         private String body;
-        private Element element = new ElementImp();
-        private Set<Element> annotatedElement = new LinkedHashSet<>();
+        private Set<Link> associations = new LinkedHashSet<>();
 
         @Override
         public String body() { return body; }
 
         @Override
-        public List<Element> annotatedElement() { return annotatedElement.stream().collect(Collectors.toList());}
+        public List<Element> annotatedElement() { return null;}
 
         @Override
-        public List<Comment> ownedComment() { return element.ownedComment().stream().collect(Collectors.toList()); }
+        public List<Comment> ownedComment() { return null; }
 
         @Override
-        public List<Element> ownedElement() { return element.ownedElement(); }
+        public List<Element> ownedElement() { return null; }
 
         @Override
-        public Element owner() { return element.owner(); }
+        public Element owner() { return null; }
     }
 }

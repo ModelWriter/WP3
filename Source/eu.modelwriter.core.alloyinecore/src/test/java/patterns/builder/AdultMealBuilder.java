@@ -29,7 +29,7 @@ public class AdultMealBuilder extends MealBuilder {
         // add drinks to the meal
     }
     public void buildMain(){
-        // add main part of the meal
+        // add Test part of the meal
     }
     public void buildDessert(){
         // add dessert part to the meal

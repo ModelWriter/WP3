@@ -27,6 +27,7 @@ package patterns.factory;
 import java.lang.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p><b>Element [Abstract Class]</b>
@@ -108,5 +109,23 @@ public interface Element {
         return true;
     }
 
+    default <E extends Element> List<E> ownedElement(Class<E> type) {
+        List<E> elements = new ArrayList<>();
+        for (Element e : this.ownedElement())
+            if (type.isInstance(e)) elements.add(type.cast(e));
+        return elements;
+    }
+
+    default  <E extends Element> void addOwnedElement(final E... child) {
+        for (E aChild : child) {
+            this.ownedElement().add(aChild);
+        }
+    }
+
+    default <E extends Element> void addOwnedElement(final List<E> children) {
+        for (E child : children) {
+            this.ownedElement().add(child);
+        }
+    }
 
 }
