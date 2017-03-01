@@ -119,14 +119,12 @@ public class JavaSourceGenerator {
 
     public JavaSourceFromString generateInterface(Element<? extends ParserRuleContext> claz) {
         setup(claz);
-        collectImportedTargets(claz);
         classToJavaInterface(claz);
         return finish();
     }
 
     public JavaSourceFromString generateEnum(Element<? extends ParserRuleContext> _enum) {
         setup(_enum);
-        collectImportedTargets(_enum);
         enumToJavaEnum(_enum);
         return finish();
     }
@@ -134,7 +132,6 @@ public class JavaSourceGenerator {
 
     public JavaSourceFromString generateDataType(Element<? extends ParserRuleContext> dataType) {
         setup(dataType);
-        collectImportedTargets(dataType);
         dataTypeToJavaDataType(dataType);
         return finish();
     }
@@ -223,6 +220,7 @@ public class JavaSourceGenerator {
         builder.append("}");
     }
 
+    @Deprecated
     private void collectImportedTargets(Element<? extends ParserRuleContext> element) {
         Model model = element.getOwner(Model.class);
         assert model != null;
@@ -269,17 +267,41 @@ public class JavaSourceGenerator {
                 .forEach(this::appendImport);
     }
 
-    private String appendImport(INavigable navigable) {
+    private void appendImport(INavigable navigable) {
         String pathName = navigable.getPathName();
-        String importText;
+        String importText = "";
         if (isPrimitive(pathName) || isTypeParameter(navigable, pathName) || pathName.equals("?") || pathName.isEmpty())
-            return "";
+            return;
+        ITarget target = navigable.getTarget();
+        if (target == null) return;
+
+        if (target instanceof ImportedClass || target instanceof ImportedDataType) {
+            JavaSourceFromString generated = getImportGenerator().generateInterface((Element<? extends ParserRuleContext>) target);
+            generatedFiles.add(generated);
+            traces.addAll(getImportGenerator().getTraces());
+            // And use its path for import
+            importText = generated.getRawName().replaceAll("/", ".");
+        } else if (!(target instanceof TypeParameter)) {
+            importText = target.getFullSegment().replaceAll("::", ".");
+        }
+
+        if (!importText.isEmpty()) {
+            builder.append("import ");
+            appendWithToken(importText, ((Element) navigable).getToken());
+            builder.append(";");
+            builder.append(newLine());
+        }
+    }
+
+    @Deprecated
+    private String findImport(INavigable navigable) {
+        String pathName = navigable.getPathName();
         Element root = ((Element) navigable).getOwner(RootPackage.class);
         if (root != null && pathName.startsWith(root.getToken().getText())) {
-            importText = pathName.replaceAll("::", ".");
+            return pathName.replaceAll("::", ".");
         } else {
             ITarget importedTarget = importedTargets.stream()
-                    .filter(t -> t.getRelativeSegment().equals(pathName))
+                    .filter(t -> t.getImportedSegment().equals(pathName))
                     .findFirst()
                     .orElse(null);
             if (importedTarget != null) {
@@ -287,17 +309,12 @@ public class JavaSourceGenerator {
                 generatedFiles.add(generated);
                 traces.addAll(getImportGenerator().getTraces());
                 // And use its path for import
-                importText = generated.getRawName().replaceAll("/", ".");
+                return generated.getRawName().replaceAll("/", ".");
             } else {
-                importText = pathName.startsWith(currentPackageName) ? pathName.replaceAll("::", ".") :
+                return pathName.startsWith(currentPackageName) ? pathName.replaceAll("::", ".") :
                         currentPackageName + "." + pathName.replaceAll("::", ".");
             }
         }
-        builder.append("import ");
-        appendWithToken(importText, ((Element) navigable).getToken());
-        builder.append(";");
-        builder.append(newLine());
-        return importText;
     }
 
     private boolean isTypeParameter(INavigable navigable, final String pathName) {
@@ -471,6 +488,7 @@ public class JavaSourceGenerator {
     }
 
     private void appendInterfaceName(Element<? extends ParserRuleContext> element) {
+        // TODO check name
         int baseIndex = builder.length() - 1;
         String baseText = "interface " + element.getLabel();
         builder.append(baseText);
@@ -527,7 +545,7 @@ public class JavaSourceGenerator {
         traces.add(trace);
     }
 
-    public boolean isPrimitive(String text) {
+    private boolean isPrimitive(String text) {
         return text.equals("String") || text.equals("Boolean") || text.equals("Integer") || text.equals("Real") || text.equals("UnlimitedNatural");
     }
 

@@ -26,11 +26,13 @@ package eu.modelwriter.core.alloyinecore.structure.model;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EModelElementRefContext;
 import eu.modelwriter.core.alloyinecore.structure.base.Element;
+import eu.modelwriter.core.alloyinecore.structure.base.INavigable;
+import eu.modelwriter.core.alloyinecore.structure.base.ITarget;
 import eu.modelwriter.core.alloyinecore.structure.base.Object;
 import eu.modelwriter.core.alloyinecore.visitor.IVisitor;
 import org.eclipse.emf.ecore.EObject;
 
-public class AnnotationReference extends Object<EObject, EModelElementRefContext> {
+public class AnnotationReference extends Object<EObject, EModelElementRefContext> implements INavigable {
     public AnnotationReference(EModelElementRefContext context) {
         super(context);
     }
@@ -53,4 +55,10 @@ public class AnnotationReference extends Object<EObject, EModelElementRefContext
     public <T> T accept(IVisitor<? extends T> visitor) {
         return visitor.visitAnnotationReference(this);
     }
+
+    @Override
+    public String getPathName() {
+        return this.getContext().pathName() != null ? this.getContext().pathName().getText() : "";
+    }
+
 }

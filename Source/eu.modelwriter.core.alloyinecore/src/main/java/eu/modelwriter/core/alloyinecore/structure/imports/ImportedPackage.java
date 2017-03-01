@@ -80,8 +80,8 @@ public final class ImportedPackage extends Element<IPackageContext> implements I
 
     @Override
     public String getSegment() {
-        if (getOwner() != null && getOwner() instanceof Import)
-            return "";
+//        if (getOwner() != null && getOwner() instanceof Import)
+//            return "";
         return getContext().name != null ? getContext().name.getText() : ISegment.super.getSegment();
     }
 

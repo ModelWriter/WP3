@@ -35,11 +35,6 @@ public final class RootPackage extends Package {
     }
 
     @Override
-    public String getSegment() {
-        return "";
-    }
-
-    @Override
     public String getKey() {
         return getContext().name != null ? getContext().name.getText() : "Root";
     }

@@ -174,7 +174,8 @@ public final class Operation extends TypedElement<EOperation, EOperationContext>
         return ISource.super.getTargets().stream()
                 .filter(e -> e instanceof Classifier ||
                         e instanceof ImportedClass ||
-                        e instanceof ImportedDataType)
+                        e instanceof ImportedDataType ||
+                        e instanceof TypeParameter)
                 .collect(Collectors.toList());
     }
 }

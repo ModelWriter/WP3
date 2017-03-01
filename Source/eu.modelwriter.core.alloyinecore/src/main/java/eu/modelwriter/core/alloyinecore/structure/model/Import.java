@@ -25,10 +25,8 @@
 package eu.modelwriter.core.alloyinecore.structure.model;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.PackageImportContext;
-import eu.modelwriter.core.alloyinecore.structure.base.Element;
-import eu.modelwriter.core.alloyinecore.structure.base.INamespace;
+import eu.modelwriter.core.alloyinecore.structure.base.*;
 import eu.modelwriter.core.alloyinecore.structure.base.Object;
-import eu.modelwriter.core.alloyinecore.structure.base.Repository;
 import eu.modelwriter.core.alloyinecore.translator.EcoreInstanceTranslator;
 import eu.modelwriter.core.alloyinecore.translator.EcoreTranslator;
 import eu.modelwriter.core.alloyinecore.visitor.IVisitor;
@@ -40,7 +38,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import java.io.IOException;
 
-public class Import extends Object<EObject, PackageImportContext> implements INamespace {
+public class Import extends Object<EObject, PackageImportContext> implements INamespace, INavigable {
 
     public Import(EObject eObject, PackageImportContext context) {
         super(eObject, context);
@@ -174,6 +172,11 @@ public class Import extends Object<EObject, PackageImportContext> implements INa
     @Override
     public <T> T accept(IVisitor<? extends T> visitor) {
         return visitor.visitImport(this);
+    }
+
+    @Override
+    public String getPathName() {
+        return this.getContext().ownedPathName != null ? this.getContext().ownedPathName.getText().replaceAll("'", "") : "";
     }
 
 }

@@ -43,18 +43,15 @@
       <details key="formula" value="(File + Dir) in Root.*content"/>
     </eAnnotations>
     <eTypeParameters name="E"/>
-    <eOperations name="next">
+    <eOperations name="abstract">
       <eGenericType/>
       <eExceptions xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
     </eOperations>
-    <eOperations name="hasNext" lowerBound="1">
+    <eOperations name="interface" lowerBound="1">
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="Mapz" instanceClassName="java.util.Map" serializable="false">
-    <eTypeParameters name="K"/>
-    <eTypeParameters name="V"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EDataType" name="Mapz" instanceClassName="java.util.Boolean" serializable="false"/>
   <eClassifiers xsi:type="ecore:EClass" name="ArrayList">
     <eTypeParameters name="V"/>
   </eClassifiers>
@@ -130,7 +127,11 @@
       </eAnnotations>
     </eClassifiers>
     <eSubpackages name="subsub" nsURI="wow such sub" nsPrefix="s2">
-      <eClassifiers xsi:type="ecore:EClass" name="CantTouchThis"/>
+      <eClassifiers xsi:type="ecore:EClass" name="CantTouchThis">
+        <eAnnotations source="http://www.modelwriter.eu/alloyinecore/visibility">
+          <details key="visibility" value="public"/>
+        </eAnnotations>
+      </eClassifiers>
     </eSubpackages>
   </eSubpackages>
 </ecore:EPackage>

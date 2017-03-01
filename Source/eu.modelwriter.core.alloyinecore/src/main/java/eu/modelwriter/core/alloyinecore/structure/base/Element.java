@@ -231,7 +231,7 @@ public abstract class Element<C extends ParserRuleContext> implements IVisitable
         }
 //        if (element instanceof Class) System.out.println("{" + element.getOwnedElements(Operation.class)+ "}");
         if (element instanceof ITarget)
-            System.out.print(" (Path: " + Console.CYAN + ((ITarget) element).getRelativeSegment() + Console.RESET + ")");
+            System.out.print(" (Path: " + Console.CYAN + ((ITarget) element).getRootRelativeSegment() + Console.RESET + ")");
         System.out.println();
         List<Element> elements = element.getOwnedElements();
         for (Element e : elements) {
@@ -265,7 +265,7 @@ public abstract class Element<C extends ParserRuleContext> implements IVisitable
     protected static String getNormalizedText(ParserRuleContext ctx) {
         int start = ctx.start.getStartIndex();
         int stop = ctx.stop.getStopIndex();
-        if(stop >= start) {
+        if (stop >= start) {
             return ctx.start.getInputStream().getText(new Interval(start, stop))
                     .replaceAll("\\s+", " ").replaceAll("(\\w)(\\s)(<)", "$1$3");
         } else return "";

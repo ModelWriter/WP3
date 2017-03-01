@@ -29,7 +29,6 @@ package generics : gns = 'eu.modelwriter.generics'
         property owner : V[1..*];
     }
     abstract class Shape;
-    class interface;
     class Canvas
     {
         operation draw(shapes : List<? extends My::pack::B>, x: Integer, y: Integer) : Boolean[?];
@@ -69,7 +68,7 @@ package generics : gns = 'eu.modelwriter.generics'
         public class Hey;
         attr : Hey;
         package subsub : s2 = 'wow such sub'{
-            class CantTouchThis;
+           public class CantTouchThis;
         }
     }
 }
