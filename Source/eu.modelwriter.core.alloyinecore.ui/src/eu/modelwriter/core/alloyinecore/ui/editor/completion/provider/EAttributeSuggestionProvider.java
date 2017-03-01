@@ -54,6 +54,19 @@ public class EAttributeSuggestionProvider extends AbstractAIESuggestionProvider 
       } else if (lastToken instanceof UnrestrictedNameContext) {
         suggestions.add(CompletionTokens._colon);
       } else if (lastToken instanceof EGenericElementTypeContext) {
+        // attribute type
+        // parser assumes that Context is finished, but completion continues.
+        final EAttributeContext fullContext =
+            (EAttributeContext) AIECompletionUtil.getFullContext(context);
+        if (fullContext != null) {
+          final List<ITarget> targets = fullContext.current.getTargets().stream()
+              .map(e -> (ITarget) e).collect(Collectors.toList());
+          if (targets.stream().noneMatch(t -> t.getFullSegment().equals(lastToken.getText()))) {
+            for (final ITarget target : targets) {
+              suggestions.add(target.getFullSegment());
+            }
+          }
+        }
         suggestions.addAll(spFactory.multiplicitySP().getStartSuggestions());
         suggestions.add(CompletionTokens._equals);
         suggestions.add(CompletionTokens._leftCurly);
@@ -106,7 +119,7 @@ public class EAttributeSuggestionProvider extends AbstractAIESuggestionProvider 
           final List<ITarget> targets = fullContext.current.getTargets().stream()
               .map(e -> (ITarget) e).collect(Collectors.toList());
           for (final ITarget target : targets) {
-            suggestions.add(target.getRelativeSegment());
+            suggestions.add(target.getFullSegment());
           }
         }
       } else if (lastToken.getText().equals(CompletionTokens._equals)) {

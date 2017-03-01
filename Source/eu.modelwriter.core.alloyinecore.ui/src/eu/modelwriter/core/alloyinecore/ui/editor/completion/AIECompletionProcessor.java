@@ -43,8 +43,8 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
     int temp = offset - 1;
     StringBuilder builder = new StringBuilder();
 
-    if (Character.isAlphabetic(c)) {
-      while (Character.isAlphabetic(c)) {
+    if (!Character.isWhitespace(c)) {
+      while (!Character.isWhitespace(c)) {
         builder.append(c);
         temp--;
         try {

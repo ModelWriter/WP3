@@ -37,18 +37,20 @@ public class SegmentSuggestionProvider extends AbstractAIESuggestionProvider {
   protected void computeSuggestions(final ParserRuleContext context, final ParseTree lastToken) {
     if (lastToken instanceof ParserRuleContext) {
       if (lastToken instanceof UnrestrictedNameContext) {
-        suggestions.add(CompletionTokens._dot);
+        // suggestions.add(CompletionTokens._dot);
         // end of context.
         suggestions.addAll(getParentProviderSuggestions(context, lastToken));
       }
     } else if (lastToken instanceof TerminalNode) {
       if (lastToken.getText().equals(CompletionTokens._doubleColon)) {
-        suggestions.add(CompletionTokens._at);
-        suggestions.addAll(spFactory.unrestrictedNameSP()
-            .getStartSuggestions());
+        // suggestions.add(CompletionTokens._at);
+        // suggestions.addAll(spFactory.unrestrictedNameSP()
+        // .getStartSuggestions());
+        suggestions.addAll(getParentProviderSuggestions(context, lastToken));
       } else if (lastToken.getText().equals(CompletionTokens._at)) {
-        suggestions.addAll(spFactory.unrestrictedNameSP()
-            .getStartSuggestions());
+        // suggestions.addAll(spFactory.unrestrictedNameSP()
+        // .getStartSuggestions());
+        suggestions.addAll(getParentProviderSuggestions(context, lastToken));
       } else if (((TerminalNode) lastToken).getSymbol().getType() == AlloyInEcoreLexer.INT) {
         // end of context.
         suggestions.addAll(getParentProviderSuggestions(context, lastToken));

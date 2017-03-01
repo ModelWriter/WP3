@@ -56,6 +56,18 @@ public class EClassSuggestionProvider extends AbstractAIESuggestionProvider {
         suggestions.add(CompletionTokens._leftCurly);
         suggestions.add(CompletionTokens._semicolon);
       } else if (lastToken instanceof EGenericSuperTypeContext) {
+        // super type
+        // parser assumes that Context is finished, but completion continues.
+        final EClassContext fullContext = (EClassContext) AIECompletionUtil.getFullContext(context);
+        if (fullContext != null) {
+          final List<ITarget> targets = fullContext.current.getTargets().stream()
+              .map(e -> (ITarget) e).collect(Collectors.toList());
+          if (targets.stream().noneMatch(t -> t.getFullSegment().equals(lastToken.getText()))) {
+            for (final ITarget target : targets) {
+              suggestions.add(target.getFullSegment());
+            }
+          }
+        }
         suggestions.add(CompletionTokens._comma);
         suggestions.add(CompletionTokens._colon);
         suggestions.add(CompletionTokens._leftCurly);
@@ -78,15 +90,18 @@ public class EClassSuggestionProvider extends AbstractAIESuggestionProvider {
           final List<ITarget> targets = fullContext.current.getTargets().stream()
               .map(e -> (ITarget) e).collect(Collectors.toList());
           for (final ITarget target : targets) {
-            suggestions.add(target.getRelativeSegment());
+            suggestions.add(target.getFullSegment());
           }
         }
       } else if (lastToken.getText().equals(CompletionTokens._comma)) {
         // super type
-        final List<ITarget> targets = ((EClassContext) context).current.getTargets().stream()
-            .map(e -> (ITarget) e).collect(Collectors.toList());
-        for (final ITarget target : targets) {
-          suggestions.add(target.getRelativeSegment());
+        final EClassContext fullContext = (EClassContext) AIECompletionUtil.getFullContext(context);
+        if (fullContext != null) {
+          final List<ITarget> targets = fullContext.current.getTargets().stream()
+              .map(e -> (ITarget) e).collect(Collectors.toList());
+          for (final ITarget target : targets) {
+            suggestions.add(target.getFullSegment());
+          }
         }
       } else if (lastToken.getText().equals(CompletionTokens._colon)) {
         suggestions.add(CompletionTokens._singleQuote);
