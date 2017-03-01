@@ -11,9 +11,12 @@ import eu.modelwriter.core.alloyinecore.ui.Activator;
 
 public class AIEHyperlink implements IHyperlink {
 
+  @SuppressWarnings("rawtypes")
   private final Element targetElement;
+  @SuppressWarnings("rawtypes")
   private final Element linkElement;
 
+  @SuppressWarnings("rawtypes")
   public AIEHyperlink(final Element targetElement, final Element linkElement) {
     this.targetElement = targetElement;
     this.linkElement = linkElement;
@@ -22,10 +25,11 @@ public class AIEHyperlink implements IHyperlink {
   @Override
   public IRegion getHyperlinkRegion() {
     if (linkElement != null) {
-      if (linkElement.getContext().getText().contains("::"))
+      if (linkElement.getContext().getText().contains("::")) {
         return new Region(linkElement.getContext().stop.getStartIndex(),
             linkElement.getContext().stop.getStopIndex()
-                - linkElement.getContext().stop.getStartIndex() + 1);
+            - linkElement.getContext().stop.getStartIndex() + 1);
+      }
       return new Region(linkElement.getStart(), linkElement.getStop() - linkElement.getStart() + 1);
     }
     return null;

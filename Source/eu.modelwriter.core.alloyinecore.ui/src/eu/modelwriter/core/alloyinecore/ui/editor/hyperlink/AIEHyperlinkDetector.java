@@ -28,6 +28,7 @@ public class AIEHyperlinkDetector implements IHyperlinkDetector {
     editor = fTextEditor;
   }
 
+  @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
   public IHyperlink[] detectHyperlinks(final ITextViewer textViewer, final IRegion region,
       final boolean canShowMultipleHyperlinks) {
@@ -50,9 +51,10 @@ public class AIEHyperlinkDetector implements IHyperlinkDetector {
       if (targetElement != null && !targetElement.equals(linkElement)) {
         final AIEHyperlink aieHyperlink = new AIEHyperlink(targetElement, linkElement);
         result.add(aieHyperlink);
+        return result.toArray(new IHyperlink[0]);
       }
     }
-    return result.toArray(new IHyperlink[0]);
+    return null;
   }
 
   private static class TargetVisitor extends ElementVisitorImpl<Object> {
@@ -75,6 +77,7 @@ public class AIEHyperlinkDetector implements IHyperlinkDetector {
       return target;
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public Object visitElement(final Element element) {
       if (element instanceof ITarget) {
