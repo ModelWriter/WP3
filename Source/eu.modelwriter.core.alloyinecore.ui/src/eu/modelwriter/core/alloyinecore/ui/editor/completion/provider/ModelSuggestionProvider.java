@@ -68,7 +68,6 @@ public class ModelSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
   protected void initParentProviders() {
-    // TODO Auto-generated method stub
 
   }
 

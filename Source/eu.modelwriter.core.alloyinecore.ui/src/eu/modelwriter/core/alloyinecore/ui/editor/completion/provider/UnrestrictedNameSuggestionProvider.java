@@ -44,7 +44,6 @@ public class UnrestrictedNameSuggestionProvider extends AbstractAIESuggestionPro
 
   @Override
   protected void initChildProviders() {
-    // TODO Auto-generated method stub
 
   }
 

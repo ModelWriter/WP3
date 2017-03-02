@@ -33,7 +33,6 @@ public class EDetailSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
   protected void initChildProviders() {
-    // TODO Auto-generated method stub
 
   }
 

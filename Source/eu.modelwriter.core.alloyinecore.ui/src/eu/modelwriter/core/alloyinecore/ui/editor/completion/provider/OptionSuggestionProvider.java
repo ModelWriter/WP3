@@ -50,7 +50,6 @@ public class OptionSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
   protected void initChildProviders() {
-    // TODO Auto-generated method stub
 
   }
 

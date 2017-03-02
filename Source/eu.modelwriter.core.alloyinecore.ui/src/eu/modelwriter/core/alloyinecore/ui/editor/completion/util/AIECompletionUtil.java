@@ -24,9 +24,9 @@ public class AIECompletionUtil {
   private static IDocument document;
   private final int offset;
 
-  private AlloyInEcoreLexer cuttedDocLexer;
-  private CommonTokenStream cuttedDocTokens;
-  private AlloyInEcoreParser cuttedDocParser;
+  private AlloyInEcoreLexer cutDocLexer;
+  private CommonTokenStream cutDocTokens;
+  private AlloyInEcoreParser cutDocParser;
 
   private int minDistance = Integer.MAX_VALUE;
   private ParseTree closerNode = null;
@@ -37,27 +37,20 @@ public class AIECompletionUtil {
   }
 
   public List<String> getProposals() throws BadLocationException {
-    cuttedDocLexer =
+    cutDocLexer =
         new AlloyInEcoreLexer(new ANTLRInputStream(AIECompletionUtil.document.get(0, offset)));
-    cuttedDocTokens = new CommonTokenStream(cuttedDocLexer);
-    cuttedDocParser = new AlloyInEcoreParser(cuttedDocTokens);
+    cutDocTokens = new CommonTokenStream(cutDocLexer);
+    cutDocParser = new AlloyInEcoreParser(cutDocTokens);
 
-    final ModelContext cuttedModelCtx = cuttedDocParser.model();
+    final ModelContext cutModelCtx = cutDocParser.model();
 
-    // TODO find context via AST. Only use AST. You will get true context and true location and then
-    // you will be able to put suggestions according to this location.
-    // If code below is not true, find true version in facebook message or mail box.
-
-    findCloserNode(cuttedModelCtx);
+    findCloserNode(cutModelCtx);
 
     if (closerNode == null) {
-      closerNode = cuttedModelCtx;
+      closerNode = cutModelCtx;
     }
 
     final ParserRuleContext parentOfCloserNode = (ParserRuleContext) closerNode.getParent();
-    if (closerNode instanceof TerminalNode) {
-    } else if (closerNode instanceof ParserRuleContext) {
-    }
 
     final SuggestionDetector suggestionDetector =
         new SuggestionDetector(AIECompletionUtil.document, offset, parentOfCloserNode, closerNode);
@@ -98,7 +91,7 @@ public class AIECompletionUtil {
     }
   }
 
-  public static ParserRuleContext getFullContext(final ParserRuleContext cuttedCtx) {
+  public static ParserRuleContext getFullContext(final ParserRuleContext cutCtx) {
     final AlloyInEcoreLexer lexer =
         new AlloyInEcoreLexer(new ANTLRInputStream(AIECompletionUtil.document.get()));
     final CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -106,26 +99,20 @@ public class AIECompletionUtil {
 
     final ModelContext modelContext = parser.model();
 
-    return AIECompletionUtil.findFullContext(modelContext, cuttedCtx);
+    return AIECompletionUtil.findFullContext(modelContext, cutCtx);
   }
 
   private static ParserRuleContext findFullContext(final ParserRuleContext fullCtx,
-      final ParserRuleContext cuttedCtx) {
-    if (fullCtx.getClass().equals(cuttedCtx.getClass())) {
+      final ParserRuleContext cutCtx) {
+    if (fullCtx.getClass().equals(cutCtx.getClass())) {
       try {
-        final Field currentElementFieldCuttedCtx =
-            cuttedCtx.getClass().getField("current");
+        final Field currentElementFieldcutCtx = cutCtx.getClass().getField("current");
         final Field currentElementFieldFullCtx =
             fullCtx.getClass().getField("current");
-        if (currentElementFieldCuttedCtx != null && currentElementFieldFullCtx != null) {
-          @SuppressWarnings("rawtypes")
-          final Element cuttedCtxElement =
-          (Element) currentElementFieldCuttedCtx.get(cuttedCtx);
-          @SuppressWarnings("rawtypes")
-          final Element fullCtxElement =
-          (Element) currentElementFieldFullCtx.get(fullCtx);
-          if (cuttedCtxElement.getFullLocation().equals(fullCtxElement.getFullLocation())
-              && cuttedCtxElement.getUniqueName().equals(fullCtxElement.getUniqueName())) {
+        if (currentElementFieldcutCtx != null && currentElementFieldFullCtx != null) {
+          final Element<?> cutCtxElement = (Element<?>) currentElementFieldcutCtx.get(cutCtx);
+          final Element<?> fullCtxElement = (Element<?>) currentElementFieldFullCtx.get(fullCtx);
+          if (cutCtxElement.getUniqueName().equals(fullCtxElement.getUniqueName())) {
             return fullCtx;
           }
         }
@@ -137,7 +124,7 @@ public class AIECompletionUtil {
       for (final ParseTree child : fullCtx.children) {
         if (child instanceof ParserRuleContext) {
           final ParserRuleContext context =
-              AIECompletionUtil.findFullContext((ParserRuleContext) child, cuttedCtx);
+              AIECompletionUtil.findFullContext((ParserRuleContext) child, cutCtx);
           if (context != null) {
             return context;
           }

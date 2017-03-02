@@ -25,21 +25,14 @@ public class PathNameSuggestionProvider extends AbstractAIESuggestionProvider {
   protected void computeSuggestions(final ParserRuleContext context, final ParseTree lastToken) {
     if (lastToken instanceof ParserRuleContext) {
       if (lastToken instanceof UnrestrictedNameContext) {
-        // suggestions.add(CompletionTokens._dot);
-        // suggestions.addAll(
-        // spFactory.segmentSP().getStartSuggestions());
         // end of context.
         suggestions.addAll(getParentProviderSuggestions(context, lastToken));
       } else if (lastToken instanceof SegmentContext) {
-        // suggestions.addAll(
-        // spFactory.segmentSP().getStartSuggestions());
         // end of context.
         suggestions.addAll(getParentProviderSuggestions(context, lastToken));
       }
     } else if (lastToken instanceof TerminalNode) {
       if (((TerminalNode) lastToken).getSymbol().getType() == AlloyInEcoreLexer.INT) {
-        // suggestions.addAll(
-        // spFactory.segmentSP().getStartSuggestions());
         // end of context.
         suggestions.addAll(getParentProviderSuggestions(context, lastToken));
       } else if (lastToken instanceof ErrorNode) {

@@ -40,7 +40,7 @@ public class EModelElementRefSuggestionProvider extends AbstractAIESuggestionPro
               .map(e -> (ITarget) e).collect(Collectors.toList());
           if (targets.stream().noneMatch(t -> t.getFullSegment().equals(lastToken.getText()))) {
             for (final ITarget target : targets) {
-              suggestions.add(target.getFullSegment());
+              suggestions.add(target.getRelativeSegment(fullContext.current));
             }
           }
         }
@@ -55,7 +55,7 @@ public class EModelElementRefSuggestionProvider extends AbstractAIESuggestionPro
           final List<ITarget> targets = fullContext.current.getTargets().stream()
               .map(e -> (ITarget) e).collect(Collectors.toList());
           for (final ITarget target : targets) {
-            suggestions.add(target.getFullSegment());
+            suggestions.add(target.getRelativeSegment(fullContext.current));
           }
         }
       } else if (lastToken.getText().equals(CompletionTokens._semicolon)) {

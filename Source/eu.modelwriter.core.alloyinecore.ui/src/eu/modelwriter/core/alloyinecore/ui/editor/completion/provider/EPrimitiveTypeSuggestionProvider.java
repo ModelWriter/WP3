@@ -26,7 +26,6 @@ public class EPrimitiveTypeSuggestionProvider extends AbstractAIESuggestionProvi
 
   @Override
   protected void initChildProviders() {
-    // TODO Auto-generated method stub
 
   }
 

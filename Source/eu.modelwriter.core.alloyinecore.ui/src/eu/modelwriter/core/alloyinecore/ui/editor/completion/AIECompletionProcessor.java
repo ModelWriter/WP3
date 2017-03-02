@@ -16,7 +16,7 @@ import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AIECompletionU
 
 public class AIECompletionProcessor implements IContentAssistProcessor {
 
-  private final char[] activationChars = new char[] {'c'};
+  private final char[] activationChars = new char[] {'#'};
 
   @Override
   public ICompletionProposal[] computeCompletionProposals(final ITextViewer viewer,

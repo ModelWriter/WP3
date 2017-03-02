@@ -42,7 +42,6 @@ public class VisibilityKindSuggestionProvider extends AbstractAIESuggestionProvi
 
   @Override
   protected void initChildProviders() {
-    // TODO Auto-generated method stub
 
   }
 
