@@ -19,8 +19,10 @@ public class TypeChecker {
     private Set<TypeErrorListener> errorListeners;
     private JavaSourceGenerator generator;
     private String outDir;
+    private boolean saveJavaFiles;
 
     public TypeChecker(String outDir, boolean saveJavaFiles) {
+        this.saveJavaFiles = saveJavaFiles;
         try {
             Path path = Paths.get(outDir);
             if (!Files.exists(path))
@@ -46,6 +48,10 @@ public class TypeChecker {
         ClassVisitor classVisitor = new ClassVisitor();
         classVisitor.visit(model);
         Set<JavaSourceFromString> generatedJavaFiles = generator.getGeneratedFiles();
+        if (saveJavaFiles) saveGeneratedFiles(generatedJavaFiles);
+
+        // Don't compile if there is no generated file, it will fail
+        if (generatedJavaFiles.isEmpty()) return;
 
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
@@ -67,6 +73,25 @@ public class TypeChecker {
         try {
             // Try to close fileManager
             fileManager.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveGeneratedFiles(final Set<JavaSourceFromString> generatedJavaFiles) {
+        new Thread(() -> {
+            for (JavaSourceFromString generatedJavaFile : generatedJavaFiles) {
+                saveFile(generatedJavaFile);
+            }
+        }).start();
+    }
+
+    private void saveFile(JavaSourceFromString generated) {
+        try {
+            Path path = Paths.get(outDir + "/" + generated.getRawName() + ".java");
+            if (!Files.exists(path.getParent()))
+                Files.createDirectories(path.getParent());
+            Files.write(path, generated.code.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

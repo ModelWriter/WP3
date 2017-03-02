@@ -19,8 +19,12 @@ package generics : gns = 'eu.modelwriter.generics'
         operation abstract() : E[?] throws MyException<E>;
         operation interface() : Boolean;
     }
+    enum Bool;
+    class Car{
+        attribute diesel : Boolean;
+    }
     datatype Bool : 'java.lang.Boolean' { !serializable };
-    class ArrayList<V> extends List<V>, Cars;
+    class ArrayList<V> extends List<V>, Car;
     class Car;
     abstract class Person { attribute name: String  [1]; }
     class Owner<K, V extends Person & Car>
@@ -38,7 +42,7 @@ package generics : gns = 'eu.modelwriter.generics'
             requires : one ArrayList;
             body;
         }
-        property ref : List<? super CArr>[?];
+        property ref : List<? super Car>[?];
         property heyRef: sub::Hey;
         property noWay: sub::subsub::CantTouchThis;
         property b : My::A[2..5|?];

@@ -35,6 +35,6 @@ public class Trace {
     }
 
     public boolean offsetOverlaps(int start, int stop) {
-        return (start >= startOffset && stop <= endOffset);
+        return (start >= startOffset && stop <= endOffset) || (startOffset >= start && endOffset <= stop);
     }
 }

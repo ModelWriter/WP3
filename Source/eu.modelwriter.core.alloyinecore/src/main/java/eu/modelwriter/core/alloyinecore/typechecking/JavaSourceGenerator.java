@@ -77,7 +77,7 @@ public class JavaSourceGenerator {
             if (trace.overlaps(diagnostic))
                 return trace.getTokens();
         }
-        return new HashSet<>();
+        return Collections.emptySet();
     }
 
     public String getTokensAsString(Diagnostic diagnostic) {
@@ -113,7 +113,7 @@ public class JavaSourceGenerator {
         String code2 = builder.toString();
         JavaSourceFromString generated = new JavaSourceFromString(currentFileName, code2);
         generatedFiles.add(generated);
-        if (save) saveFile(generated);
+        //if (save) saveFile(generated);
         return generated;
     }
 
@@ -403,7 +403,7 @@ public class JavaSourceGenerator {
                             .lastIndexOf("::") + 2);
                     appendWithToken(text, gt.getToken());
                     appendGenericTypeArgument(gt);
-                    if (iterator.hasNext()) builder.append(" & ");
+                    if (gtIterator.hasNext()) builder.append(" & ");
                 }
             }
             if (iterator.hasNext()) builder.append(", ");
@@ -488,20 +488,8 @@ public class JavaSourceGenerator {
     }
 
     private void appendInterfaceName(Element<? extends ParserRuleContext> element) {
-        // TODO check name
-        int baseIndex = builder.length() - 1;
-        String baseText = "interface " + element.getLabel();
-        builder.append(baseText);
-        // Trace of Class name
-        addTrace(baseText, baseIndex, element.getToken().getText(), element.getToken());
-        element.getOwnedElements(TypeParameter.class).forEach(tp -> {
-            // Trace of TypeParameters
-            addTrace(baseText, baseIndex, tp.getEObject().getName(), tp.getToken());
-            tp.getOwnedElements(GenericType.class).forEach(gt -> {
-                // Trace of GenericType
-                addTrace(baseText, baseIndex, gt.getEObject().eClass().getName(), gt.getToken());
-            });
-        });
+        appendWithToken("interface " + checkName(element.getToken().getText()), element.getToken());
+        appendTypeParameters(element.getOwnedElements(TypeParameter.class));
     }
 
     private void appendVisibility(Element element) {
