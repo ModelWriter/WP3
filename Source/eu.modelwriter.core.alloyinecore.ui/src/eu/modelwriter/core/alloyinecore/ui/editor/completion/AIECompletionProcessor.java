@@ -16,7 +16,7 @@ import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AIECompletionU
 
 public class AIECompletionProcessor implements IContentAssistProcessor {
 
-  private final char[] activationChars = new char[] {'#'};
+  private final char[] activationChars = new char[] {'#', ':', '=', ',', '.', '&', '@'};
 
   @Override
   public ICompletionProposal[] computeCompletionProposals(final ITextViewer viewer,
@@ -43,7 +43,7 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
     int temp = offset - 1;
     StringBuilder builder = new StringBuilder();
 
-    if (!Character.isWhitespace(c)) {
+    if (Character.isAlphabetic(c)) {
       while (!Character.isWhitespace(c)) {
         builder.append(c);
         temp--;
@@ -61,11 +61,11 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
       }
     } else {
       for (int i = 0; i < activationChars.length; i++) {
-        // if (activationChars[i] == c) {
-        for (final String word : completionWords) {
-          proposals.add(new CompletionProposal(word, temp + 1, builder.length(), word.length()));
+        if (activationChars[i] == c) {
+          for (final String word : completionWords) {
+            proposals.add(new CompletionProposal(word, temp + 1, builder.length(), word.length()));
+          }
         }
-        // }
       }
     }
 
@@ -89,8 +89,7 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
 
   @Override
   public char[] getContextInformationAutoActivationCharacters() {
-    // TODO Auto-generated method stub
-    return null;
+    return activationChars;
   }
 
   @Override
