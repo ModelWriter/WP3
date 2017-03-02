@@ -56,7 +56,8 @@ public enum AIEConstants {
   RESOLVE,
   NOT_RESOLVE,
   NOT_SERIALIZABLE,
-  SOURCE;
+  SOURCE,
+  SOURCE_HASH;
 
   public static final String SEPARATOR = "::";
 

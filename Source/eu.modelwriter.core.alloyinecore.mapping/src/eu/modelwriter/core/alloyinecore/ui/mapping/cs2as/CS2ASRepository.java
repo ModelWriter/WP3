@@ -1,5 +1,6 @@
 package eu.modelwriter.core.alloyinecore.ui.mapping.cs2as;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class CS2ASRepository {
     factory = EcoreFactory.eINSTANCE;
     resourceSet = new ResourceSetImpl();
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-    .put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
+        .put(Resource.Factory.Registry.DEFAULT_EXTENSION, new XMIResourceFactoryImpl());
   }
 
   public EObject loadAndClearAIEResource(final URI uri) {
@@ -155,6 +156,20 @@ public class CS2ASRepository {
     } catch (final IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public String getAsString(final EObject root, final URI saveURI) {
+    final Resource resource = resourceSet.getResource(saveURI, true);
+    resource.getContents().clear();
+    resource.getContents().add(root);
+    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    try {
+      resource.save(stream, null);
+      return new String(stream.toByteArray());
+    } catch (final IOException e) {
+      e.printStackTrace();
+    }
+    return "";
   }
 
   public EObject getEObject(final Stack<String> qualifiedNameStack) {

@@ -144,8 +144,11 @@ public class CS2ASMapping extends AlloyInEcoreBaseVisitor<Object> {
           .removeIf(ea -> ea.getSource().equals(AnnotationSources.SOURCE));
 
       // add new source annotation to new ecore root and save it.
+      String string = serializeModel(repository.getRootPackage(), saveURI);
       final EAnnotation sourceAnnotation = createEAnnotation(AnnotationSources.SOURCE);
       sourceAnnotation.getDetails().put(AIEConstants.SOURCE.toString(), fileInput);
+      sourceAnnotation.getDetails().put(AIEConstants.SOURCE_HASH.toString(),
+          string.hashCode() + "");
       repository.getRootPackage().getEAnnotations().add(sourceAnnotation);
 
       repository.saveResource(repository.getRootPackage(), saveURI);
@@ -158,13 +161,20 @@ public class CS2ASMapping extends AlloyInEcoreBaseVisitor<Object> {
       oldRoot.getEAnnotations().removeIf(ea -> ea.getSource().equals(AnnotationSources.SOURCE));
 
       // add new source annotation to old ecore root and finally save old ecore.
+      String string = serializeModel(oldRoot, saveURI);
       final EAnnotation sourceAnnotation = createEAnnotation(AnnotationSources.SOURCE);
       sourceAnnotation.getDetails().put(AIEConstants.SOURCE.toString(), fileInput);
+      sourceAnnotation.getDetails().put(AIEConstants.SOURCE_HASH.toString(),
+          string.hashCode() + "");
       oldRoot.getEAnnotations().add(sourceAnnotation);
 
       repository.saveResource(oldRoot, saveURI);
       return oldRoot;
     }
+  }
+
+  public String serializeModel(EModelElement model, URI saveURI) {
+    return repository.getAsString(model, saveURI);
   }
 
   @Override
