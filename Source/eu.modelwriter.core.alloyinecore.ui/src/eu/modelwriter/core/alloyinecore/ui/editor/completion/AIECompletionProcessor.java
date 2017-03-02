@@ -2,11 +2,13 @@ package eu.modelwriter.core.alloyinecore.ui.editor.completion;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.contentassist.CompletionProposal;
+import org.eclipse.jface.text.contentassist.ContextInformationValidator;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContextInformation;
@@ -27,7 +29,7 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
 
     final AIECompletionUtil completionUtil = new AIECompletionUtil(document, offset);
 
-    List<String> completionWords;
+    Set<String> completionWords;
     try {
       completionWords = completionUtil.getProposals();
     } catch (final BadLocationException e1) {
@@ -56,17 +58,21 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
 
       for (final String word : completionWords) {
         if (word.toLowerCase().startsWith(builder.toString().toLowerCase())) {
-          proposals.add(new CompletionProposal(word, temp + 1, builder.length(), word.length()));
+          proposals.add(new CompletionProposal(word, temp + 1, builder.length(), word.length(),
+              null, word.substring(word.lastIndexOf("::") != -1 ? word.lastIndexOf("::") + 2 : 0),
+              null, null));
         }
       }
     } else {
-      for (int i = 0; i < activationChars.length; i++) {
-        if (activationChars[i] == c) {
-          for (final String word : completionWords) {
-            proposals.add(new CompletionProposal(word, temp + 1, builder.length(), word.length()));
-          }
-        }
+      // for (int i = 0; i < activationChars.length; i++) {
+      // if (activationChars[i] == c) {
+      for (final String word : completionWords) {
+        proposals.add(new CompletionProposal(word, temp + 1, builder.length(), word.length(), null,
+            word.substring(word.lastIndexOf("::") != -1 ? word.lastIndexOf("::") + 2 : 0), null,
+            null));
       }
+      // }
+      // }
     }
 
     final ICompletionProposal[] result = new ICompletionProposal[proposals.size()];
@@ -89,7 +95,7 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
 
   @Override
   public char[] getContextInformationAutoActivationCharacters() {
-    return activationChars;
+    return null;
   }
 
   @Override
@@ -99,7 +105,6 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
 
   @Override
   public IContextInformationValidator getContextInformationValidator() {
-    // TODO Auto-generated method stub
-    return null;
+    return new ContextInformationValidator(this);
   }
 }

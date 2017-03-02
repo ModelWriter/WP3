@@ -1,7 +1,7 @@
 package eu.modelwriter.core.alloyinecore.ui.editor.completion.util;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +36,7 @@ public class AIECompletionUtil {
     this.offset = offset;
   }
 
-  public List<String> getProposals() throws BadLocationException {
+  public Set<String> getProposals() throws BadLocationException {
     cutDocLexer =
         new AlloyInEcoreLexer(new ANTLRInputStream(AIECompletionUtil.document.get(0, offset)));
     cutDocTokens = new CommonTokenStream(cutDocLexer);
@@ -55,7 +55,7 @@ public class AIECompletionUtil {
     final SuggestionDetector suggestionDetector =
         new SuggestionDetector(AIECompletionUtil.document, offset, parentOfCloserNode, closerNode);
     final Set<String> detectedSuggestions = suggestionDetector.detect();
-    final List<String> allProposals = new ArrayList<>();
+    final Set<String> allProposals = new HashSet<>();
     allProposals.addAll(detectedSuggestions);
     return allProposals;
   }

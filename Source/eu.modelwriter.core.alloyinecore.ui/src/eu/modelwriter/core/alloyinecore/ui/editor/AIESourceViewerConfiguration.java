@@ -214,7 +214,6 @@ public class AIESourceViewerConfiguration extends TextSourceViewerConfiguration 
     final ContentAssistant assistant = new ContentAssistant();
     assistant.setContentAssistProcessor(new AIECompletionProcessor(),
         IDocument.DEFAULT_CONTENT_TYPE);
-    assistant.setAutoActivationDelay(500);
     assistant.enableAutoActivation(true);
     assistant.enableAutoInsert(true);
     assistant.setProposalPopupOrientation(IContentAssistant.PROPOSAL_OVERLAY);
