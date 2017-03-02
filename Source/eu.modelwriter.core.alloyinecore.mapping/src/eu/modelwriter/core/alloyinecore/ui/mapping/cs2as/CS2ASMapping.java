@@ -36,6 +36,7 @@ import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import eu.modelwriter.core.alloyinecore.internal.AIEConstants;
 import eu.modelwriter.core.alloyinecore.internal.AnnotationSources;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreBaseVisitor;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreLexer;
@@ -78,7 +79,6 @@ import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.PathNameCo
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.PostconditionContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.PreconditionContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.TemplateSignatureContext;
-import eu.modelwriter.core.alloyinecore.ui.mapping.AIEConstants;
 
 public class CS2ASMapping extends AlloyInEcoreBaseVisitor<Object> {
 
@@ -107,7 +107,7 @@ public class CS2ASMapping extends AlloyInEcoreBaseVisitor<Object> {
    * @param fileInput : alloy in ecore program input.
    * @param savePath : save location for ecore file.
    */
-  public void parseAndSave(final String fileInput, final URI saveURI) {
+  public EObject parseAndSave(final String fileInput, final URI saveURI) {
     init();
 
     this.fileInput = fileInput;
@@ -139,11 +139,17 @@ public class CS2ASMapping extends AlloyInEcoreBaseVisitor<Object> {
       }
 
       // if there is not any parse error,
-      // then remove old source annotation and finally save ecore.
+      // then remove old source annotation
       repository.getRootPackage().getEAnnotations()
-      .removeIf(ea -> ea.getSource().equals(AnnotationSources.SOURCE));
+          .removeIf(ea -> ea.getSource().equals(AnnotationSources.SOURCE));
+
+      // add new source annotation to new ecore root and save it.
+      final EAnnotation sourceAnnotation = createEAnnotation(AnnotationSources.SOURCE);
+      sourceAnnotation.getDetails().put(AIEConstants.SOURCE.toString(), fileInput);
+      repository.getRootPackage().getEAnnotations().add(sourceAnnotation);
 
       repository.saveResource(repository.getRootPackage(), saveURI);
+      return repository.getRootPackage();
     } catch (final Exception e) {
       // if there exists any parse error,
       // then save aie source as annotation.
@@ -157,6 +163,7 @@ public class CS2ASMapping extends AlloyInEcoreBaseVisitor<Object> {
       oldRoot.getEAnnotations().add(sourceAnnotation);
 
       repository.saveResource(oldRoot, saveURI);
+      return oldRoot;
     }
   }
 
@@ -1018,7 +1025,7 @@ public class CS2ASMapping extends AlloyInEcoreBaseVisitor<Object> {
         switch (AIEConstants.getValue(q)) {
           case PRIMITIVE:
             final EAnnotation primitiveAnnotation =
-            createEAnnotation(AnnotationSources.DATATYPE_PRIMITIVE);
+                createEAnnotation(AnnotationSources.DATATYPE_PRIMITIVE);
             // DEFAULT NULL
             eDataType.getEAnnotations().add(primitiveAnnotation);
             break;

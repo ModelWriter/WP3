@@ -49,17 +49,17 @@ public class AIEDocument extends Document {
    * 
    * @return true if succeed.
    */
-  public boolean saveInEcore(final Object element, final boolean overwrite) {
+  public EObject saveInEcore(final Object element, final boolean overwrite) {
     if (overwrite) { // Save as
       if (element instanceof FileEditorInput) {
-        mapping.parseAndSave(get(),
+        return mapping.parseAndSave(get(),
             URI.createFileURI(((FileEditorInput) element).getFile().getFullPath().toString()));
       }
     } else { // Save
-      mapping.parseAndSave(get(),
+      return mapping.parseAndSave(get(),
           URI.createPlatformResourceURI(iFile.getFullPath().toString(), true));
     }
-    return true;
+    return null;
   }
 
   public void setFile(final IFile iFile) {
