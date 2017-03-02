@@ -51,7 +51,7 @@
       <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eOperations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="Mapz" instanceClassName="java.util.Boolean" serializable="false"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Bool" instanceClassName="java.lang.Boolean" serializable="false"/>
   <eClassifiers xsi:type="ecore:EClass" name="ArrayList">
     <eTypeParameters name="V"/>
   </eClassifiers>

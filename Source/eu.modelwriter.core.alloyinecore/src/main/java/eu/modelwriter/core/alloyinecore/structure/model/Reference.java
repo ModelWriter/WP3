@@ -134,9 +134,8 @@ public final class Reference extends StructuralFeature<EReference, EReferenceCon
     @Override
     public List<ISegment> getTargets() {
         return ISource.super.getTargets().stream()
-                .filter(e -> e instanceof Classifier ||
-                        e instanceof ImportedClass ||
-                        e instanceof ImportedDataType)
+                .filter(e -> e instanceof Class ||
+                        e instanceof ImportedClass)
                 .collect(Collectors.toList());
     }
 }

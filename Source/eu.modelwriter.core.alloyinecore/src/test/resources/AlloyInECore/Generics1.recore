@@ -19,7 +19,7 @@ package generics : gns = 'eu.modelwriter.generics'
         operation abstract() : E[?] throws MyException<E>;
         operation interface() : Boolean;
     }
-    datatype Mapz : 'java.util.Boolean' { !serializable };
+    datatype Bool : 'java.lang.Boolean' { !serializable };
     class ArrayList<V> extends List<V>, Cars;
     class Car;
     abstract class Person { attribute name: String  [1]; }

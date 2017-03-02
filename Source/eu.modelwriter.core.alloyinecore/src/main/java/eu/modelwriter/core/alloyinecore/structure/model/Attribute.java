@@ -135,8 +135,8 @@ public final class Attribute extends StructuralFeature<EAttribute, EAttributeCon
     @Override
     public List<ISegment> getTargets() {
         return ISource.super.getTargets().stream()
-                .filter(e -> e instanceof Classifier ||
-                        e instanceof ImportedClass ||
+                .filter(e -> e instanceof Enum ||
+                        e instanceof DataType ||
                         e instanceof ImportedDataType)
                 .collect(Collectors.toList());
     }
