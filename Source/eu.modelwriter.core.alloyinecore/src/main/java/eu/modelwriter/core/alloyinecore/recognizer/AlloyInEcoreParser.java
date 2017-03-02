@@ -1993,7 +1993,12 @@ public class AlloyInEcoreParser extends Parser {
 	public final EPackageContext ePackage(Element owner) throws RecognitionException {
 		EPackageContext _localctx = new EPackageContext(_ctx, getState(), owner);
 		enterRule(_localctx, 36, RULE_ePackage);
-		((EPackageContext)_localctx).element =  eFactory.createEPackage(); if(_localctx.parent instanceof ModelContext) {((EPackageContext)_localctx).current =  new RootPackage(_localctx.element, _localctx);} else {((EPackageContext)_localctx).current =  new Package(_localctx.element, _localctx);}
+
+		((EPackageContext)_localctx).element =  eFactory.createEPackage();
+		if(_localctx.parent instanceof ModelContext) {((EPackageContext)_localctx).current =  new RootPackage(_localctx.element, _localctx);}
+		else {((EPackageContext)_localctx).current =  new Package(_localctx.element, _localctx);}
+		owner.addOwnedElement(_localctx.current);
+
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
@@ -2098,7 +2103,6 @@ public class AlloyInEcoreParser extends Parser {
 			}
 			}
 			_ctx.stop = _input.LT(-1);
-			owner.addOwnedElement(_localctx.current);
 		}
 		catch (RecognitionException re) {
 			_localctx.exception = re;

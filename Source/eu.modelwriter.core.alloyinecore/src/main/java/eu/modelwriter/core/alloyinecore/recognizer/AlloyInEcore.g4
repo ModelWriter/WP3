@@ -380,8 +380,13 @@ if ($ownedPathName != null) {
  5. UniqueNsURIs
 */
 ePackage[Element owner] returns [EPackage element] locals [Package current]
-@init {$element = eFactory.createEPackage(); if($ctx.parent instanceof ModelContext) {$current = new RootPackage($element, $ctx);} else {$current = new Package($element, $ctx);}}
-@after{owner.addOwnedElement($current);}:
+@init {
+$element = eFactory.createEPackage();
+if($ctx.parent instanceof ModelContext) {$current = new RootPackage($element, $ctx);}
+else {$current = new Package($element, $ctx);}
+owner.addOwnedElement($current);
+}
+@after{}:
     (visibility= visibilityKind)? {if($ctx.visibility != null) $element.getEAnnotations().add($visibility.element);}
     'package' name= unrestrictedName
     {$element.setName($name.text);}
@@ -945,7 +950,7 @@ formula returns [Formula element] locals[List<Variable> variables]
     | left=expression not=('!' | 'not')? '='  right=expression  {$element = Formula.create($ctx);}                                                  #equal          //Formula f = left.eq(right) --Returns the formula 'left = right' (equal).
 
     //Integer Comparison Operators
-    | ileft=intExpression not=('!' | 'not')? '='  iright=intExpression  {$element = Formula.create($ctx);}                                          #eq             //Formula f= left.eq(right) --Returns a formula stating that the given int expression and left have the same value.
+        | ileft=intExpression not=('!' | 'not')? '='  iright=intExpression  {$element = Formula.create($ctx);}                                          #eq             //Formula f= left.eq(right) --Returns a formula stating that the given int expression and left have the same value.
     | ileft=intExpression not=('!' | 'not')? '<'  iright=intExpression  {$element = Formula.create($ctx);}                                          #lt             //Formula f= left.lt(right) --Returns a formula stating that the value of this int expression is less than the value of the given int expression.
     | ileft=intExpression not=('!' | 'not')? '<=' iright=intExpression  {$element = Formula.create($ctx);}                                          #lte            //Formula f= left.lte(right)--Returns a formula stating that the value of this int expression is less than or equal to the value of the given int expression.
     | ileft=intExpression not=('!' | 'not')? '>'  iright=intExpression  {$element = Formula.create($ctx);}                                          #gt             //Formula f= left.qt(right) --Returns a formula stating that the value of this int expression is greater than the value of the given int expression.
