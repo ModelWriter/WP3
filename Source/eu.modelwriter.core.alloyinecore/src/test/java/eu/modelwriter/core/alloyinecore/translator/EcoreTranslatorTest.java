@@ -47,63 +47,63 @@ public class EcoreTranslatorTest {
     public void translatorTest() throws NullPointerException, IOException {
         String actual = translator.translate("./src/test/resources/EcoreTranslator/Test.ecore");
         String expected = getString("./src/test/resources/EcoreTranslator/Test.recore");
-        assertEquals(removeAllWhiteSpaces(expected), removeAllWhiteSpaces(actual));
+        assertEquals((expected), (actual));
     }
 
     @Test
     public void packageTranslate() throws IOException {
         String actual = translator.translate("./src/test/resources/EcoreTranslator/PackageTest.ecore");
         String expected = getString("./src/test/resources/EcoreTranslator/PackageTest.recore");
-        assertEquals(removeAllWhiteSpaces(expected), removeAllWhiteSpaces(actual));
+        assertEquals((expected), (actual));
     }
 
     @Test
     public void classifierTranslate() throws IOException {
         String actual = translator.translate("./src/test/resources/EcoreTranslator/ClassifierTest.ecore");
         String expected = getString("./src/test/resources/EcoreTranslator/ClassifierTest.recore");
-        assertEquals(removeAllWhiteSpaces(expected), removeAllWhiteSpaces(actual));
+        assertEquals((expected), (actual));
     }
 
     @Test
     public void attributeTranslate() throws IOException {
         String actual = translator.translate("./src/test/resources/EcoreTranslator/AttrTest.ecore");
         String expected = getString("./src/test/resources/EcoreTranslator/AttrTest.recore");
-        assertEquals(removeAllWhiteSpaces(expected), removeAllWhiteSpaces(actual));
+        assertEquals((expected), (actual));
     }
 
     @Test
     public void referenceTranslate() throws IOException {
         String actual = translator.translate("./src/test/resources/EcoreTranslator/ReferenceTest.ecore");
         String expected = getString("./src/test/resources/EcoreTranslator/ReferenceTest.recore");
-        assertEquals(removeAllWhiteSpaces(expected), removeAllWhiteSpaces(actual));
+        assertEquals((expected), (actual));
     }
 
     @Test
     public void operationTranslate() throws IOException {
         String actual = translator.translate("./src/test/resources/EcoreTranslator/OperationTest.ecore");
         String expected = getString("./src/test/resources/EcoreTranslator/OperationTest.recore");
-        assertEquals(removeAllWhiteSpaces(expected), removeAllWhiteSpaces(actual));
+        assertEquals((expected), (actual));
     }
 
     @Test
     public void annotationTranslate() throws IOException {
         String actual = translator.translate("./src/test/resources/EcoreTranslator/AnnotationTest.ecore");
         String expected = getString("./src/test/resources/EcoreTranslator/AnnotationTest.recore");
-        assertEquals(removeAllWhiteSpaces(expected), removeAllWhiteSpaces(actual));
+        assertEquals((expected), (actual));
     }
 
     @Test
     public void genericsTranslate() throws IOException {
         String actual = translator.translate("./src/test/resources/EcoreTranslator/GenericsTest.ecore");
         String expected = getString("./src/test/resources/EcoreTranslator/GenericsTest.recore");
-        assertEquals(removeAllWhiteSpaces(expected), removeAllWhiteSpaces(actual));
+        assertEquals((expected), (actual));
     }
 
     @Test
     public void ecoreTranslate() throws IOException {
         String actual = translator.translate("./src/test/resources/EcoreTranslator/Ecore.ecore");
         String expected = getString("./src/test/resources/EcoreTranslator/Ecore.recore");
-        assertEquals(removeAllWhiteSpaces(expected), removeAllWhiteSpaces(actual));
+        assertEquals((expected), (actual));
     }
 
     private String getString(String fileName) throws IOException {
