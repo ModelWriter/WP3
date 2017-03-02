@@ -38,7 +38,8 @@ public class EModelElementRefSuggestionProvider extends AbstractAIESuggestionPro
         if (fullContext != null) {
           final List<ITarget> targets = fullContext.current.getTargets().stream()
               .map(e -> (ITarget) e).collect(Collectors.toList());
-          if (targets.stream().noneMatch(t -> t.getFullSegment().equals(lastToken.getText()))) {
+          if (targets.stream().noneMatch(
+              t -> t.getRelativeSegment(fullContext.current).equals(lastToken.getText()))) {
             for (final ITarget target : targets) {
               suggestions.add(target.getRelativeSegment(fullContext.current));
             }

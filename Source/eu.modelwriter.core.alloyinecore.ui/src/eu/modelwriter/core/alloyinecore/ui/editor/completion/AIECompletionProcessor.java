@@ -46,7 +46,7 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
     StringBuilder builder = new StringBuilder();
 
     if (Character.isAlphabetic(c)) {
-      while (!Character.isWhitespace(c)) {
+      while (Character.isAlphabetic(c)) {
         builder.append(c);
         temp--;
         try {
@@ -64,15 +64,11 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
         }
       }
     } else {
-      // for (int i = 0; i < activationChars.length; i++) {
-      // if (activationChars[i] == c) {
       for (final String word : completionWords) {
         proposals.add(new CompletionProposal(word, temp + 1, builder.length(), word.length(), null,
             word.substring(word.lastIndexOf("::") != -1 ? word.lastIndexOf("::") + 2 : 0), null,
             null));
       }
-      // }
-      // }
     }
 
     final ICompletionProposal[] result = new ICompletionProposal[proposals.size()];

@@ -216,6 +216,7 @@ public class AIESourceViewerConfiguration extends TextSourceViewerConfiguration 
         IDocument.DEFAULT_CONTENT_TYPE);
     assistant.enableAutoActivation(true);
     assistant.enableAutoInsert(true);
+    assistant.setAutoActivationDelay(0);
     assistant.setProposalPopupOrientation(IContentAssistant.PROPOSAL_OVERLAY);
     assistant.setContextInformationPopupOrientation(IContentAssistant.CONTEXT_INFO_ABOVE);
 

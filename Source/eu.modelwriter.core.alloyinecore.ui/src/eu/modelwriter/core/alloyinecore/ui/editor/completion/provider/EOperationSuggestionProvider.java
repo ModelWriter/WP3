@@ -59,15 +59,14 @@ public class EOperationSuggestionProvider extends AbstractAIESuggestionProvider 
         if (fullContext != null) {
           final List<ITarget> targets = fullContext.current.getTargets().stream()
               .map(e -> (ITarget) e).collect(Collectors.toList());
-          if (targets.stream().noneMatch(t -> t.getFullSegment().equals(lastToken.getText()))) {
+          if (targets.stream().noneMatch(
+              t -> t.getRelativeSegment(fullContext.current).equals(lastToken.getText()))
+              && !spFactory.eGenericElementTypeSP().getStartSuggestions()
+              .contains(lastToken.getText())) {
             for (final ITarget target : targets) {
               suggestions.add(target.getRelativeSegment(fullContext.current));
             }
           }
-        }
-        if (!spFactory.eGenericElementTypeSP().getStartSuggestions()
-            .contains(lastToken.getText())) {
-          suggestions.addAll(spFactory.eGenericElementTypeSP().getStartSuggestions());
         }
         suggestions.addAll(spFactory.multiplicitySP().getStartSuggestions());
         suggestions.add(CompletionTokens._throws);
@@ -85,7 +84,8 @@ public class EOperationSuggestionProvider extends AbstractAIESuggestionProvider 
         if (fullContext != null) {
           final List<ITarget> targets = fullContext.current.getTargets().stream()
               .map(e -> (ITarget) e).collect(Collectors.toList());
-          if (targets.stream().noneMatch(t -> t.getFullSegment().equals(lastToken.getText()))) {
+          if (targets.stream().noneMatch(
+              t -> t.getRelativeSegment(fullContext.current).equals(lastToken.getText()))) {
             for (final ITarget target : targets) {
               suggestions.add(target.getRelativeSegment(fullContext.current));
             }
