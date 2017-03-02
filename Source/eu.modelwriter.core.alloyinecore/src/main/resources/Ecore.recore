@@ -1,6 +1,6 @@
 package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
 {
-    class EAttribute extends EStructuralFeature
+    public class EAttribute extends EStructuralFeature
     {
         attribute iD : EBoolean[?];
         transient volatile readonly property eAttributeType : EDataType { derived };
@@ -9,7 +9,7 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'constraints' = 'ConsistentTransient'
         );
     }
-    class EAnnotation extends EModelElement
+    public class EAnnotation extends EModelElement
     {
         attribute source : EString[?];
         property details : EStringToStringMapEntry[*] { ordered !resolve composes };
@@ -21,7 +21,7 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'constraints' = 'WellFormedSourceURI'
         );
     }
-    class EClass extends EClassifier
+    public class EClass extends EClassifier
     {
         attribute abstract : EBoolean[?];
         attribute interface : EBoolean[?];
@@ -68,7 +68,7 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'constraints' = 'InterfaceIsAbstract AtMostOneID UniqueFeatureNames UniqueOperationSignatures NoCircularSuperTypes WellFormedMapEntryClass ConsistentSuperTypes DisjointFeatureAndOperationSignatures'
         );
     }
-    abstract class EClassifier extends ENamedElement
+    public abstract class EClassifier extends ENamedElement
     {
         volatile attribute instanceClassName : EString[?] { unsettable }
         {
@@ -97,11 +97,11 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'constraints' = 'WellFormedInstanceTypeName UniqueTypeParameterNames'
         );
     }
-    class EDataType extends EClassifier
+    public class EDataType extends EClassifier
     {
         attribute serializable : EBoolean[?] = 'true';
     }
-    class EEnum extends EDataType
+    public class EEnum extends EDataType
     {
         operation getEEnumLiteral(name : EString[?]) : EEnumLiteral[?];
         operation getEEnumLiteral(value : EInt[?]) : EEnumLiteral[?];
@@ -112,26 +112,26 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'constraints' = 'UniqueEnumeratorNames UniqueEnumeratorLiterals'
         );
     }
-    class EEnumLiteral extends ENamedElement
+    public class EEnumLiteral extends ENamedElement
     {
         attribute value : EInt[?];
         transient attribute instance : EEnumerator[?];
         attribute literal : EString[?];
         transient readonly property eEnum#eLiterals : EEnum[?] { !resolve };
     }
-    class EFactory extends EModelElement
+    public class EFactory extends EModelElement
     {
         operation create(eClass : EClass[?]) : EObject[?];
         operation createFromString(eDataType : EDataType[?], literalValue : EString[?]) : EJavaObject[?];
         operation convertToString(eDataType : EDataType[?], instanceValue : EJavaObject[?]) : EString[?];
         transient property ePackage#eFactoryInstance : EPackage { !resolve };
     }
-    abstract class EModelElement
+    public abstract class EModelElement
     {
         operation getEAnnotation(source : EString[?]) : EAnnotation[?];
         property eAnnotations#eModelElement : EAnnotation[*] { ordered !resolve composes };
     }
-    abstract class ENamedElement extends EModelElement
+    public abstract class ENamedElement extends EModelElement
     {
         attribute name : EString[?];
         annotation 'http://www.eclipse.org/emf/2002/Ecore'
@@ -139,7 +139,7 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'constraints' = 'WellFormedName'
         );
     }
-    class EObject
+    public class EObject
     {
         operation eClass() : EClass[?];
         operation eIsProxy() : EBoolean[?];
@@ -157,7 +157,7 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
         operation eUnset(feature : EStructuralFeature[?]);
         operation eInvoke(operation : EOperation[?], arguments : EEList<?>[?]) : EJavaObject[?] throws EInvocationTargetException;
     }
-    class EOperation extends ETypedElement
+    public class EOperation extends ETypedElement
     {
         operation getOperationID() : EInt[?];
         operation isOverrideOf(someOperation : EOperation[?]) : EBoolean[?];
@@ -185,7 +185,7 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'constraints' = 'UniqueParameterNames UniqueTypeParameterNames NoRepeatingVoid'
         );
     }
-    class EPackage extends ENamedElement
+    public class EPackage extends ENamedElement
     {
         attribute nsURI : EString[?];
         attribute nsPrefix : EString[?];
@@ -199,11 +199,11 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'constraints' = 'WellFormedNsURI WellFormedNsPrefix UniqueSubpackageNames UniqueClassifierNames UniqueNsURIs'
         );
     }
-    class EParameter extends ETypedElement
+    public class EParameter extends ETypedElement
     {
         transient readonly property eOperation#eParameters : EOperation[?] { !resolve };
     }
-    class EReference extends EStructuralFeature
+    public class EReference extends EStructuralFeature
     {
         attribute containment : EBoolean[?];
         transient volatile readonly attribute container : EBoolean[?] { derived };
@@ -216,7 +216,7 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'constraints' = 'ConsistentOpposite SingleContainer ConsistentKeys ConsistentUnique ConsistentContainer'
         );
     }
-    abstract class EStructuralFeature extends ETypedElement
+    public abstract class EStructuralFeature extends ETypedElement
     {
         attribute changeable : EBoolean[?] = 'true';
         attribute volatile : EBoolean[?];
@@ -233,7 +233,7 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'constraints' = 'ValidDefaultValueLiteral'
         );
     }
-    abstract class ETypedElement extends ENamedElement
+    public abstract class ETypedElement extends ENamedElement
     {
         attribute ordered : EBoolean[?] = 'true';
         attribute unique : EBoolean[?] = 'true';
@@ -262,28 +262,28 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'constraints' = 'ValidLowerBound ValidUpperBound ConsistentBounds ValidType'
         );
     }
-    datatype EBigDecimal : 'java.math.BigDecimal'
+    public datatype EBigDecimal : 'java.math.BigDecimal'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
             'baseType' = 'http://www.w3.org/2001/XMLSchema#decimal'
         );
     }
-    datatype EBigInteger : 'java.math.BigInteger'
+    public datatype EBigInteger : 'java.math.BigInteger'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
             'baseType' = 'http://www.w3.org/2001/XMLSchema#integer'
         );
     }
-    datatype EBoolean : 'boolean'
+    public datatype EBoolean : 'boolean'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
             'baseType' = 'http://www.w3.org/2001/XMLSchema#boolean'
         );
     }
-    datatype EBooleanObject : 'java.lang.Boolean'
+    public datatype EBooleanObject : 'java.lang.Boolean'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
@@ -291,21 +291,21 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'name' = 'EBoolean:Object'
         );
     }
-    datatype EByte : 'byte'
+    public datatype EByte : 'byte'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
             'baseType' = 'http://www.w3.org/2001/XMLSchema#byte'
         );
     }
-    datatype EByteArray : 'byte[]'
+    public datatype EByteArray : 'byte[]'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
             'baseType' = 'http://www.w3.org/2001/XMLSchema#hexBinary'
         );
     }
-    datatype EByteObject : 'java.lang.Byte'
+    public datatype EByteObject : 'java.lang.Byte'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
@@ -313,8 +313,8 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'name' = 'EByte:Object'
         );
     }
-    datatype EChar : 'char';
-    datatype ECharacterObject : 'java.lang.Character'
+    public datatype EChar : 'char';
+    public datatype ECharacterObject : 'java.lang.Character'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
@@ -322,16 +322,16 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'name' = 'EChar:Object'
         );
     }
-    datatype EDate : 'java.util.Date';
-    datatype EDiagnosticChain : 'org.eclipse.emf.common.util.DiagnosticChain' { !serializable };
-    datatype EDouble : 'double'
+    public datatype EDate : 'java.util.Date';
+    public datatype EDiagnosticChain : 'org.eclipse.emf.common.util.DiagnosticChain' { !serializable };
+    public datatype EDouble : 'double'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
             'baseType' = 'http://www.w3.org/2001/XMLSchema#double'
         );
     }
-    datatype EDoubleObject : 'java.lang.Double'
+    public datatype EDoubleObject : 'java.lang.Double'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
@@ -339,18 +339,18 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'name' = 'EDouble:Object'
         );
     }
-    datatype EEList<E> : 'org.eclipse.emf.common.util.EList' { !serializable };
-    datatype EEnumerator : 'org.eclipse.emf.common.util.Enumerator' { !serializable };
-    datatype EFeatureMap : 'org.eclipse.emf.ecore.util.FeatureMap' { !serializable };
-    datatype EFeatureMapEntry : 'org.eclipse.emf.ecore.util.FeatureMap$Entry' { !serializable };
-    datatype EFloat : 'float'
+    public datatype EEList<E> : 'org.eclipse.emf.common.util.EList' { !serializable };
+    public datatype EEnumerator : 'org.eclipse.emf.common.util.Enumerator' { !serializable };
+    public datatype EFeatureMap : 'org.eclipse.emf.ecore.util.FeatureMap' { !serializable };
+    public datatype EFeatureMapEntry : 'org.eclipse.emf.ecore.util.FeatureMap$Entry' { !serializable };
+    public datatype EFloat : 'float'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
             'baseType' = 'http://www.w3.org/2001/XMLSchema#float'
         );
     }
-    datatype EFloatObject : 'java.lang.Float'
+    public datatype EFloatObject : 'java.lang.Float'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
@@ -358,14 +358,14 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'name' = 'EFloat:Object'
         );
     }
-    datatype EInt : 'int'
+    public datatype EInt : 'int'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
             'baseType' = 'http://www.w3.org/2001/XMLSchema#int'
         );
     }
-    datatype EIntegerObject : 'java.lang.Integer'
+    public datatype EIntegerObject : 'java.lang.Integer'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
@@ -373,16 +373,16 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'name' = 'EInt:Object'
         );
     }
-    datatype EJavaClass<T> : 'java.lang.Class';
-    datatype EJavaObject : 'java.lang.Object';
-    datatype ELong : 'long'
+    public datatype EJavaClass<T> : 'java.lang.Class';
+    public datatype EJavaObject : 'java.lang.Object';
+    public datatype ELong : 'long'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
             'baseType' = 'http://www.w3.org/2001/XMLSchema#long'
         );
     }
-    datatype ELongObject : 'java.lang.Long'
+    public datatype ELongObject : 'java.lang.Long'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
@@ -390,17 +390,17 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'name' = 'ELong:Object'
         );
     }
-    datatype EMap<K, V> : 'java.util.Map' { !serializable };
-    datatype EResource : 'org.eclipse.emf.ecore.resource.Resource' { !serializable };
-    datatype EResourceSet : 'org.eclipse.emf.ecore.resource.ResourceSet' { !serializable };
-    datatype EShort : 'short'
+    public datatype EMap<K, V> : 'java.util.Map' { !serializable };
+    public datatype EResource : 'org.eclipse.emf.ecore.resource.Resource' { !serializable };
+    public datatype EResourceSet : 'org.eclipse.emf.ecore.resource.ResourceSet' { !serializable };
+    public datatype EShort : 'short'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
             'baseType' = 'http://www.w3.org/2001/XMLSchema#short'
         );
     }
-    datatype EShortObject : 'java.lang.Short'
+    public datatype EShortObject : 'java.lang.Short'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
@@ -408,20 +408,20 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'name' = 'EShort:Object'
         );
     }
-    datatype EString : 'java.lang.String'
+    public datatype EString : 'java.lang.String'
     {
         annotation 'http:///org/eclipse/emf/ecore/util/ExtendedMetaData'
         (
             'baseType' = 'http://www.w3.org/2001/XMLSchema#string'
         );
     }
-    class EStringToStringMapEntry : 'java.util.Map$Entry'
+    public class EStringToStringMapEntry : 'java.util.Map$Entry'
     {
         attribute key : EString[?];
         attribute value : EString[?];
     }
-    datatype ETreeIterator<E> : 'org.eclipse.emf.common.util.TreeIterator' { !serializable };
-    class EGenericType
+    public datatype ETreeIterator<E> : 'org.eclipse.emf.common.util.TreeIterator' { !serializable };
+    public class EGenericType
     {
         operation isInstance(object : EJavaObject[?]) : EBoolean[?];
         property eUpperBound : EGenericType[?] { !resolve composes };
@@ -435,9 +435,9 @@ package ecore : ecore = 'http://www.eclipse.org/emf/2002/Ecore'
             'constraints' = 'ConsistentType ConsistentBounds ConsistentArguments'
         );
     }
-    class ETypeParameter extends ENamedElement
+    public class ETypeParameter extends ENamedElement
     {
         property eBounds : EGenericType[*] { ordered !resolve composes };
     }
-    datatype EInvocationTargetException : 'java.lang.reflect.InvocationTargetException' { !serializable };
+    public datatype EInvocationTargetException : 'java.lang.reflect.InvocationTargetException' { !serializable };
 }
