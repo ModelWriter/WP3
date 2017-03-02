@@ -65,6 +65,10 @@ public class EOperationSuggestionProvider extends AbstractAIESuggestionProvider 
             }
           }
         }
+        if (!spFactory.eGenericElementTypeSP().getStartSuggestions()
+            .contains(lastToken.getText())) {
+          suggestions.addAll(spFactory.eGenericElementTypeSP().getStartSuggestions());
+        }
         suggestions.addAll(spFactory.multiplicitySP().getStartSuggestions());
         suggestions.add(CompletionTokens._throws);
         suggestions.add(CompletionTokens._leftCurly);
@@ -117,6 +121,7 @@ public class EOperationSuggestionProvider extends AbstractAIESuggestionProvider 
             suggestions.add(target.getRelativeSegment(fullContext.current));
           }
         }
+        suggestions.addAll(spFactory.eGenericElementTypeSP().getStartSuggestions());
       } else if (lastToken.getText().equals(CompletionTokens._throws)) {
         // exception type
         final EOperationContext fullContext =

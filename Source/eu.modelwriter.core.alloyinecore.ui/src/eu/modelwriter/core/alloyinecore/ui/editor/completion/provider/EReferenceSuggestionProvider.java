@@ -71,6 +71,10 @@ public class EReferenceSuggestionProvider extends AbstractAIESuggestionProvider 
             }
           }
         }
+        if (!spFactory.eGenericElementTypeSP().getStartSuggestions()
+            .contains(lastToken.getText())) {
+          suggestions.addAll(spFactory.eGenericElementTypeSP().getStartSuggestions());
+        }
         suggestions.addAll(spFactory.multiplicitySP().getStartSuggestions());
         suggestions.add(CompletionTokens._equals);
         suggestions.add(CompletionTokens._leftCurly);
@@ -126,6 +130,7 @@ public class EReferenceSuggestionProvider extends AbstractAIESuggestionProvider 
             }
           }
         }
+        suggestions.addAll(spFactory.eGenericElementTypeSP().getStartSuggestions());
       } else if (lastToken.getText().equals(CompletionTokens._colon)) {
         // reference type
         final EReferenceContext fullContext =

@@ -46,6 +46,10 @@ public class EParameterSuggestionProvider extends AbstractAIESuggestionProvider 
             }
           }
         }
+        if (!spFactory.eGenericElementTypeSP().getStartSuggestions()
+            .contains(lastToken.getText())) {
+          suggestions.addAll(spFactory.eGenericElementTypeSP().getStartSuggestions());
+        }
         suggestions.addAll(spFactory.multiplicitySP().getStartSuggestions());
         suggestions.add(CompletionTokens._leftCurly);
       } else if (lastToken instanceof EMultiplicityContext) {
@@ -65,6 +69,7 @@ public class EParameterSuggestionProvider extends AbstractAIESuggestionProvider 
             suggestions.add(target.getRelativeSegment(fullContext.current));
           }
         }
+        suggestions.addAll(spFactory.eGenericElementTypeSP().getStartSuggestions());
       } else if (lastToken.getText().equals(CompletionTokens._leftCurly)) {
         suggestions.add(CompletionTokens._ordered);
         suggestions.add(CompletionTokens._notOrdered);
