@@ -7,10 +7,12 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.DerivationContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.ExpressionContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.IdentifierContext;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionTokens;
 
@@ -18,9 +20,9 @@ public class DerivationSuggestionProvider extends AbstractAIESuggestionProvider 
 
 
   @Override
-  public Set<String> getStartSuggestions() {
-    final Set<String> startSuggestions = new HashSet<>();
-    startSuggestions.add(CompletionTokens._derivation);
+  public Set<ICompletionProposal> getStartSuggestions() {
+    final Set<ICompletionProposal> startSuggestions = new HashSet<>();
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._derivation));
     return startSuggestions;
   }
 
@@ -28,19 +30,19 @@ public class DerivationSuggestionProvider extends AbstractAIESuggestionProvider 
   protected void computeSuggestions(final ParserRuleContext context, final ParseTree lastToken) {
     if (lastToken instanceof ParserRuleContext) {
       if (lastToken instanceof IdentifierContext) {
-        suggestions.add(CompletionTokens._colon);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._colon));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken instanceof ExpressionContext) {
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       }
     } else if (lastToken instanceof TerminalNode) {
       if (lastToken.getText().equals(CompletionTokens._derivation)) {
-        suggestions.add(CompletionTokens._colon);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._colon));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken.getText().equals(CompletionTokens._colon)) {
         suggestions.addAll(
             spFactory.expressionSP().getStartSuggestions());
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken.getText().equals(CompletionTokens._semicolon)) {
         // end of context.
         suggestions.addAll(getParentProviderSuggestions(context, lastToken));

@@ -7,17 +7,19 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EGenericTypeContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.ETypeParameterContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.UnrestrictedNameContext;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionTokens;
 
 public class ETypeParameterSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
+  public Set<ICompletionProposal> getStartSuggestions() {
     return new HashSet<>();
   }
 
@@ -36,19 +38,18 @@ public class ETypeParameterSuggestionProvider extends AbstractAIESuggestionProvi
   protected void computeSuggestions(final ParserRuleContext context, final ParseTree lastToken) {
     if (lastToken instanceof ParserRuleContext) {
       if (lastToken instanceof UnrestrictedNameContext) {
-        suggestions.add(CompletionTokens._extends);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._extends));
         // end of context.
         suggestions.addAll(getParentProviderSuggestions(context, lastToken));
       } else if (lastToken instanceof EGenericTypeContext) {
-        suggestions.add(CompletionTokens._ampersand);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._ampersand));
         // end of context.
         suggestions.addAll(getParentProviderSuggestions(context, lastToken));
       }
     } else if (lastToken instanceof TerminalNode) {
       if (lastToken.getText().equals(CompletionTokens._extends)
           || lastToken.getText().equals(CompletionTokens._ampersand)) {
-        suggestions.addAll(spFactory.eGenericTypeSP()
-            .getStartSuggestions());
+        suggestions.addAll(spFactory.eGenericTypeSP().getStartSuggestions());
       } else if (lastToken instanceof ErrorNode) {
         // suggestions.addAll(getChildProviderSuggestions(context, lastToken));
       }

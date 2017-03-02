@@ -7,18 +7,20 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EGenericTypeArgumentContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EGenericTypeContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.PathNameContext;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionTokens;
 
 public class EGenericTypeSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
-    final Set<String> startSuggestions = new HashSet<>();
+  public Set<ICompletionProposal> getStartSuggestions() {
+    final Set<ICompletionProposal> startSuggestions = new HashSet<>();
     startSuggestions.addAll(
         spFactory.pathNameSP().getStartSuggestions());
     return startSuggestions;
@@ -44,12 +46,12 @@ public class EGenericTypeSuggestionProvider extends AbstractAIESuggestionProvide
   protected void computeSuggestions(final ParserRuleContext context, final ParseTree lastToken) {
     if (lastToken instanceof ParserRuleContext) {
       if (lastToken instanceof PathNameContext) {
-        suggestions.add(CompletionTokens._leftArrow);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftArrow));
         // end of context.
         suggestions.addAll(getParentProviderSuggestions(context, lastToken));
       } else if (lastToken instanceof EGenericTypeArgumentContext) {
-        suggestions.add(CompletionTokens._comma);
-        suggestions.add(CompletionTokens._rightArrow);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._comma));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._rightArrow));
       }
     } else if (lastToken instanceof TerminalNode) {
       if (lastToken.getText().equals(CompletionTokens._leftArrow)

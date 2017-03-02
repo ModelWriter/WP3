@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -14,11 +15,17 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.swt.graphics.Image;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreLexer;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.ModelContext;
 import eu.modelwriter.core.alloyinecore.structure.base.Element;
+import eu.modelwriter.core.alloyinecore.structure.base.ISource;
+import eu.modelwriter.core.alloyinecore.structure.base.ITarget;
+import eu.modelwriter.core.alloyinecore.ui.Activator;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 
 public class AIECompletionUtil {
   private static IDocument document;
@@ -36,7 +43,7 @@ public class AIECompletionUtil {
     this.offset = offset;
   }
 
-  public Set<String> getProposals() throws BadLocationException {
+  public Set<ICompletionProposal> getProposals() throws BadLocationException {
     cutDocLexer =
         new AlloyInEcoreLexer(new ANTLRInputStream(AIECompletionUtil.document.get(0, offset)));
     cutDocTokens = new CommonTokenStream(cutDocLexer);
@@ -54,9 +61,7 @@ public class AIECompletionUtil {
 
     final SuggestionDetector suggestionDetector =
         new SuggestionDetector(AIECompletionUtil.document, offset, parentOfCloserNode, closerNode);
-    final Set<String> detectedSuggestions = suggestionDetector.detect();
-    final Set<String> allProposals = new HashSet<>();
-    allProposals.addAll(detectedSuggestions);
+    final Set<ICompletionProposal> allProposals = suggestionDetector.detect();
     return allProposals;
   }
 
@@ -107,8 +112,7 @@ public class AIECompletionUtil {
     if (fullCtx.getClass().equals(cutCtx.getClass())) {
       try {
         final Field currentElementFieldcutCtx = cutCtx.getClass().getField("current");
-        final Field currentElementFieldFullCtx =
-            fullCtx.getClass().getField("current");
+        final Field currentElementFieldFullCtx = fullCtx.getClass().getField("current");
         if (currentElementFieldcutCtx != null && currentElementFieldFullCtx != null) {
           final Element<?> cutCtxElement = (Element<?>) currentElementFieldcutCtx.get(cutCtx);
           final Element<?> fullCtxElement = (Element<?>) currentElementFieldFullCtx.get(fullCtx);
@@ -132,5 +136,29 @@ public class AIECompletionUtil {
       }
     }
     return null;
+  }
+
+  public static Image getProposalImage(final Element<?> element) {
+    return Activator.getDefault().getImageRegistry().get(element.getClass().getSimpleName());
+  }
+
+  public static Image getProposalImage(final String key) {
+    return Activator.getDefault().getImageRegistry().get(key);
+  }
+
+  public static Set<AIECompletionProposal> getTargetProposals(final ISource element) {
+    final Set<AIECompletionProposal> suggestions = new HashSet<>();
+    final List<ITarget> targets =
+        element.getTargets().stream().map(e -> (ITarget) e).collect(Collectors.toList());
+    for (final ITarget target : targets) {
+      final String word = target.getRelativeSegment((Element<?>) element);
+      final Image image = AIECompletionUtil.getProposalImage((Element<?>) target);
+      final AIECompletionProposal proposal = new AIECompletionProposal(word, image,
+          word.substring(word.lastIndexOf(CompletionTokens._doubleColon) != -1
+          ? word.lastIndexOf(CompletionTokens._doubleColon) + 2 : 0),
+          null, null);
+      suggestions.add(proposal);
+    }
+    return suggestions;
   }
 }

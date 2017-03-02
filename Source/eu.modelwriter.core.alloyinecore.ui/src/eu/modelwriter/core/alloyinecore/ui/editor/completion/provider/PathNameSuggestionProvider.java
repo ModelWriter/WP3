@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreLexer;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.PathNameContext;
@@ -17,7 +18,7 @@ import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESug
 public class PathNameSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
+  public Set<ICompletionProposal> getStartSuggestions() {
     return new HashSet<>();
   }
 

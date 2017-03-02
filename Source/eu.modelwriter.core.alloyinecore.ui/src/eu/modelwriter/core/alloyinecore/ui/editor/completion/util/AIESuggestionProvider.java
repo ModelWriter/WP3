@@ -4,9 +4,10 @@ import java.util.Set;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 public interface AIESuggestionProvider {
-  Set<String> getSuggestions(ParserRuleContext context, ParseTree lastToken);
+  Set<ICompletionProposal> getSuggestions(ParserRuleContext context, ParseTree lastToken);
 
-  Set<String> getStartSuggestions();
+  Set<ICompletionProposal> getStartSuggestions();
 }

@@ -8,6 +8,7 @@ import java.util.Set;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 public class SuggestionDetector {
   private final List<AIESuggestionProvider> suggestionProviders;
@@ -33,11 +34,11 @@ public class SuggestionDetector {
 
   private void initSuggestionProviders() {
     suggestionProviders
-        .addAll(spFactory.allSuggestionProviders());
+    .addAll(spFactory.allSuggestionProviders());
   }
 
-  public Set<String> detect() {
-    final Set<String> suggestions = new HashSet<>();
+  public Set<ICompletionProposal> detect() {
+    final Set<ICompletionProposal> suggestions = new HashSet<>();
     for (final AIESuggestionProvider suggestionProvider : suggestionProviders) {
       suggestions.addAll(suggestionProvider.getSuggestions(parentOfCloserNode, closerNode));
     }

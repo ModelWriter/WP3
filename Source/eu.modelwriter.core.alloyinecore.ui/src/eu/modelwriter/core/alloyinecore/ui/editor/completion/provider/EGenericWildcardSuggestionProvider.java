@@ -7,18 +7,20 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EGenericTypeContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EGenericWildcardContext;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionTokens;
 
 public class EGenericWildcardSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
-    final Set<String> startSuggestions = new HashSet<>();
-    startSuggestions.add(CompletionTokens._question);
+  public Set<ICompletionProposal> getStartSuggestions() {
+    final Set<ICompletionProposal> startSuggestions = new HashSet<>();
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._question));
     return startSuggestions;
   }
 
@@ -41,8 +43,8 @@ public class EGenericWildcardSuggestionProvider extends AbstractAIESuggestionPro
       }
     } else if (lastToken instanceof TerminalNode) {
       if (lastToken.getText().equals(CompletionTokens._question)) {
-        suggestions.add(CompletionTokens._extends);
-        suggestions.add(CompletionTokens._super);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._extends));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._super));
       } else if (lastToken.getText().equals(CompletionTokens._extends)
           || lastToken.getText().equals(CompletionTokens._super)) {
         suggestions.addAll(spFactory.eGenericTypeSP()

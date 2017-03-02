@@ -1,14 +1,13 @@
 package eu.modelwriter.core.alloyinecore.ui.editor.completion.provider;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreLexer;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.DerivationContext;
@@ -19,7 +18,8 @@ import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EMultiplic
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.InitialContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.UnrestrictedNameContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.VisibilityKindContext;
-import eu.modelwriter.core.alloyinecore.structure.base.ITarget;
+import eu.modelwriter.core.alloyinecore.structure.base.ISource;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AIECompletionUtil;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionTokens;
@@ -27,16 +27,16 @@ import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionToke
 public class EAttributeSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
-    final Set<String> startSuggestions = new HashSet<>();
+  public Set<ICompletionProposal> getStartSuggestions() {
+    final Set<ICompletionProposal> startSuggestions = new HashSet<>();
     startSuggestions.addAll(spFactory.visibilityKindSP().getStartSuggestions());
-    startSuggestions.add(CompletionTokens._static);
-    startSuggestions.add(CompletionTokens._model);
-    startSuggestions.add(CompletionTokens._ghost);
-    startSuggestions.add(CompletionTokens._transient);
-    startSuggestions.add(CompletionTokens._volatile);
-    startSuggestions.add(CompletionTokens._readonly);
-    startSuggestions.add(CompletionTokens._attribute);
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._static));
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._model));
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._ghost));
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._transient));
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._volatile));
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._readonly));
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._attribute));
     return startSuggestions;
   }
 
@@ -44,74 +44,74 @@ public class EAttributeSuggestionProvider extends AbstractAIESuggestionProvider 
   protected void computeSuggestions(final ParserRuleContext context, final ParseTree lastToken) {
     if (lastToken instanceof ParserRuleContext) {
       if (lastToken instanceof VisibilityKindContext) {
-        suggestions.add(CompletionTokens._static);
-        suggestions.add(CompletionTokens._model);
-        suggestions.add(CompletionTokens._ghost);
-        suggestions.add(CompletionTokens._transient);
-        suggestions.add(CompletionTokens._volatile);
-        suggestions.add(CompletionTokens._readonly);
-        suggestions.add(CompletionTokens._attribute);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._static));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._model));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._ghost));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._transient));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._volatile));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._readonly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._attribute));
       } else if (lastToken instanceof UnrestrictedNameContext) {
-        suggestions.add(CompletionTokens._colon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._colon));
       } else if (lastToken instanceof EGenericElementTypeContext) {
         // attribute type
         // parser assumes that Context is finished, but completion continues.
         final EAttributeContext fullContext =
             (EAttributeContext) AIECompletionUtil.getFullContext(context);
         if (fullContext != null) {
-          final List<ITarget> targets = fullContext.current.getTargets().stream()
-              .map(e -> (ITarget) e).collect(Collectors.toList());
-          if (targets.stream()
-              .noneMatch(t -> t.getRelativeSegment(fullContext.current).equals(lastToken.getText()))
-              && !spFactory.eGenericElementTypeSP().getStartSuggestions()
-              .contains(lastToken.getText())) {
-            for (final ITarget target : targets) {
-              suggestions.add(target.getRelativeSegment(fullContext.current));
+          if (fullContext.current instanceof ISource) {
+            final Set<AIECompletionProposal> targetProposals =
+                AIECompletionUtil.getTargetProposals(fullContext.current);
+            if (targetProposals.stream()
+                .noneMatch(t -> t.getReplacementString().equals(lastToken.getText()))
+                && !spFactory.eGenericElementTypeSP().getStartSuggestions()
+                .contains(lastToken.getText())) {
+              suggestions.addAll(targetProposals);
             }
           }
         }
         suggestions.addAll(spFactory.multiplicitySP().getStartSuggestions());
-        suggestions.add(CompletionTokens._equals);
-        suggestions.add(CompletionTokens._leftCurly);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._equals));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftCurly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken instanceof EMultiplicityContext) {
-        suggestions.add(CompletionTokens._equals);
-        suggestions.add(CompletionTokens._leftCurly);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._equals));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftCurly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken instanceof EAnnotationContext) {
         suggestions.addAll(spFactory.eAnnotationSP().getStartSuggestions());
         suggestions.addAll(spFactory.derivationSP().getStartSuggestions());
         suggestions.addAll(spFactory.initialSP().getStartSuggestions());
-        suggestions.add(CompletionTokens._leftCurly);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftCurly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken instanceof DerivationContext || lastToken instanceof InitialContext) {
         suggestions.addAll(spFactory.eAnnotationSP().getStartSuggestions());
-        suggestions.add(CompletionTokens._leftCurly);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftCurly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       }
     } else if (lastToken instanceof TerminalNode) {
       if (lastToken.getText().equals(CompletionTokens._static)) {
-        suggestions.add(CompletionTokens._model);
-        suggestions.add(CompletionTokens._ghost);
-        suggestions.add(CompletionTokens._transient);
-        suggestions.add(CompletionTokens._volatile);
-        suggestions.add(CompletionTokens._readonly);
-        suggestions.add(CompletionTokens._attribute);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._model));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._ghost));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._transient));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._volatile));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._readonly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._attribute));
       } else if (lastToken.getText().equals(CompletionTokens._model)
           || lastToken.getText().equals(CompletionTokens._ghost)) {
-        suggestions.add(CompletionTokens._transient);
-        suggestions.add(CompletionTokens._volatile);
-        suggestions.add(CompletionTokens._readonly);
-        suggestions.add(CompletionTokens._attribute);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._transient));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._volatile));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._readonly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._attribute));
       } else if (lastToken.getText().equals(CompletionTokens._transient)) {
-        suggestions.add(CompletionTokens._volatile);
-        suggestions.add(CompletionTokens._readonly);
-        suggestions.add(CompletionTokens._attribute);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._volatile));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._readonly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._attribute));
       } else if (lastToken.getText().equals(CompletionTokens._volatile)) {
-        suggestions.add(CompletionTokens._readonly);
-        suggestions.add(CompletionTokens._attribute);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._readonly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._attribute));
       } else if (lastToken.getText().equals(CompletionTokens._readonly)) {
-        suggestions.add(CompletionTokens._attribute);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._attribute));
       } else if (lastToken.getText().equals(CompletionTokens._attribute)) {
         // attribute name
       } else if (lastToken.getText().equals(CompletionTokens._colon)) {
@@ -119,40 +119,40 @@ public class EAttributeSuggestionProvider extends AbstractAIESuggestionProvider 
         final EAttributeContext fullContext =
             (EAttributeContext) AIECompletionUtil.getFullContext(context);
         if (fullContext != null) {
-          final List<ITarget> targets = fullContext.current.getTargets().stream()
-              .map(e -> (ITarget) e).collect(Collectors.toList());
-          for (final ITarget target : targets) {
-            suggestions.add(target.getRelativeSegment(fullContext.current));
+          if (fullContext.current instanceof ISource) {
+            final Set<AIECompletionProposal> targetProposals =
+                AIECompletionUtil.getTargetProposals(fullContext.current);
+            suggestions.addAll(targetProposals);
           }
         }
         suggestions.addAll(spFactory.eGenericElementTypeSP().getStartSuggestions());
       } else if (lastToken.getText().equals(CompletionTokens._equals)) {
-        suggestions.add(CompletionTokens._singleQuote);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._singleQuote));
       } else if (((TerminalNode) lastToken).getSymbol()
           .getType() == AlloyInEcoreLexer.SINGLE_QUOTED_STRING) {
-        suggestions.add(CompletionTokens._leftCurly);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftCurly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken.getText().equals(CompletionTokens._leftCurly)) {
-        suggestions.add(CompletionTokens._derived);
-        suggestions.add(CompletionTokens._id);
-        suggestions.add(CompletionTokens._ordered);
-        suggestions.add(CompletionTokens._notOrdered);
-        suggestions.add(CompletionTokens._unique);
-        suggestions.add(CompletionTokens._notUnique);
-        suggestions.add(CompletionTokens._unsettable);
-        suggestions.add(CompletionTokens._notUnsettable);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._derived));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._id));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._ordered));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._notOrdered));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._unique));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._notUnique));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._unsettable));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._notUnsettable));
         suggestions.addAll(spFactory.eAnnotationSP().getStartSuggestions());
         suggestions.addAll(spFactory.derivationSP().getStartSuggestions());
         suggestions.addAll(spFactory.initialSP().getStartSuggestions());
       } else if (lastToken.getText().equals(CompletionTokens._comma)) {
-        suggestions.add(CompletionTokens._derived);
-        suggestions.add(CompletionTokens._id);
-        suggestions.add(CompletionTokens._ordered);
-        suggestions.add(CompletionTokens._notOrdered);
-        suggestions.add(CompletionTokens._unique);
-        suggestions.add(CompletionTokens._notUnique);
-        suggestions.add(CompletionTokens._unsettable);
-        suggestions.add(CompletionTokens._notUnsettable);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._derived));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._id));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._ordered));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._notOrdered));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._unique));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._notUnique));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._unsettable));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._notUnsettable));
       } else if (lastToken.getText().equals(CompletionTokens._derived)
           || lastToken.getText().equals(CompletionTokens._id)
           || lastToken.getText().equals(CompletionTokens._ordered)
@@ -161,8 +161,8 @@ public class EAttributeSuggestionProvider extends AbstractAIESuggestionProvider 
           || lastToken.getText().equals(CompletionTokens._notUnique)
           || lastToken.getText().equals(CompletionTokens._unsettable)
           || lastToken.getText().equals(CompletionTokens._notUnsettable)) {
-        suggestions.add(CompletionTokens._comma);
-        suggestions.add(CompletionTokens._rightCurly);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._comma));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._rightCurly));
       } else if (lastToken.getText().equals(CompletionTokens._rightCurly)
           || lastToken.getText().equals(CompletionTokens._semicolon)) {
         // end of context.

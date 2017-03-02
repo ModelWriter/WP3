@@ -7,21 +7,23 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreLexer;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.FormulaContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.IdentifierContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.InvariantContext;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionTokens;
 
 public class InvariantSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
-    final Set<String> startSuggestions = new HashSet<>();
-    startSuggestions.add(CompletionTokens._callable);
-    startSuggestions.add(CompletionTokens._invariant);
+  public Set<ICompletionProposal> getStartSuggestions() {
+    final Set<ICompletionProposal> startSuggestions = new HashSet<>();
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._callable));
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._invariant));
     return startSuggestions;
   }
 
@@ -29,30 +31,30 @@ public class InvariantSuggestionProvider extends AbstractAIESuggestionProvider {
   protected void computeSuggestions(final ParserRuleContext context, final ParseTree lastToken) {
     if (lastToken instanceof ParserRuleContext) {
       if (lastToken instanceof IdentifierContext) {
-        suggestions.add(CompletionTokens._leftParenthesis);
-        suggestions.add(CompletionTokens._colon);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftParenthesis));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._colon));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken instanceof FormulaContext) {
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       }
     } else if (lastToken instanceof TerminalNode) {
       if (lastToken.getText().equals(CompletionTokens._callable)) {
-        suggestions.add(CompletionTokens._invariant);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._invariant));
       } else if (lastToken.getText().equals(CompletionTokens._invariant)) {
-        suggestions.add(CompletionTokens._colon);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._colon));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken.getText().equals(CompletionTokens._leftParenthesis)) {
-        suggestions.add(CompletionTokens._doubleQuote);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._doubleQuote));
       } else if (((TerminalNode) lastToken).getSymbol()
           .getType() == AlloyInEcoreLexer.DOUBLE_QUOTED_STRING) {
-        suggestions.add(CompletionTokens._rightParenthesis);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._rightParenthesis));
       } else if (lastToken.getText().equals(CompletionTokens._rightParenthesis)) {
-        suggestions.add(CompletionTokens._colon);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._colon));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken.getText().equals(CompletionTokens._colon)) {
         suggestions.addAll(
             spFactory.formulaSP().getStartSuggestions());
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken.getText().equals(CompletionTokens._semicolon)) {
         // end of context.
         suggestions.addAll(getParentProviderSuggestions(context, lastToken));

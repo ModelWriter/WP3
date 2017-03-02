@@ -1,14 +1,13 @@
 package eu.modelwriter.core.alloyinecore.ui.editor.completion.provider;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.BodyContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EAnnotationContext;
@@ -22,7 +21,8 @@ import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.Preconditi
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.TemplateSignatureContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.UnrestrictedNameContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.VisibilityKindContext;
-import eu.modelwriter.core.alloyinecore.structure.base.ITarget;
+import eu.modelwriter.core.alloyinecore.structure.base.ISource;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AIECompletionUtil;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionTokens;
@@ -30,11 +30,11 @@ import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionToke
 public class EOperationSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
-    final Set<String> startSuggestions = new HashSet<>();
+  public Set<ICompletionProposal> getStartSuggestions() {
+    final Set<ICompletionProposal> startSuggestions = new HashSet<>();
     startSuggestions.addAll(spFactory.visibilityKindSP().getStartSuggestions());
-    startSuggestions.add(CompletionTokens._static);
-    startSuggestions.add(CompletionTokens._operation);
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._static));
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._operation));
     return startSuggestions;
   }
 
@@ -42,58 +42,55 @@ public class EOperationSuggestionProvider extends AbstractAIESuggestionProvider 
   protected void computeSuggestions(final ParserRuleContext context, final ParseTree lastToken) {
     if (lastToken instanceof ParserRuleContext) {
       if (lastToken instanceof VisibilityKindContext) {
-        suggestions.add(CompletionTokens._static);
-        suggestions.add(CompletionTokens._operation);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._static));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._operation));
       } else if (lastToken instanceof TemplateSignatureContext) {
         // operation name
       } else if (lastToken instanceof UnrestrictedNameContext) {
-        suggestions.add(CompletionTokens._leftParenthesis);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftParenthesis));
       } else if (lastToken instanceof EParameterContext) {
-        suggestions.add(CompletionTokens._comma);
-        suggestions.add(CompletionTokens._rightParenthesis);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._comma));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._rightParenthesis));
       } else if (lastToken instanceof EGenericElementTypeContext) {
         // operation return type
         // parser assumes that Context is finished, but completion continues.
         final EOperationContext fullContext =
             (EOperationContext) AIECompletionUtil.getFullContext(context);
         if (fullContext != null) {
-          final List<ITarget> targets = fullContext.current.getTargets().stream()
-              .map(e -> (ITarget) e).collect(Collectors.toList());
-          if (targets.stream().noneMatch(
-              t -> t.getRelativeSegment(fullContext.current).equals(lastToken.getText()))
-              && !spFactory.eGenericElementTypeSP().getStartSuggestions()
-              .contains(lastToken.getText())) {
-            for (final ITarget target : targets) {
-              suggestions.add(target.getRelativeSegment(fullContext.current));
+          if (fullContext.current instanceof ISource) {
+            final Set<AIECompletionProposal> targetProposals =
+                AIECompletionUtil.getTargetProposals(fullContext.current);
+            if (targetProposals.stream()
+                .noneMatch(t -> t.getReplacementString().equals(lastToken.getText()))
+                && !spFactory.eGenericElementTypeSP().getStartSuggestions()
+                .contains(lastToken.getText())) {
+              suggestions.addAll(targetProposals);
             }
           }
         }
         suggestions.addAll(spFactory.multiplicitySP().getStartSuggestions());
-        suggestions.add(CompletionTokens._throws);
-        suggestions.add(CompletionTokens._leftCurly);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._throws));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftCurly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken instanceof EMultiplicityContext) {
-        suggestions.add(CompletionTokens._throws);
-        suggestions.add(CompletionTokens._leftCurly);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._throws));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftCurly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken instanceof EGenericExceptionContext) {
         // exception type
         // parser assumes that Context is finished, but completion continues.
         final EOperationContext fullContext =
             (EOperationContext) AIECompletionUtil.getFullContext(context);
         if (fullContext != null) {
-          final List<ITarget> targets = fullContext.current.getTargets().stream()
-              .map(e -> (ITarget) e).collect(Collectors.toList());
-          if (targets.stream().noneMatch(
-              t -> t.getRelativeSegment(fullContext.current).equals(lastToken.getText()))) {
-            for (final ITarget target : targets) {
-              suggestions.add(target.getRelativeSegment(fullContext.current));
-            }
+          if (fullContext.current instanceof ISource) {
+            final Set<AIECompletionProposal> targetProposals =
+                AIECompletionUtil.getTargetProposals(fullContext.current);
+            suggestions.addAll(targetProposals);
           }
         }
-        suggestions.add(CompletionTokens._comma);
-        suggestions.add(CompletionTokens._leftCurly);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._comma));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftCurly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken instanceof EAnnotationContext || lastToken instanceof PreconditionContext
           || lastToken instanceof BodyContext || lastToken instanceof PostconditionContext) {
         suggestions.addAll(spFactory.eAnnotationSP().getStartSuggestions());
@@ -103,22 +100,22 @@ public class EOperationSuggestionProvider extends AbstractAIESuggestionProvider 
       }
     } else if (lastToken instanceof TerminalNode) {
       if (lastToken.getText().equals(CompletionTokens._static)) {
-        suggestions.add(CompletionTokens._operation);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._operation));
       } else if (lastToken.getText().equals(CompletionTokens._operation)) {
         suggestions.addAll(spFactory.templateSignatureSP().getStartSuggestions());
       } else if (lastToken.getText().equals(CompletionTokens._leftParenthesis)) {
         suggestions.addAll(spFactory.eParameterSP().getStartSuggestions());
       } else if (lastToken.getText().equals(CompletionTokens._rightParenthesis)) {
-        suggestions.add(CompletionTokens._colon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._colon));
       } else if (lastToken.getText().equals(CompletionTokens._colon)) {
         // operation return type
         final EOperationContext fullContext =
             (EOperationContext) AIECompletionUtil.getFullContext(context);
         if (fullContext != null) {
-          final List<ITarget> targets = fullContext.current.getTargets().stream()
-              .map(e -> (ITarget) e).collect(Collectors.toList());
-          for (final ITarget target : targets) {
-            suggestions.add(target.getRelativeSegment(fullContext.current));
+          if (fullContext.current instanceof ISource) {
+            final Set<AIECompletionProposal> targetProposals =
+                AIECompletionUtil.getTargetProposals(fullContext.current);
+            suggestions.addAll(targetProposals);
           }
         }
         suggestions.addAll(spFactory.eGenericElementTypeSP().getStartSuggestions());
@@ -127,17 +124,17 @@ public class EOperationSuggestionProvider extends AbstractAIESuggestionProvider 
         final EOperationContext fullContext =
             (EOperationContext) AIECompletionUtil.getFullContext(context);
         if (fullContext != null) {
-          final List<ITarget> targets = fullContext.current.getTargets().stream()
-              .map(e -> (ITarget) e).collect(Collectors.toList());
-          for (final ITarget target : targets) {
-            suggestions.add(target.getRelativeSegment(fullContext.current));
+          if (fullContext.current instanceof ISource) {
+            final Set<AIECompletionProposal> targetProposals =
+                AIECompletionUtil.getTargetProposals(fullContext.current);
+            suggestions.addAll(targetProposals);
           }
         }
       } else if (lastToken.getText().equals(CompletionTokens._leftCurly)) {
-        suggestions.add(CompletionTokens._ordered);
-        suggestions.add(CompletionTokens._notOrdered);
-        suggestions.add(CompletionTokens._unique);
-        suggestions.add(CompletionTokens._notUnique);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._ordered));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._notOrdered));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._unique));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._notUnique));
         suggestions.addAll(spFactory.eAnnotationSP().getStartSuggestions());
         suggestions.addAll(spFactory.preconditionSP().getStartSuggestions());
         suggestions.addAll(spFactory.bodySP().getStartSuggestions());
@@ -145,16 +142,16 @@ public class EOperationSuggestionProvider extends AbstractAIESuggestionProvider 
       } else if (lastToken.getText().equals(CompletionTokens._comma)) {
         suggestions.addAll(spFactory.eParameterSP().getStartSuggestions());
         // exception types
-        suggestions.add(CompletionTokens._ordered);
-        suggestions.add(CompletionTokens._notOrdered);
-        suggestions.add(CompletionTokens._unique);
-        suggestions.add(CompletionTokens._notUnique);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._ordered));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._notOrdered));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._unique));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._notUnique));
       } else if (lastToken.getText().equals(CompletionTokens._ordered)
           || lastToken.getText().equals(CompletionTokens._notOrdered)
           || lastToken.getText().equals(CompletionTokens._unique)
           || lastToken.getText().equals(CompletionTokens._notUnique)) {
-        suggestions.add(CompletionTokens._comma);
-        suggestions.add(CompletionTokens._rightCurly);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._comma));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._rightCurly));
       } else if (lastToken.getText().equals(CompletionTokens._rightCurly)
           || lastToken.getText().equals(CompletionTokens._semicolon)) {
         // end of context.

@@ -7,18 +7,20 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.ETypeParameterContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.TemplateSignatureContext;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionTokens;
 
 public class TemplateSignatureSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
-    final Set<String> startSuggestions = new HashSet<>();
-    startSuggestions.add(CompletionTokens._leftArrow);
+  public Set<ICompletionProposal> getStartSuggestions() {
+    final Set<ICompletionProposal> startSuggestions = new HashSet<>();
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._leftArrow));
     return startSuggestions;
   }
 
@@ -26,8 +28,8 @@ public class TemplateSignatureSuggestionProvider extends AbstractAIESuggestionPr
   protected void computeSuggestions(final ParserRuleContext context, final ParseTree lastToken) {
     if (lastToken instanceof ParserRuleContext) {
       if (lastToken instanceof ETypeParameterContext) {
-        suggestions.add(CompletionTokens._comma);
-        suggestions.add(CompletionTokens._rightArrow);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._comma));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._rightArrow));
       }
     } else if (lastToken instanceof TerminalNode) {
       if (lastToken.getText().equals(CompletionTokens._leftArrow)

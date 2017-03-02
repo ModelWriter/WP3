@@ -215,10 +215,12 @@ public class AIESourceViewerConfiguration extends TextSourceViewerConfiguration 
     assistant.setContentAssistProcessor(new AIECompletionProcessor(),
         IDocument.DEFAULT_CONTENT_TYPE);
     assistant.enableAutoActivation(true);
+    assistant.enableColoredLabels(true);
+    assistant.enablePrefixCompletion(true);
     assistant.enableAutoInsert(true);
     assistant.setAutoActivationDelay(0);
     assistant.setProposalPopupOrientation(IContentAssistant.PROPOSAL_OVERLAY);
-    assistant.setContextInformationPopupOrientation(IContentAssistant.CONTEXT_INFO_ABOVE);
+    assistant.setContextInformationPopupOrientation(IContentAssistant.CONTEXT_INFO_BELOW);
 
     return assistant;
   }

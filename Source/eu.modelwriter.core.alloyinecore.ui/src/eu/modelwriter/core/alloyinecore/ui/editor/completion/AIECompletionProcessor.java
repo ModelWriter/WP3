@@ -3,11 +3,13 @@ package eu.modelwriter.core.alloyinecore.ui.editor.completion;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.ITextViewer;
-import org.eclipse.jface.text.contentassist.CompletionProposal;
 import org.eclipse.jface.text.contentassist.ContextInformationValidator;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
@@ -29,9 +31,10 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
 
     final AIECompletionUtil completionUtil = new AIECompletionUtil(document, offset);
 
-    Set<String> completionWords;
+    Set<AIECompletionProposal> completionWords;
     try {
-      completionWords = completionUtil.getProposals();
+      completionWords = completionUtil.getProposals().stream().map(p -> (AIECompletionProposal) p)
+          .collect(Collectors.toSet());
     } catch (final BadLocationException e1) {
       return new ICompletionProposal[0];
     }
@@ -46,7 +49,7 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
     StringBuilder builder = new StringBuilder();
 
     if (Character.isAlphabetic(c)) {
-      while (Character.isAlphabetic(c)) {
+      while (!Character.isWhitespace(c)) {
         builder.append(c);
         temp--;
         try {
@@ -56,18 +59,34 @@ public class AIECompletionProcessor implements IContentAssistProcessor {
       }
       builder = builder.reverse();
 
-      for (final String word : completionWords) {
-        if (word.toLowerCase().startsWith(builder.toString().toLowerCase())) {
-          proposals.add(new CompletionProposal(word, temp + 1, builder.length(), word.length(),
-              null, word.substring(word.lastIndexOf("::") != -1 ? word.lastIndexOf("::") + 2 : 0),
-              null, null));
+      for (final AIECompletionProposal cp : completionWords) {
+        String regex = "(\\s*)";
+        for (final char ch : builder.toString().toCharArray()) {
+          regex += "(" + ch + ")" + "(\\s*)";
+        }
+        final Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        final Matcher matcher = p.matcher(cp.getReplacementString());
+        if (matcher.find()) {
+          cp.setReplacementOffset(temp + 1);
+          cp.setReplacementLength(builder.length());
+          cp.setCursorPosition(cp.getReplacementString().length());
+          proposals.add(cp);
         }
       }
     } else {
-      for (final String word : completionWords) {
-        proposals.add(new CompletionProposal(word, temp + 1, builder.length(), word.length(), null,
-            word.substring(word.lastIndexOf("::") != -1 ? word.lastIndexOf("::") + 2 : 0), null,
-            null));
+      for (final AIECompletionProposal cp : completionWords) {
+        String regex = "(\\s*)";
+        for (final char ch : builder.toString().toCharArray()) {
+          regex += "(" + ch + ")" + "(\\s*)";
+        }
+        final Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+        final Matcher matcher = p.matcher(cp.getReplacementString());
+        if (matcher.find()) {
+          cp.setReplacementOffset(temp + 1);
+          cp.setReplacementLength(builder.length());
+          cp.setCursorPosition(cp.getReplacementString().length());
+          proposals.add(cp);
+        }
       }
     }
 

@@ -1,19 +1,19 @@
 package eu.modelwriter.core.alloyinecore.ui.editor.completion.provider;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EAnnotationContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EModelElementRefContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.PathNameContext;
-import eu.modelwriter.core.alloyinecore.structure.base.ITarget;
+import eu.modelwriter.core.alloyinecore.structure.base.ISource;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AIECompletionUtil;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionTokens;
@@ -21,9 +21,9 @@ import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionToke
 public class EModelElementRefSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
-    final Set<String> startSuggestions = new HashSet<>();
-    startSuggestions.add(CompletionTokens._reference);
+  public Set<ICompletionProposal> getStartSuggestions() {
+    final Set<ICompletionProposal> startSuggestions = new HashSet<>();
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._reference));
     return startSuggestions;
   }
 
@@ -36,16 +36,16 @@ public class EModelElementRefSuggestionProvider extends AbstractAIESuggestionPro
         final EAnnotationContext fullContext =
             (EAnnotationContext) AIECompletionUtil.getFullContext(context.getParent());
         if (fullContext != null) {
-          final List<ITarget> targets = fullContext.current.getTargets().stream()
-              .map(e -> (ITarget) e).collect(Collectors.toList());
-          if (targets.stream().noneMatch(
-              t -> t.getRelativeSegment(fullContext.current).equals(lastToken.getText()))) {
-            for (final ITarget target : targets) {
-              suggestions.add(target.getRelativeSegment(fullContext.current));
+          if (fullContext.current instanceof ISource) {
+            final Set<AIECompletionProposal> targetProposals =
+                AIECompletionUtil.getTargetProposals(fullContext.current);
+            if (targetProposals.stream()
+                .noneMatch(t -> t.getReplacementString().equals(lastToken.getText()))) {
+              suggestions.addAll(targetProposals);
             }
           }
         }
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       }
     } else if (lastToken instanceof TerminalNode) {
       if (lastToken.getText().equals(CompletionTokens._reference)) {
@@ -53,10 +53,10 @@ public class EModelElementRefSuggestionProvider extends AbstractAIESuggestionPro
         final EAnnotationContext fullContext =
             (EAnnotationContext) AIECompletionUtil.getFullContext(context.getParent());
         if (fullContext != null) {
-          final List<ITarget> targets = fullContext.current.getTargets().stream()
-              .map(e -> (ITarget) e).collect(Collectors.toList());
-          for (final ITarget target : targets) {
-            suggestions.add(target.getRelativeSegment(fullContext.current));
+          if (fullContext.current instanceof ISource) {
+            final Set<AIECompletionProposal> targetProposals =
+                AIECompletionUtil.getTargetProposals(fullContext.current);
+            suggestions.addAll(targetProposals);
           }
         }
       } else if (lastToken.getText().equals(CompletionTokens._semicolon)) {

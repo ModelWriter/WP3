@@ -7,20 +7,22 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreLexer;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EAnnotationContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EEnumLiteralContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.UnrestrictedNameContext;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionTokens;
 
 public class EEnumLiteralSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
-    final Set<String> startSuggestions = new HashSet<>();
-    startSuggestions.add(CompletionTokens._literal);
+  public Set<ICompletionProposal> getStartSuggestions() {
+    final Set<ICompletionProposal> startSuggestions = new HashSet<>();
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._literal));
     return startSuggestions;
   }
 
@@ -30,16 +32,16 @@ public class EEnumLiteralSuggestionProvider extends AbstractAIESuggestionProvide
       if (lastToken instanceof UnrestrictedNameContext) {
         suggestions.addAll(spFactory.templateSignatureSP()
             .getStartSuggestions());
-        suggestions.add(CompletionTokens._equals);
-        suggestions.add(CompletionTokens._leftCurly);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._equals));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftCurly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken instanceof EAnnotationContext) {
-        suggestions.add(CompletionTokens._rightCurly);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._rightCurly));
       }
     } else if (lastToken instanceof TerminalNode) {
       if (((TerminalNode) lastToken).getSymbol().getType() == AlloyInEcoreLexer.INT) {
-        suggestions.add(CompletionTokens._leftCurly);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftCurly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken.getText().equals(CompletionTokens._leftCurly)) {
         suggestions.addAll(
             spFactory.eAnnotationSP().getStartSuggestions());

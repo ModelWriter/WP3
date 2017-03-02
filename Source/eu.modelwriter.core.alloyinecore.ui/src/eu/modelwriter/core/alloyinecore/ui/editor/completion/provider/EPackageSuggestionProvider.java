@@ -7,6 +7,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreLexer;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.EAnnotationContext;
@@ -16,17 +17,18 @@ import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.Identifier
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.InvariantContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.UnrestrictedNameContext;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.VisibilityKindContext;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionTokens;
 
 public class EPackageSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
-    final Set<String> startSuggestions = new HashSet<>();
+  public Set<ICompletionProposal> getStartSuggestions() {
+    final Set<ICompletionProposal> startSuggestions = new HashSet<>();
     startSuggestions.addAll(
         spFactory.visibilityKindSP().getStartSuggestions());
-    startSuggestions.add(CompletionTokens._package);
+    startSuggestions.add(new AIECompletionProposal(CompletionTokens._package));
     return startSuggestions;
   }
 
@@ -34,11 +36,11 @@ public class EPackageSuggestionProvider extends AbstractAIESuggestionProvider {
   protected void computeSuggestions(final ParserRuleContext context, final ParseTree lastToken) {
     if (lastToken instanceof ParserRuleContext) {
       if (lastToken instanceof VisibilityKindContext) {
-        suggestions.add(CompletionTokens._package);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._package));
       } else if (lastToken instanceof UnrestrictedNameContext) {
-        suggestions.add(CompletionTokens._colon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._colon));
       } else if (lastToken instanceof IdentifierContext) {
-        suggestions.add(CompletionTokens._equals);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._equals));
       } else if (lastToken instanceof EAnnotationContext || lastToken instanceof EPackageContext
           || lastToken instanceof EClassifierContext || lastToken instanceof InvariantContext) {
         suggestions.addAll(
@@ -52,11 +54,11 @@ public class EPackageSuggestionProvider extends AbstractAIESuggestionProvider {
       }
     } else if (lastToken instanceof TerminalNode) {
       if (lastToken.getText().equals(CompletionTokens._equals)) {
-        suggestions.add(CompletionTokens._singleQuote);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._singleQuote));
       } else if (((TerminalNode) lastToken).getSymbol()
           .getType() == AlloyInEcoreLexer.SINGLE_QUOTED_STRING) {
-        suggestions.add(CompletionTokens._leftCurly);
-        suggestions.add(CompletionTokens._semicolon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._leftCurly));
+        suggestions.add(new AIECompletionProposal(CompletionTokens._semicolon));
       } else if (lastToken.getText().equals(CompletionTokens._leftCurly)) {
         suggestions.addAll(
             spFactory.eAnnotationSP().getStartSuggestions());

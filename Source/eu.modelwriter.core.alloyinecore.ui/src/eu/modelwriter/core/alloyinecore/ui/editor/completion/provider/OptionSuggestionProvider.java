@@ -7,18 +7,22 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreLexer;
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.OptionContext;
+import eu.modelwriter.core.alloyinecore.ui.editor.completion.AIECompletionProposal;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.CompletionTokens;
 
 public class OptionSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
-    final Set<String> startSuggestions = new HashSet<>();
-    startSuggestions.addAll(CompletionTokens._option);
+  public Set<ICompletionProposal> getStartSuggestions() {
+    final Set<ICompletionProposal> startSuggestions = new HashSet<>();
+    for (final String ct : CompletionTokens._option) {
+      startSuggestions.add(new AIECompletionProposal(ct));
+    }
     return startSuggestions;
   }
 
@@ -28,7 +32,7 @@ public class OptionSuggestionProvider extends AbstractAIESuggestionProvider {
 
     } else if (lastToken instanceof TerminalNode) {
       if (CompletionTokens._option.contains(lastToken.getText())) {
-        suggestions.add(CompletionTokens._colon);
+        suggestions.add(new AIECompletionProposal(CompletionTokens._colon));
       } else if (((TerminalNode) lastToken).getSymbol().getType() == AlloyInEcoreLexer.INT) {
         // end of context.
         suggestions.addAll(getParentProviderSuggestions(context, lastToken));

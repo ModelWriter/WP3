@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 import eu.modelwriter.core.alloyinecore.recognizer.AlloyInEcoreParser.UpperContext;
 import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESuggestionProvider;
@@ -12,7 +13,7 @@ import eu.modelwriter.core.alloyinecore.ui.editor.completion.util.AbstractAIESug
 public class UpperSuggestionProvider extends AbstractAIESuggestionProvider {
 
   @Override
-  public Set<String> getStartSuggestions() {
+  public Set<ICompletionProposal> getStartSuggestions() {
     return new HashSet<>();
   }
 

@@ -7,12 +7,13 @@ import java.util.Set;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
 
 public abstract class AbstractAIESuggestionProvider implements AIESuggestionProvider {
 
   protected List<AIESuggestionProvider> children;
   protected List<AIESuggestionProvider> parents;
-  protected Set<String> suggestions;
+  protected Set<ICompletionProposal> suggestions;
   protected List<String> allPossibleTokens;
 
   protected final AIESuggestionProviderFactory spFactory;
@@ -22,7 +23,7 @@ public abstract class AbstractAIESuggestionProvider implements AIESuggestionProv
   }
 
   @Override
-  public Set<String> getSuggestions(final ParserRuleContext context, final ParseTree lastToken) {
+  public Set<ICompletionProposal> getSuggestions(final ParserRuleContext context, final ParseTree lastToken) {
     suggestions = new HashSet<>();
     if (isCompatibleWithContext(context)) {
       initRelatedProviders();
@@ -46,9 +47,9 @@ public abstract class AbstractAIESuggestionProvider implements AIESuggestionProv
     children.add(child);
   }
 
-  protected Set<String> getChildProviderSuggestions(final ParserRuleContext context,
+  protected Set<ICompletionProposal> getChildProviderSuggestions(final ParserRuleContext context,
       final ParseTree lastToken) {
-    final Set<String> suggestions = new HashSet<>();
+    final Set<ICompletionProposal> suggestions = new HashSet<>();
     for (final ParseTree childContext : context.children) {
       if (childContext instanceof ParserRuleContext) {
         for (final AIESuggestionProvider childProvider : children) {
@@ -60,9 +61,9 @@ public abstract class AbstractAIESuggestionProvider implements AIESuggestionProv
     return suggestions;
   }
 
-  protected Set<String> getParentProviderSuggestions(ParserRuleContext context,
+  protected Set<ICompletionProposal> getParentProviderSuggestions(ParserRuleContext context,
       ParseTree lastToken) {
-    final Set<String> suggestions = new HashSet<>();
+    final Set<ICompletionProposal> suggestions = new HashSet<>();
     lastToken = context;
     context = context.getParent();
     for (final AIESuggestionProvider parentProvider : parents) {
