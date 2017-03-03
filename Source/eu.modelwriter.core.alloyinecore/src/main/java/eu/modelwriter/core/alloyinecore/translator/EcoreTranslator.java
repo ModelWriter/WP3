@@ -165,12 +165,12 @@ public class EcoreTranslator implements AnnotationSources {
         for (EClassifier eClassifier : ePackage.getEClassifiers()) {
             template.add("subElement", classifierToString(eClassifier));
         }
-        for (EPackage subPackage : ePackage.getESubpackages()) {
-            template.add("subElement", packageToString(subPackage));
-        }
         AnnotationSources.getInvariants(ePackage).forEach(invAnno -> {
             template.add("subElement", invariantToString(invAnno));
         });
+        for (EPackage subPackage : ePackage.getESubpackages()) {
+            template.add("subElement", packageToString(subPackage));
+        }
         addAnnotations(template, ePackage);
         return template.render().trim();
     }
